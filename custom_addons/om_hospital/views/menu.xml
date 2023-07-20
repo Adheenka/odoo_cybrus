@@ -10,12 +10,6 @@
             name="Pateinent Details"
             parent="menu_hosptaial_root"
             sequence="0"/>
-    <menuitem
-            id="menu_pateint"
-            name="Pateint"
-            action="action_hospital_pateint"
-            parent="menu_pateint_master"
 
-            sequence="0"/>
 
 </odoo>
