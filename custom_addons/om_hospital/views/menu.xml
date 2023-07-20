@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+            id="menu_hosptaial_root"
+            name="Hospital"
+            sequence="0"/>
+    <menuitem
+            id="menu_pateint_master"
+            name="Pateinent Details"
+            parent="menu_hosptaial_root"
+            sequence="0"/>
+    <menuitem
+            id="menu_pateint"
+            action="action_hospital_pateint"
+            parent="menu_pateint_master"
+            name="Pateint"
+            sequence="0"/>
+
+</odoo>
