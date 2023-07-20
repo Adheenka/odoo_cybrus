@@ -12,9 +12,10 @@
             sequence="0"/>
     <menuitem
             id="menu_pateint"
+            name="Pateint"
             action="action_hospital_pateint"
             parent="menu_pateint_master"
-            name="Pateint"
+
             sequence="0"/>
 
 </odoo>

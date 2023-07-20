@@ -15,7 +15,7 @@
         'views/menu.xml',
         'views/pateint_view.xml',
     ],
-    'installable': True,
+    'demo': [],
     'auto_install': False,
     'application': True,
     'license': 'LGPL-3',
