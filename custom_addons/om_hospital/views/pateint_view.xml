@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_hospital_pateint_tree" model="ir.ui.view">
+        <field name="name">hospital.pateint.tree</field>
+        <field name="model">hospital.pateint</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Pateint Name"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </tree>
+        </field>
+    </record>
     <record id="view_hospital_pateint_form" model="ir.ui.view">
         <field name="name">hospital.pateint.form</field>
         <field name="model">hospital.pateint</field>
