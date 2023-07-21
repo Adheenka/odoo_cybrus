@@ -5,10 +5,19 @@
         <field name="model">hospital.pateint</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" string="Pateint Name" filter_domain="['|','|', ('name', 'ilike',self), ('age', 'ilike',self), ('ref', 'ilike',self)]" />
+                <field name="name" string="Pateint Name"
+                       filter_domain="['|','|', ('name', 'ilike',self), ('age', 'ilike',self), ('ref', 'ilike',self)]"/>
                 <field name="age"/>
                 <field name="ref"/>
                 <field name="gender"/>
+                <filter name="filer_male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="filer_female" string="Female" domain="[('gender','=','female')]"/>
+                <separator/>
+                <filter name="filer_kids" string="Kids" domain="[('age','&lt;=', 5)]"/>
+                <group expand="0" string="Group By">
+
+                    <filter string="Gender" name="group_by_gender" context="{'group_by':'gender'}"/>
+                </group>
             </search>
         </field>
     </record>
