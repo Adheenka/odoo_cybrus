@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_hospital_pateint_search" model="ir.ui.view">
+        <field name="name">hospital.pateint.search</field>
+        <field name="model">hospital.pateint</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Pateint Name" filter_domain="['|','|', ('name', 'ilike',self), ('age', 'ilike',self), ('ref', 'ilike',self)]" />
+                <field name="age"/>
+                <field name="ref"/>
+                <field name="gender"/>
+            </search>
+        </field>
+    </record>
     <record id="view_hospital_pateint_tree" model="ir.ui.view">
         <field name="name">hospital.pateint.tree</field>
         <field name="model">hospital.pateint</field>
@@ -7,6 +19,7 @@
             <tree>
                 <field name="name" string="Pateint Name"/>
                 <field name="age"/>
+                <field name="ref"/>
                 <field name="gender"/>
             </tree>
         </field>
@@ -23,6 +36,7 @@
                             <field name="age"/>
                         </group>
                         <group>
+                            <field name="ref"/>
                             <field name="gender"/>
                         </group>
                     </group>
