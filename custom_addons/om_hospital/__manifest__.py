@@ -15,6 +15,7 @@
         'security/ir.model.access.csv',
         'views/menu.xml',
         'views/pateint_view.xml',
+        'views/female_pateint_view.xml'
     ],
     'demo': [],
     'auto_install': False,
