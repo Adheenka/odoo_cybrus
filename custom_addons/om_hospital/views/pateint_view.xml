@@ -79,7 +79,7 @@
     </record>
     <menuitem
             id="menu_pateint"
-            name="Pateint"
+            name="Pateints"
             action="action_hospital_pateint"
             parent="menu_pateint_master"
 

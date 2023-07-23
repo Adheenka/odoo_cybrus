@@ -5,25 +5,25 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <search>
-<!--                <field name="name" string="appointment Name"-->
-<!--                       filter_domain="['|','|', ('name', 'ilike',self), ('age', 'ilike',self), ('ref', 'ilike',self)]"/>-->
-<!--                <field name="age"/>-->
-<!--                <field name="ref"/>-->
-<!--                <field name="gender"/>-->
-<!--                <filter name="filer_male" string="Male" domain="[('gender','=','male')]"/>-->
-<!--                <filter name="filer_female" string="Female" domain="[('gender','=','female')]"/>-->
-<!--                <separator/>-->
-<!--                <filter name="filer_kids" string="Kids" domain="[('age','&lt;=', 5)]"/>-->
-<!--                <separator/>-->
-<!--                <filter name="filer_archived" string="Archived" domain="[('active','=', False)]"/>-->
-<!--                <group expand="0" string="Group By">-->
+                <!--                <field name="name" string="appointment Name"-->
+                <!--                       filter_domain="['|','|', ('name', 'ilike',self), ('age', 'ilike',self), ('ref', 'ilike',self)]"/>-->
+                <!--                <field name="age"/>-->
+                <!--                <field name="ref"/>-->
+                <!--                <field name="gender"/>-->
+                <!--                <filter name="filer_male" string="Male" domain="[('gender','=','male')]"/>-->
+                <!--                <filter name="filer_female" string="Female" domain="[('gender','=','female')]"/>-->
+                <!--                <separator/>-->
+                <!--                <filter name="filer_kids" string="Kids" domain="[('age','&lt;=', 5)]"/>-->
+                <!--                <separator/>-->
+                <!--                <filter name="filer_archived" string="Archived" domain="[('active','=', False)]"/>-->
+                <!--                <group expand="0" string="Group By">-->
 
-<!--                    <filter string="gender" name="group_by_gender" context="{'group_by':'gender'}"/>-->
-<!--                </group>-->
-<!--                <searchpanel>-->
-<!--                    <field name="gender" icon="fa-users" select="multi" enable_counters="1"/>-->
+                <!--                    <filter string="gender" name="group_by_gender" context="{'group_by':'gender'}"/>-->
+                <!--                </group>-->
+                <!--                <searchpanel>-->
+                <!--                    <field name="gender" icon="fa-users" select="multi" enable_counters="1"/>-->
 
-<!--                </searchpanel>-->
+                <!--                </searchpanel>-->
             </search>
         </field>
     </record>
@@ -32,7 +32,9 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <tree>
-
+                <field name="pateint_id"/>
+                <field name="appointment_time"/>
+                <field name="booking_time"/>
             </tree>
         </field>
     </record>
@@ -45,12 +47,13 @@
                     <group>
                         <group>
                             <field name="pateint_id"/>
-<!--                            <field name="age"/>-->
+                            <field name="appointment_time"/>
+                            <field name="booking_time"/>
                         </group>
                         <group>
-<!--                            <field name="ref"/>-->
-<!--                            <field name="gender"/>-->
-<!--                            <field name="active" invisible="1"/>-->
+                            <!--                            <field name="ref"/>-->
+                            <!--                            <field name="gender"/>-->
+                            <!--                            <field name="active" invisible="1"/>-->
                         </group>
                     </group>
                 </sheet>
@@ -78,8 +81,8 @@
             id="menu_appointment"
             name="Appointment"
             action="action_hospital_appointment"
-            parent="menu_pateint_master"
+            parent="menu_appointment_master"
 
-            sequence="0"/>
+            sequence="10"/>
 
 </odoo>

@@ -16,7 +16,7 @@
     </record>
     <menuitem
             id="menu_female_pateint"
-            name="Female_Pateint"
+            name="Female_Pateints"
             action="action_hospital_female_pateint"
             parent="menu_pateint_master"
 

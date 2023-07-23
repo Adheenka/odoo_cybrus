@@ -4,12 +4,18 @@
     <menuitem
             id="menu_hosptaial_root"
             name="Hospital"
+            web_icon="om_hospital/static/description/pngwing.com.png"
             sequence="0"/>
     <menuitem
             id="menu_pateint_master"
             name="Pateinent Details"
             parent="menu_hosptaial_root"
             sequence="0"/>
+    <menuitem
+            id="menu_appointment_master"
+            name="Appointments"
+            parent="menu_hosptaial_root"
+            sequence="20"/>
 
 
 </odoo>
