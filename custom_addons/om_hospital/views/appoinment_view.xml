@@ -48,9 +48,10 @@
                         <group>
                             <field name="pateint_id"/>
                             <field name="appointment_time"/>
-                            <field name="booking_time"/>
+
                         </group>
                         <group>
+                              <field name="booking_time"/>
                             <!--                            <field name="ref"/>-->
                             <!--                            <field name="gender"/>-->
                             <!--                            <field name="active" invisible="1"/>-->
