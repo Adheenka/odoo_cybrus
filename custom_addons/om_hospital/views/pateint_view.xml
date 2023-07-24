@@ -13,7 +13,7 @@
                 <filter name="filer_male" string="Male" domain="[('gender','=','male')]"/>
                 <filter name="filer_female" string="Female" domain="[('gender','=','female')]"/>
                 <separator/>
-                <filter name="filer_kids" string="Kids" domain="[('age','&lt;=', 5)]"/>
+<!--                <filter name="filer_kids" string="Kids" domain="[('age','&lt;=', 5)]"/>-->
                 <separator/>
                 <filter name="filer_archived" string="Archived" domain="[('active','=', False)]"/>
                 <group expand="0" string="Group By">
@@ -48,6 +48,7 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="date_of_birth"/>
                             <field name="age"/>
                         </group>
                         <group>
