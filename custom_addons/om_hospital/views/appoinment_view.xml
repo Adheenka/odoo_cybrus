@@ -59,6 +59,18 @@
                             <!--                            <field name="active" invisible="1"/>-->
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Prescription" name="Prescription">
+
+                        </page>
+                        <page string="Pharmacy" name="pharmacy">
+                            <group>
+                               <field name="booking_time"/>
+                            </group>
+
+                        </page>
+                    </notebook>
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
