@@ -12,6 +12,7 @@ class HospitalAppointment(models.Model):
     gender = fields.Selection(related='pateint_id.gender',readonly=False)
     appointment_time = fields.Datetime(string='Appointment Time', default=fields.Datetime.now)
     booking_time = fields.Date(string='Booking Date', default=fields.Date.context_today)
+    prescription = fields.Html(string="Prescription")
 
     @api.onchange('pateint_id')
     def onchange_pateint_id(self):
