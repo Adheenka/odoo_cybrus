@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Classroom View -->
+        <record model="ir.ui.view" id="view_classroom_form">
+            <field name="name">classroom.form</field>
+            <field name="model">school_management.classroom</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="dob"/>
+                            <field name="age"/>
+                            <field name="address"/>
+                            <field name="total"/>
+                            <field name="average"/>
+                            <field name="marklist">
+                                <tree>
+                                    <field name="exam_name"/>
+                                    <field name="subject_1"/>
+                                    <field name="subject_2"/>
+                                    <field name="subject_3"/>
+                                    <field name="subject_4"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
