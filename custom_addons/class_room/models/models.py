@@ -17,7 +17,6 @@ class Classroom(models.Model):
     def _compute_age(self):
         for record in self:
             if record.dob:
-
                 today = fields.Date.today()
                 dob = fields.Datetime.from_string(record.dob)
                 record.age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
@@ -37,6 +36,9 @@ class Classroom(models.Model):
     total = fields.Float(string='Total Marks', compute='_compute_total', store=True)
     average = fields.Float(string='Average', compute='_compute_average', store=True)
 
+
+
+
 class Marklist(models.Model):
     _name = 'school_management.marklist'
     _description = 'Marklist Model'
@@ -47,3 +49,4 @@ class Marklist(models.Model):
     subject_2 = fields.Float(string='Subject 2')
     subject_3 = fields.Float(string='Subject 3')
     subject_4 = fields.Float(string='Subject 4')
+    total = fields.Many2one('school_management.classroom', string='total', ondelete='cascade')
