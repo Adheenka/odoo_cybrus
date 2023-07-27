@@ -4,49 +4,59 @@ from odoo import models, fields, api
 
 
 class Classroom(models.Model):
-    _name = 'school_management.classroom'
-    _description = 'Classroom Model'
+    _name = "classroom"
+    _description = "Classroom Model"
 
-    name = fields.Char(string='Name', required=True)
-    dob = fields.Date(string='Date of Birth')
-    age = fields.Integer(string='Age', compute='_compute_age', store=True)
-    address = fields.Text(string='Address')
-    marklist = fields.One2many('school_management.marklist', 'classroom_id', string='Marklist')
+    name = fields.Char(string="Name")
+    dob = fields.Date(string="Date of Birth")
+    age = fields.Integer(compute="_compute_age", store=True)
+    address = fields.Text(string="Address")
+    marklist = fields.One2many("marklist", "classroom_id", string="Marklist")
+    # Add new field
+    address = fields.Text(string="Address")
+    address_details = fields.One2many("address_details", "classroom_id", string="Address Details")
 
-    @api.depends('dob')
+    @api.onchange("dob")
     def _compute_age(self):
-        for record in self:
-            if record.dob:
-                today = fields.Date.today()
-                dob = fields.Datetime.from_string(record.dob)
-                record.age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-
-    @api.depends('marklist.subject_1', 'marklist.subject_2', 'marklist.subject_3', 'marklist.subject_4')
-    def _compute_total(self):
-        for record in self:
-            if record.marklist:
-                record.total = sum([record.marklist.subject_1, record.marklist.subject_2,
-                                    record.marklist.subject_3, record.marklist.subject_4])
-
-    @api.depends('total')
-    def _compute_average(self):
-        for record in self:
-            record.average = record.total / 4.0
-
-    total = fields.Float(string='Total Marks', compute='_compute_total', store=True)
-    average = fields.Float(string='Average', compute='_compute_average', store=True)
+        for classroom in self:
+            if classroom.dob:
+                classroom.age = (fields.Date.today() - classroom.dob).days // 365
 
 
+class AddressDetails(models.Model):
+    _name = "address_details"
+    _description = "Address Details Model"
 
+    classroom_id = fields.Many2one("classroom", string="Classroom")
+    pin_no = fields.Char(string="Pin Number")
+    country = fields.Char(string="Country")
+    street_address = fields.Text(string="Street Address")
 
 class Marklist(models.Model):
-    _name = 'school_management.marklist'
-    _description = 'Marklist Model'
+    _name = "marklist"
+    _description = "Marklist Model"
 
-    classroom_id = fields.Many2one('school_management.classroom', string='Classroom', ondelete='cascade')
-    exam_name = fields.Char(string='Exam Name')
-    subject_1 = fields.Float(string='Subject 1')
-    subject_2 = fields.Float(string='Subject 2')
-    subject_3 = fields.Float(string='Subject 3')
-    subject_4 = fields.Float(string='Subject 4')
-    total = fields.Many2one('school_management.classroom', string='total', ondelete='cascade')
+    classroom_id = fields.Many2one("classroom", string="Classroom")
+    exam_name = fields.Char(string="Exam Name")
+    subject1 = fields.Float(string="Subject 1")
+    subject2 = fields.Float(string="Subject 2")
+    subject3 = fields.Float(string="Subject 3")
+    subject4 = fields.Float(string="Subject 4")
+    total = fields.Float(compute="_compute_total", store=True)
+    average = fields.Float(compute="_compute_average", store=True)
+    total_marks = fields.Float(compute="_compute_total_marks", store=True)
+
+    @api.depends("subject1", "subject2", "subject3", "subject4")
+    def _compute_total(self):
+        for marklist in self:
+            marklist.total = marklist.subject1 + marklist.subject2 + marklist.subject3 + marklist.subject4
+
+    @api.depends("total")
+    def _compute_average(self):
+        for marklist in self:
+            marklist.average = marklist.total / 4
+
+    @api.depends("subject1", "subject2", "subject3", "subject4", "total")
+    def _compute_total_marks(self):
+        for marklist in self:
+            marklist.total_marks = 100 * marklist.average

@@ -1,4 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access.school_management.classroom,access_school_management_classroom,class_room.model_school_management_classroom,base.group_user,1,1,1,1
-access.school_management.marklist,access_school_management_marklist,class_room.model_school_management_marklist,base.group_user,1,1,1,1
+access.classroom,access_classroom,class_room.model_classroom,base.group_user,1,1,1,1
+access.marklist,access_marklist,class_room.model_marklist,base.group_user,1,1,1,1
+access.address_details,access_address_details,class_room.model_address_details,base.group_user,1,1,1,1
 

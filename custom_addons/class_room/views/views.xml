@@ -1,64 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Classroom View -->
-        <!-- Add the notebook tag inside the form view of the Classroom model -->
         <record model="ir.ui.view" id="view_classroom_form">
             <field name="name">classroom.form</field>
-            <field name="model">school_management.classroom</field>
+            <field name="model">classroom</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <notebook>
-                            <!-- First tab for General information -->
-                            <page string="General">
-                                <group>
-                                    <field name="name"/>
-                                    <field name="dob"/>
-                                    <field name="age"/>
-                                    <field name="address"/>
-                                    <field name="total" readonly="1"/>
-                                    <field name="average" readonly="1"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="dob"/>
+                            <field name="age"/>
+                            <field name="address"/>
+                        </group>
 
-                                </group>
+                        <!-- Notebook for Address Details and Marklist -->
+                        <notebook>
+                            <!-- Address Details Tab -->
+                            <page string="Address Details">
+                                <field name="address_details">
+                                    <tree>
+                                        <field name="pin_no"/>
+                                        <field name="country"/>
+                                        <field name="street_address"/>
+                                    </tree>
+                                </field>
                             </page>
 
-                            <!-- Second tab for Exam details -->
-                            <page string="Exam Details">
-                                <group>
-                                    <!-- Fields related to exam details -->
-                                    <field name="marklist">
-                                        <tree>
-                                            <field name="exam_name"/>
-                                            <field name="subject_1"/>
-                                            <field name="subject_2"/>
-                                            <field name="subject_3"/>
-                                            <field name="subject_4"/>
-                                            <field name="total" readonly="1"/>
-
-
-                                        </tree>
-                                    </field>
-                                </group>
+                            <!-- Marklist Tab -->
+                            <page string="Marklist">
+                                <field name="marklist">
+                                    <tree>
+                                        <field name="exam_name"/>
+                                        <field name="subject1"/>
+                                        <field name="subject2"/>
+                                        <field name="subject3"/>
+                                        <field name="subject4"/>
+                                        <field name="total" readonly="1"/>
+                                        <field name="average" readonly="1"/>
+                                        <field name="total_marks" readonly="1"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
-<!--                          <notebook>-->
-<!--                             -->
-<!--                              <page string="marklist" name="marklist">-->
-<!--                                <field name="address"/>-->
-<!--                              </page>-->
-
-
-<!--                    </notebook>-->
                     </sheet>
                 </form>
             </field>
         </record>
 
+        <!-- Classroom Tree View -->
+        <record model="ir.ui.view" id="view_classroom_tree">
+            <field name="name">classroom.tree</field>
+            <field name="model">classroom</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="dob"/>
+                    <field name="age"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- AddressDetails Tree View -->
+        <record model="ir.ui.view" id="view_address_details_tree">
+            <field name="name">address_details.tree</field>
+            <field name="model">address_details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="pin_no"/>
+                    <field name="country"/>
+                    <field name="street_address"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Marklist Tree View -->
+        <record model="ir.ui.view" id="view_marklist_tree">
+            <field name="name">marklist.tree</field>
+            <field name="model">marklist</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="exam_name"/>
+                    <field name="subject1"/>
+                    <field name="subject2"/>
+                    <field name="subject3"/>
+                    <field name="subject4"/>
+                    <field name="total"/>
+                    <field name="average"/>
+                    <field name="total_marks"/>
+                </tree>
+            </field>
+        </record>
         <record id="action_school_management_classroom" model="ir.actions.act_window">
             <field name="name">student</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">school_management.classroom</field>
+            <field name="res_model">classroom</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{ }</field>
             <field name="help" type="html">
