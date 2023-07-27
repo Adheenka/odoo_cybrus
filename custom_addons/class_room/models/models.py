@@ -10,12 +10,21 @@ class Classroom(models.Model):
     name = fields.Char(string="Name")
     dob = fields.Date(string="Date of Birth")
     age = fields.Integer(compute="_compute_age", store=True)
-    address = fields.Text(string="Address")
+
     marklist = fields.One2many("marklist", "classroom_id", string="Marklist")
     # Add new field
-    address = fields.Text(string="Address")
-    address_details = fields.One2many("address_details", "classroom_id", string="Address Details")
+    address_street = fields.Char(string='Street')
+    address_street2 = fields.Char(string='Street 2')
+    address_city = fields.Char(string='City')
+    address_pincode = fields.Char(string='Pincode')
+    address_district = fields.Char(string='Districts', default='kerala')
+    address_country = fields.Char(string='Country', default='India')
+    total_marks_all = fields.Float(string='Total Marks (All)', compute='_compute_total_marks_all', store=True)
 
+    @api.depends('marklist.total')
+    def _compute_total_marks_all(self):
+        for classroom in self:
+            classroom.total_marks_all = sum(classroom.marklist.mapped('total'))
     @api.depends('dob')
     def _compute_age(self):
         for rec in self:
@@ -31,14 +40,7 @@ class Classroom(models.Model):
     #             classroom.age = (fields.Date.today() - classroom.dob).days // 365
 
 
-class AddressDetails(models.Model):
-    _name = "address_details"
-    _description = "Address Details Model"
 
-    classroom_id = fields.Many2one("classroom", string="Classroom")
-    pin_no = fields.Char(string="Pin Number")
-    country = fields.Char(string="Country")
-    street_address = fields.Text(string="Street Address")
 
 class Marklist(models.Model):
     _name = "marklist"
@@ -64,7 +66,7 @@ class Marklist(models.Model):
         for marklist in self:
             marklist.average = marklist.total / 4
 
-    @api.depends("subject1", "subject2", "subject3", "subject4", "total")
+    @api.depends("subject1", "subject2", "subject3", "subject4")
     def _compute_total_marks(self):
         for marklist in self:
-            marklist.total_marks = 100 * marklist.average
+            marklist.total = marklist.subject1 + marklist.subject2 + marklist.subject3 + marklist.subject4

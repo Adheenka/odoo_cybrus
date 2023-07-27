@@ -12,25 +12,25 @@
                             <group>
                                 <field name="name"/>
 
-                                <field name="address"/>
-
-                            </group>
-                            <group>
-
                                 <field name="dob"/>
                                 <field name="age"/>
-
                             </group>
+                            <group string="Address">
+                                <div class="oe_inline">
+                                    <field name="address_street"  placeholder="Enter Your street"/>
+                                    <field name="address_street2" placeholder="streer 1 "/>
+                                </div>
+                                <div class="oe_inline">
+                                    <field name="address_city"  placeholder="city" col="2"/>
+                                    <field name="address_district"  placeholder="district" col="2"/>
+                                    <field name="address_pincode"  placeholder="pincode" col="2"/>
+                                </div>
+                                <field name="address_country"  placeholder="country" />
+                            </group>
+
+
                         </group>
-                        <group>
-                            <field name="address_details">
-                                <tree>
-                                    <field name="pin_no"/>
-                                    <field name="country"/>
-                                    <field name="street_address"/>
-                                </tree>
-                            </field>
-                        </group>
+
 
                         <notebook>
 
@@ -51,6 +51,13 @@
                                 </field>
                             </page>
                         </notebook>
+                        <div>
+
+                            <div style="text-align: right; color: #ff5733; font-weight: bold;">
+                                Total Marks:
+                                <field name="total_marks_all" readonly="1"/>
+                            </div>
+                        </div>
                     </sheet>
                 </form>
             </field>
@@ -65,19 +72,6 @@
                     <field name="name"/>
                     <field name="dob"/>
                     <field name="age"/>
-                </tree>
-            </field>
-        </record>
-
-
-        <record model="ir.ui.view" id="view_address_details_tree">
-            <field name="name">address_details.tree</field>
-            <field name="model">address_details</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="pin_no"/>
-                    <field name="country"/>
-                    <field name="street_address"/>
                 </tree>
             </field>
         </record>
@@ -98,13 +92,6 @@
                         <field name="average"/>
 
                     </tree>
-                </group>
-                <group>
-                    <form>
-                        <footer>
-                            <field name="total"/>
-                        </footer>
-                    </form>
                 </group>
 
 
