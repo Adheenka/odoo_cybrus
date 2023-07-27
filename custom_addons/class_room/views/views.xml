@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
         <record model="ir.ui.view" id="view_classroom_form">
             <field name="name">classroom.form</field>
             <field name="model">classroom</field>
@@ -8,10 +9,18 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="name"/>
-                            <field name="dob"/>
-                            <field name="age"/>
-                            <field name="address"/>
+                            <group>
+                                <field name="name"/>
+
+                                <field name="address"/>
+
+                            </group>
+                            <group>
+
+                                <field name="dob"/>
+                                <field name="age"/>
+
+                            </group>
                         </group>
                         <group>
                             <field name="address_details">
@@ -33,9 +42,10 @@
                                         <field name="subject2"/>
                                         <field name="subject3"/>
                                         <field name="subject4"/>
-                                        <field name="total" readonly="1"/>
+
                                         <field name="average" readonly="1"/>
-                                        <field name="total_marks" readonly="1"/>
+                                        <field name="total" readonly="1"/>
+
                                     </tree>
 
                                 </field>
@@ -48,7 +58,7 @@
 
 
         <record model="ir.ui.view" id="view_classroom_tree">
-            <field name="name">classroom.tree</field>
+            <field name="name">classroom.tree,form</field>
             <field name="model">classroom</field>
             <field name="arch" type="xml">
                 <tree>
@@ -77,16 +87,25 @@
             <field name="name">marklist.tree</field>
             <field name="model">marklist</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="exam_name"/>
-                    <field name="subject1"/>
-                    <field name="subject2"/>
-                    <field name="subject3"/>
-                    <field name="subject4"/>
-                    <field name="total"/>
-                    <field name="average"/>
+                <group>
+                    <tree>
+                        <field name="exam_name"/>
+                        <field name="subject1"/>
+                        <field name="subject2"/>
+                        <field name="subject3"/>
+                        <field name="subject4"/>
+                        <field name="total"/>
+                        <field name="average"/>
 
-                </tree>
+                    </tree>
+                </group>
+                <group>
+                    <form>
+                        <footer>
+                            <field name="total"/>
+                        </footer>
+                    </form>
+                </group>
 
 
             </field>
