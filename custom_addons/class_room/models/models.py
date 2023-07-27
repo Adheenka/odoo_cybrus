@@ -13,11 +13,12 @@ class Classroom(models.Model):
 
     marklist = fields.One2many("marklist", "classroom_id", string="Marklist")
     # Add new field
+    address = fields.Char(string="Address")
     address_street = fields.Char(string='Street')
     address_street2 = fields.Char(string='Street 2')
     address_city = fields.Char(string='City')
     address_pincode = fields.Char(string='Pincode')
-    address_district = fields.Char(string='Districts', default='kerala')
+    address_district = fields.Char(string='District', default='kerala')
     address_country = fields.Char(string='Country', default='India')
     total_marks_all = fields.Float(string='Total Marks (All)', compute='_compute_total_marks_all', store=True)
 
