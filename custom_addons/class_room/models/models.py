@@ -16,11 +16,19 @@ class Classroom(models.Model):
     address = fields.Text(string="Address")
     address_details = fields.One2many("address_details", "classroom_id", string="Address Details")
 
-    @api.onchange("dob")
+    @api.depends('dob')
     def _compute_age(self):
-        for classroom in self:
-            if classroom.dob:
-                classroom.age = (fields.Date.today() - classroom.dob).days // 365
+        for rec in self:
+            today = date.today()
+            if rec.dob:
+                rec.age = today.year - rec.dob.year
+            else:
+                rec.age = 0
+    # @api.onchange("dob")
+    # def _compute_age(self):
+    #     for classroom in self:
+    #         if classroom.dob:
+    #             classroom.age = (fields.Date.today() - classroom.dob).days // 365
 
 
 class AddressDetails(models.Model):

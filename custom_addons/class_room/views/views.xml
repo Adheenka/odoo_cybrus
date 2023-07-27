@@ -13,21 +13,18 @@
                             <field name="age"/>
                             <field name="address"/>
                         </group>
+                        <group>
+                            <field name="address_details">
+                                <tree>
+                                    <field name="pin_no"/>
+                                    <field name="country"/>
+                                    <field name="street_address"/>
+                                </tree>
+                            </field>
+                        </group>
 
-                        <!-- Notebook for Address Details and Marklist -->
                         <notebook>
-                            <!-- Address Details Tab -->
-                            <page string="Address Details">
-                                <field name="address_details">
-                                    <tree>
-                                        <field name="pin_no"/>
-                                        <field name="country"/>
-                                        <field name="street_address"/>
-                                    </tree>
-                                </field>
-                            </page>
 
-                            <!-- Marklist Tab -->
                             <page string="Marklist">
                                 <field name="marklist">
                                     <tree>
@@ -40,6 +37,7 @@
                                         <field name="average" readonly="1"/>
                                         <field name="total_marks" readonly="1"/>
                                     </tree>
+
                                 </field>
                             </page>
                         </notebook>
@@ -48,7 +46,7 @@
             </field>
         </record>
 
-        <!-- Classroom Tree View -->
+
         <record model="ir.ui.view" id="view_classroom_tree">
             <field name="name">classroom.tree</field>
             <field name="model">classroom</field>
@@ -61,7 +59,7 @@
             </field>
         </record>
 
-        <!-- AddressDetails Tree View -->
+
         <record model="ir.ui.view" id="view_address_details_tree">
             <field name="name">address_details.tree</field>
             <field name="model">address_details</field>
@@ -74,7 +72,7 @@
             </field>
         </record>
 
-        <!-- Marklist Tree View -->
+
         <record model="ir.ui.view" id="view_marklist_tree">
             <field name="name">marklist.tree</field>
             <field name="model">marklist</field>
@@ -87,10 +85,14 @@
                     <field name="subject4"/>
                     <field name="total"/>
                     <field name="average"/>
-                    <field name="total_marks"/>
+
                 </tree>
+
+
             </field>
         </record>
+
+
         <record id="action_school_management_classroom" model="ir.actions.act_window">
             <field name="name">student</field>
             <field name="type">ir.actions.act_window</field>
