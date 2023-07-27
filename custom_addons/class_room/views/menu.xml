@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+            id="menu_classroom_root"
+            name="Classroom"
+            sequence="0"/>
+    <menuitem
+            id="menu_classroom_master"
+            name="student_details"
+            parent="menu_classroom_root"
+
+            sequence="0"/>
+
+
+
+
+
+</odoo>
