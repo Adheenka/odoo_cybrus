@@ -18,8 +18,8 @@ class Classroom(models.Model):
     address_street2 = fields.Char(string='Street 2')
     address_city = fields.Char(string='City')
     address_pincode = fields.Char(string='Pincode')
-    address_district = fields.Char(string='District', default='kerala')
-    address_country = fields.Char(string='Country', default='India')
+    country_id = fields.Many2one('res.country', string='Country')
+    state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
     total_marks_all = fields.Float(string='Total Marks (All)', compute='_compute_total_marks_all', store=True)
 
     @api.depends('marklist.total')
@@ -71,3 +71,11 @@ class Marklist(models.Model):
     def _compute_total_marks(self):
         for marklist in self:
             marklist.total = marklist.subject1 + marklist.subject2 + marklist.subject3 + marklist.subject4
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    @api.model
+    def get_states_for_country(self, country_id):
+        country = self.env['res.country'].browse(country_id)
+        states = self.env['res.country.state'].search([('country_id', '=', country.id)])
+        return states
