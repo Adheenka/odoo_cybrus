@@ -15,66 +15,39 @@
                                 <field name="dob"/>
                                 <field name="age"/>
                             </group>
-                            <templates>
-    <t t-name="contact_form_view">
-        <form>
+                            <group string="Address">
+                                <div class="o_address_format">
+                                    <div class="o_address_street">
+                                        <div class="o_address_format_div">
+                                            <field name="address_street" placeholder="Street..."/>
+                                        </div>
+                                        <div class="o_address_format_div">
+                                            <field name="address_street2" placeholder="Street 2..."/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_inline o_address_format_div o_address_inline_fields">
+                                        <div class="o_address_inline_field">
+                                            <field name="country_id" placeholder="Country"/>
+                                        </div>
+                                        <div class="o_address_inline_field">
+                                            <field name="state_id" placeholder="State"/>
+                                        </div>
+                                        <div class="o_address_inline_field o_address_zip">
+                                            <field name="address_pincode" placeholder="ZIP"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </group>
 
 
-            <!-- Separate Group for Address -->
-            <group string="Address">
-                <div class="o_address_format">
-                    <div class="o_address_street">
-                        <field name="address_street" placeholder="Street..."/>
-                        <field name="address_street2" placeholder="Street 2..."/>
-                    </div>
-                    <div class="oe_inline">
-                        <div class="o_address_city">
-                            <field name="address_city" placeholder="City"/>
-                        </div>
-                        <field name="country_id" placeholder="country"/>
-                        <field name="state_id" placeholder="state"/>
-                        <div class="o_address_zip">
-                            <field name="address_pincode" placeholder="ZIP"/>
-                        </div>
-                    </div>
+                            <!--                            <form>-->
 
-                </div>
-            </group>
 
-            <!-- Display Address Field -->
+                            <!--                          -->
 
-        </form>
+                            <!--                            </form>-->
 
-        <script>
-            function onCountryChanged(ev) {
-                const stateField = ev.currentTarget.querySelector('[name="address_district"]');
-                const countryId = ev.detail.record.address_country.data.id;
 
-                const model = ev.detail.model;
-                const rpc = require('web.rpc');
-                rpc.query({
-                    model: model,
-                    method: 'get_states_for_country',
-                    args: [countryId],
-                }).then(states => {
-                    const stateOptions = states.map(state => ({
-                        id: state.id,
-                        name: state.name,
-                    }));
-                    stateField.options = {
-                        no_create: true,
-                        no_quick_create: true,
-                        no_edit: true,
-                        no_open: true,
-                        no_create_edit: true,
-                        no_create_edit_multi: true,
-                        no_create_edit_options: stateOptions,
-                    };
-                });
-            }
-        </script>
-    </t>
-</templates>
                             <!--                            <group string="Address">-->
                             <!--                                <div class="o_group">-->
                             <!--                                    <div class="o_group_col_12">-->
@@ -92,32 +65,30 @@
                             <!--                                    </div>-->
                             <!--                                </div>-->
                             <!--                            </group>-->
-<!--                            <group string="address">-->
+                            <!--                            <group string="address">-->
 
 
+                            <!--                                <div class="o_address_format">-->
+                            <!--                                    <field name="address_street" placeholder="Street..." class="o_address_street"-->
+                            <!--                                    />-->
+                            <!--                                    <field name="address_street2" placeholder="Street 2..." class="o_address_street"-->
+                            <!--                                    />-->
+                            <!--                                    <div class="oe_inline">-->
+                            <!--                                        <field name="address_city" placeholder="City" class="o_address_city"-->
+                            <!--                                        />-->
+                            <!--                                        <field name="address_district" class="o_address_state" placeholder="State"-->
+
+                            <!--                                        />-->
+                            <!--                                        <field name="address_pincode" placeholder="ZIP" class="o_address_zip"-->
+                            <!--                                        />-->
+                            <!--                                    </div>-->
+                            <!--                                   <field name="address_country" placeholder="country" />-->
+
+                            <!--                                </div>-->
 
 
-<!--                                <div class="o_address_format">-->
-<!--                                    <field name="address_street" placeholder="Street..." class="o_address_street"-->
-<!--                                    />-->
-<!--                                    <field name="address_street2" placeholder="Street 2..." class="o_address_street"-->
-<!--                                    />-->
-<!--                                    <div class="oe_inline">-->
-<!--                                        <field name="address_city" placeholder="City" class="o_address_city"-->
-<!--                                        />-->
-<!--                                        <field name="address_district" class="o_address_state" placeholder="State"-->
-
-<!--                                        />-->
-<!--                                        <field name="address_pincode" placeholder="ZIP" class="o_address_zip"-->
-<!--                                        />-->
-<!--                                    </div>-->
-<!--                                   <field name="address_country" placeholder="country" />-->
-
-<!--                                </div>-->
-
-
-<!--                            </group>-->
-<!--                            &lt;!&ndash;                                                        <group string="Address">&ndash;&gt;-->
+                            <!--                            </group>-->
+                            <!--                            &lt;!&ndash;                                                        <group string="Address">&ndash;&gt;-->
                             <!--                                                            <div class="oe_inline">-->
                             <!--                                                                <field name="address_street"  placeholder="Enter Your street"/> /-->
                             <!--                                                                <field name="address_street2" placeholder="streer 1 "/>-->

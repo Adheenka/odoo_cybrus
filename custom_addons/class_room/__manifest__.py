@@ -11,8 +11,6 @@
     'sequence': -10,
     'author': "My Company",
 
-
-
     'category': 'Classroom',
     'version': '1.0.0',
 
@@ -27,6 +25,7 @@
     ],
     # only loaded in demonstration mode
     'demo': [],
+
 
     'auto_install': False,
     'installable': True,
