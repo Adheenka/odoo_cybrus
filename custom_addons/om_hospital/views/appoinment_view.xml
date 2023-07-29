@@ -57,15 +57,15 @@
                         <group>
                             <field name="pateint_id"/>
                             <field name="ref"/>
-                            <field name="appointment_time"/>
+                            <field name="gender"/>
+
 
                         </group>
                         <group>
-                            <field name="gender"/>
                             <field name="booking_time"/>
-                            <!--                            <field name="ref"/>-->
-                            <!--                            <field name="gender"/>-->
-                            <!--                            <field name="active" invisible="1"/>-->
+                            <field name="appointment_time"/>
+                            <button name="%(om_hospital.action_hospital_appointment)d" string="Action Button" type="action" class="oe_highlight"/>
+
                         </group>
                     </group>
                     <notebook>
