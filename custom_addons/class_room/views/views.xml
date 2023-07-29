@@ -15,6 +15,7 @@
                                 <field name="dob"/>
                                 <field name="age"/>
                             </group>
+                            
                             <group string="Address">
                                 <div class="o_address_format">
                                     <div class="o_address_street">
@@ -38,68 +39,6 @@
                                     </div>
                                 </div>
                             </group>
-
-
-                            <!--                            <form>-->
-
-
-                            <!--                          -->
-
-                            <!--                            </form>-->
-
-
-                            <!--                            <group string="Address">-->
-                            <!--                                <div class="o_group">-->
-                            <!--                                    <div class="o_group_col_12">-->
-                            <!--                                        <field name="address_street" placeholder="Street" /> - -->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="o_group_col_6">-->
-                            <!--                                        <field name="address_street2" placeholder="Street 2"/> - -->
-                            <!--                                        <field name="address_city" placeholder="City"/>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="o_group_col_3">-->
-
-                            <!--                                        <field name="address_pincode" placeholder="pincode"/> - -->
-                            <!--                                        <field name="address_district" placeholder="District" default="Kerala"/>- -->
-                            <!--                                        <field name="address_country" placeholder="Country" default="India"/>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                            </group>-->
-                            <!--                            <group string="address">-->
-
-
-                            <!--                                <div class="o_address_format">-->
-                            <!--                                    <field name="address_street" placeholder="Street..." class="o_address_street"-->
-                            <!--                                    />-->
-                            <!--                                    <field name="address_street2" placeholder="Street 2..." class="o_address_street"-->
-                            <!--                                    />-->
-                            <!--                                    <div class="oe_inline">-->
-                            <!--                                        <field name="address_city" placeholder="City" class="o_address_city"-->
-                            <!--                                        />-->
-                            <!--                                        <field name="address_district" class="o_address_state" placeholder="State"-->
-
-                            <!--                                        />-->
-                            <!--                                        <field name="address_pincode" placeholder="ZIP" class="o_address_zip"-->
-                            <!--                                        />-->
-                            <!--                                    </div>-->
-                            <!--                                   <field name="address_country" placeholder="country" />-->
-
-                            <!--                                </div>-->
-
-
-                            <!--                            </group>-->
-                            <!--                            &lt;!&ndash;                                                        <group string="Address">&ndash;&gt;-->
-                            <!--                                                            <div class="oe_inline">-->
-                            <!--                                                                <field name="address_street"  placeholder="Enter Your street"/> /-->
-                            <!--                                                                <field name="address_street2" placeholder="streer 1 "/>-->
-                            <!--                                                            </div>-->
-                            <!--                                                            <div class="oe_inline">-->
-                            <!--                                                                <field name="address_city"  placeholder="city" col="3"/> /-->
-                            <!--                                                                <field name="address_district"  placeholder="district" col="3"/> /-->
-                            <!--                                                                <field name="address_pincode"  placeholder="pincode" col="3"/>-->
-                            <!--                                                            </div>-->
-                            <!--                                                            <field name="address_country"  placeholder="country" />-->
-                            <!--                                                        </group>-->
 
 
                         </group>
