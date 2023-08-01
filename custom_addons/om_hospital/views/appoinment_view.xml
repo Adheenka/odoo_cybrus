@@ -34,7 +34,7 @@
             <tree  decoration-success="state == 'done'"
                        decoration-info="state == 'draft'"
                        decoration-danger="state=='cancel'"
-                       decoration-warning="state == 'in_consultation'" >
+                       decoration-warning="state == 'in_consultation'" sample="1" multi_edit="1">
                 <field name="pateint_id"/>
                 <field name="ref" optional="hide"/>
                 <field name="gender" optional="hide"/>
@@ -76,7 +76,7 @@
 
                         </group>
                         <group>
-                            <field name="booking_time"/>
+                            <field name="booking_time" default_focus="1"/>
                             <field name="appointment_time"/>
                             <button name="%(om_hospital.action_hospital_appointment)d" string="Action Button" confirm="Are you sure open this windows" help="click this button,you will be redirect pateient reecords" type="action" class="oe_highlight"/>
                             <button name="action_test" string="object button" confirm="Are you sure open this windows" help="click this button,you will show rainbow" type="object" class="oe_highlight"/>
