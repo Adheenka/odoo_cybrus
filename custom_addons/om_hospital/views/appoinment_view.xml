@@ -38,6 +38,8 @@
                 <field name="pateint_id"/>
                 <field name="appointment_time"/>
                 <field name="booking_time"/>
+                <field name="activity_ids" widget="list_activity"/>
+
                 <field name="state"          decoration-success="state == 'done'"
                        decoration-info="state == 'draft'"
                        decoration-danger="state=='cancel'"
