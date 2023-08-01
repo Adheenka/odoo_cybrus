@@ -36,8 +36,10 @@
                        decoration-danger="state=='cancel'"
                        decoration-warning="state == 'in_consultation'" >
                 <field name="pateint_id"/>
-                <field name="appointment_time"/>
-                <field name="booking_time"/>
+                <field name="ref" optional="hide"/>
+                <field name="gender" optional="hide"/>
+                <field name="appointment_time" optional="show"/>
+                <field name="booking_time" optional="show"/>
                 <field name="activity_ids" widget="list_activity"/>
 
                 <field name="state"          decoration-success="state == 'done'"
