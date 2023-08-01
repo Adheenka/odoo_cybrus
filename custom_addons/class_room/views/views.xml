@@ -15,7 +15,7 @@
                                 <field name="dob"/>
                                 <field name="age"/>
                             </group>
-                            
+
                             <group string="Address">
                                 <div class="o_address_format">
                                     <div class="o_address_street">

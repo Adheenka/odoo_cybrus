@@ -38,6 +38,7 @@
                 <field name="pateint_id"/>
                 <field name="ref" optional="hide"/>
                 <field name="gender" optional="hide"/>
+                <field name="doctor_id" widget="many2one_avatar_user"/>
                 <field name="appointment_time" optional="show"/>
                 <field name="booking_time" optional="show"/>
                 <field name="activity_ids" widget="list_activity"/>
@@ -69,6 +70,8 @@
                             <field name="pateint_id"/>
                             <field name="ref"/>
                             <field name="gender"/>
+                            <field name="doctor_id" widget="many2one_avatar_user"/>
+
 
 
                         </group>
