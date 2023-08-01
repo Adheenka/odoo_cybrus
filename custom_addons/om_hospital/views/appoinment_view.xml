@@ -65,6 +65,7 @@
                             <field name="booking_time"/>
                             <field name="appointment_time"/>
                             <button name="%(om_hospital.action_hospital_appointment)d" string="Action Button" confirm="Are you sure open this windows" help="click this button,you will be redirect pateient reecords" type="action" class="oe_highlight"/>
+                            <button name="action_test" string="object button" confirm="Are you sure open this windows" help="click this button,you will show rainbow" type="object" class="oe_highlight"/>
 
                         </group>
                     </group>

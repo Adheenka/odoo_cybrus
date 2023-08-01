@@ -27,3 +27,13 @@ class HospitalAppointment(models.Model):
     @api.onchange('pateint_id')
     def onchange_pateint_id(self):
         self.ref = self.pateint_id.ref
+
+    def action_test(self):
+        print("button")
+        return {
+            'effect':{
+                'fadout':'slow',
+                'messege':'click sucessful',
+                'type':'rainbow_man'
+            }
+        }
