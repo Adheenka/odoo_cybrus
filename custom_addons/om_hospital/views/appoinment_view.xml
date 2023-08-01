@@ -84,9 +84,9 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Prescription" name="prescription">
+                        <page string="Prescription" name="prescription" >
 
-                                <field name="prescription" placeholder="Enter Your prescription"/>
+                                <field name="prescription" placeholder="Enter Your prescription" options="{'collaborative':true, 'resizable':true}"/>
 
 
                         </page>
