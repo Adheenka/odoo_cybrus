@@ -56,7 +56,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar" nolabel="1" options="{'clickable':'1'}" statusbar_visible="draft,in_consultation,done"/>
+                    <button name="action_in_consultation" string="In Consultation" type="object" class="oe_highlight" states="draft"/>
+                    <button name="action_done" string="Done" type="object" states="in_consultation" class="oe_highlight"/>
+                    <button name="action_cancel" string="cancel" type="object" states="draft,in_consultation"/>
+                    <button name="action_draft" string="Reset To Draft" type="object" states="cancel"/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,in_consultation,done"/>
                 </header>
                 <sheet>
                     <div>
