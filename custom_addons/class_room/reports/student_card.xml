@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="report_student">
+
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <h2>Student Card:
+                        <t t-esc="o.name"/>
+                    </h2>
+                    <p>Name:
+                        <t t-esc="o.name"/>
+                    </p>
+                    <p>Age:
+                        <t t-esc="o.age"/>
+                    </p>
+                    <p>Date of Birth:
+                        <t t-esc="o.dob"/>
+                    </p>
+                    <p>Address:
+                        <t t-esc="o.address"/>
+                    </p>
+                    <h3>Marklist:</h3>
+                    <table style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Exam Name</th>
+                                <th>Subject 1</th>
+                                <th>Subject 2</th>
+                                <th>Subject 3</th>
+                                <th>Subject 4</th>
+                                <th>Total</th>
+                                <th>Average</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.marklist" t-as="mark">
+                                <td>
+                                    <t t-esc="mark.exam_name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="mark.subject1"/>
+                                </td>
+                                <td>
+                                    <t t-esc="mark.subject2"/>
+                                </td>
+                                <td>
+                                    <t t-esc="mark.subject3"/>
+                                </td>
+                                <td>
+                                    <t t-esc="mark.subject4"/>
+                                </td>
+                                <td>
+                                    <t t-esc="mark.total"/>
+                                </td>
+                                <td>
+                                    <t t-esc="mark.average"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: right; color: #ff5733; font-weight: bold;">
+                        Total Marks All :
+                        <t t-esc="o.total_marks_all"/>
+
+                    </div>
+
+                </div>
+            </t>
+        </t>
+
+
+    </template>
+</odoo>
+
+
+

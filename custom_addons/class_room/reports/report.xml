@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Define the report -->
+    <report
+            id="report_student_card"
+            model="classroom"
+            string="Student Card"
+            report_type="qweb-pdf"
+            name="class_room.report_student"
+            file="class_room.report_student"/>
+
+
+</odoo>

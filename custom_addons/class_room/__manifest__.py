@@ -22,10 +22,13 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/menu.xml',
+        'reports/report.xml',
+        'reports/student_card.xml',
+
+
     ],
     # only loaded in demonstration mode
     'demo': [],
-
 
     'auto_install': False,
     'installable': True,
