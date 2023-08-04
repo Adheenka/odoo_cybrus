@@ -9,11 +9,14 @@
             name="class_room.report_student"
             file="class_room.report_student"/>
     <report
-            id="report_student_card_xlx"
-            string="student Card Excel"
+            id="report_student_card_xlsx"
             model="classroom"
+            string="Student Card (Excel)"
             report_type="xlsx"
-            name="class_room.report_student_xls"
-            file="class_room.report_student_xls"/>
+            name="class_room.student_card_xlsx"
+            file="class_room.student_card_xlsx"/>
+    <!--    <report id ="">-->
+
+    <!--    </report>-->
 
 </odoo>

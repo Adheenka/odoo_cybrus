@@ -39,8 +39,11 @@ class Classroom(models.Model):
     #     for classroom in self:
     #         if classroom.dob:
     #             classroom.age = (fields.Date.today() - classroom.dob).days // 365
+    def print_pdf_report(self):
+        return self.env.ref('class_room.report_student_card').report_action(self)
 
-
+    def print_excel_report(self):
+        return self.env.ref('class_room.report_student_card_xlsx').report_action(self)
 
 
 class Marklist(models.Model):

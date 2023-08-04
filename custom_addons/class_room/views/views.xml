@@ -8,7 +8,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-
+                        <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
+                        <button name="print_excel_report" string="Print Excel" type="object" class="btn-secondary"/>
                     </header>
                     <sheet>
                         <group>

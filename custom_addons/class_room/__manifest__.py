@@ -23,8 +23,8 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/menu.xml',
-        'reports/report.xml',
-        'reports/student_card.xml',
+        'report/report.xml',
+        'report/student_card.xml',
 
 
 
