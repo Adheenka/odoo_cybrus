@@ -7,6 +7,9 @@
             <field name="model">classroom</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+
+                    </header>
                     <sheet>
                         <group>
                             <group>
