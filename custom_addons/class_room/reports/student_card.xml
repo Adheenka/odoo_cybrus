@@ -2,77 +2,118 @@
 
 <odoo>
     <template id="report_student">
-
         <t t-call="web.html_container">
+
             <t t-foreach="docs" t-as="o">
-                <div class="page">
-                    <h2>Student Card:
-                        <t t-esc="o.name"/>
-                    </h2>
-                    <p>Name:
-                        <t t-esc="o.name"/>
-                    </p>
-                    <p>Age:
-                        <t t-esc="o.age"/>
-                    </p>
-                    <p>Date of Birth:
-                        <t t-esc="o.dob"/>
-                    </p>
-                    <p>Address:
-                        <t t-esc="o.address"/>
-                    </p>
-                    <h3>Marklist:</h3>
-                    <table style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Exam Name</th>
-                                <th>Subject 1</th>
-                                <th>Subject 2</th>
-                                <th>Subject 3</th>
-                                <th>Subject 4</th>
-                                <th>Total</th>
-                                <th>Average</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="o.marklist" t-as="mark">
-                                <td>
-                                    <t t-esc="mark.exam_name"/>
-                                </td>
-                                <td>
-                                    <t t-esc="mark.subject1"/>
-                                </td>
-                                <td>
-                                    <t t-esc="mark.subject2"/>
-                                </td>
-                                <td>
-                                    <t t-esc="mark.subject3"/>
-                                </td>
-                                <td>
-                                    <t t-esc="mark.subject4"/>
-                                </td>
-                                <td>
-                                    <t t-esc="mark.total"/>
-                                </td>
-                                <td>
-                                    <t t-esc="mark.average"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style="text-align: right; color: #ff5733; font-weight: bold;">
-                        Total Marks All :
-                        <t t-esc="o.total_marks_all"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h1 style="text-align: top; color: #fffff; font-weight: bold;">Student report</h1>
 
+                        <div class="student-card">
+                            <div class="row">
+                                <div class="left-side">
+
+                                    <div class="personal-info">
+                                        <p style="padding-left: 15px;" class="age">
+                                            <strong>Name:              </strong>
+                                            <span t-field="o.name"/>
+                                        </p>
+                                        <p style="padding-left: 15px;" class="name">
+                                            <strong>Age:             </strong>
+                                            <span t-field="o.age"/>
+                                        </p>
+                                        <p style="padding-left: 15px;" class="dob">
+                                            <strong>Date of Birth:    </strong>
+                                            <span t-field="o.dob"/>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div style="position: absolute; right: 15px;">
+
+                                        <p class="address">
+                                            <strong>Address:</strong>
+                                            <span t-field="o.address"/>
+                                        </p>
+                                        <p>
+                                            <span t-field="o.address_street"/>
+                                        </p>
+                                        <p>
+                                            <span t-field="o.address_street2"/>
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p style="padding-right: 15px;" >
+
+                                                    <span t-field="o.address_pincode"/>
+                                                    <span t-field="o.country_id.name"/>
+                                                    <span t-field="o.state_id.name"/>
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div style="padding-top: 45px;" class="marklist">
+                            <h3>Marklist:</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Exam Name</th>
+                                        <th>Subject 1</th>
+                                        <th>Subject 2</th>
+                                        <th>Subject 3</th>
+                                        <th>Subject 4</th>
+                                        <th>Total</th>
+                                        <th>Average</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.marklist" t-as="mark">
+                                        <td>
+                                            <t t-esc="mark.exam_name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="mark.subject1"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="mark.subject2"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="mark.subject3"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="mark.subject4"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="mark.total"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="mark.average"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="total-marks">
+                                <p style="text-align: right; color: #ff5733; font-weight: bold;">
+                                    <strong>Total Marks (All):</strong>
+                                    <t t-esc="o.total_marks_all"/>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-
-                </div>
+                </t>
             </t>
         </t>
-
-
+        <style>
+            .page {
+            font-family: Arial, sans-serif;
+            border: 1px solid #ccc;
+            padding:15px;
+        </style>
     </template>
 </odoo>
-
-
 
