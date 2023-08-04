@@ -1,1 +1,2 @@
-from . import student_card_xlsx
+
+from . import student_card_xls

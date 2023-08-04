@@ -43,7 +43,7 @@ class Classroom(models.Model):
         return self.env.ref('class_room.report_student_card').report_action(self)
 
     def print_excel_report(self):
-        return self.env.ref('class_room.report_student_card_xlsx').report_action(self)
+        return self.env.ref('class_room.report_student_card_xls').report_action(self)
 
 
 class Marklist(models.Model):
