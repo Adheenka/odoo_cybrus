@@ -6,7 +6,7 @@ class StudentCardXLS(models.AbstractModel):
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, lines):
-        format1 = workbook.add_format({'font_size': 11, 'align': 'vcenter'})
+        format1 = workbook.add_format({'font_size': 9, 'align': 'vcenter','bold': True})
         format2 = workbook.add_format({'font_size': 9, 'align': 'vcenter'})
         date_format = workbook.add_format({'font_size': 9,'num_format': 'mm/dd/yyyy', 'align': 'vcenter'})
         sheet = workbook.add_worksheet('Student Execl Report')
