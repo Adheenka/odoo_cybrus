@@ -10,13 +10,13 @@
     'summary': 'Hospital management system',
     'description': """ Hospital management system
 """,
-    'depends': ['mail'],
+    'depends': ['mail','product'],
     'data': [
         'security/ir.model.access.csv',
         'views/menu.xml',
         'views/pateint_view.xml',
         'views/female_pateint_view.xml',
-        'views/appoinment_view.xml'
+        'views/appoinment_view.xml',
     ],
     'demo': [],
     'auto_install': False,
