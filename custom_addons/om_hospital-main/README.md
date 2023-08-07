@@ -1,2 +1,2 @@
 # om_hospital
- Hospital Management System
+ Hospital Management System odooo15

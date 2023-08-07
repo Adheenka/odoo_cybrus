@@ -83,7 +83,7 @@
 
                         </group>
                         <group>
-                            <field name="hide_sales_price"/>
+                            <field name="hide_sales_price" groups="base.group_no_one"/>
                             <field name="booking_time" default_focus="1"/>
                             <field name="appointment_time"/>
                             <button name="%(om_hospital.action_hospital_appointment)d" string="Action Button"
