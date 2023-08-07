@@ -17,6 +17,7 @@
         'views/pateint_view.xml',
         'views/female_pateint_view.xml',
         'views/appoinment_view.xml',
+        'views/patient_tag_view.xml',
     ],
     'demo': [],
     'auto_install': False,
