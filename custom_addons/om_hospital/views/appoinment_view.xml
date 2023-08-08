@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+       <record id="view_hospital_appointment_activity" model="ir.ui.view">
+        <field name="name">hospital.appointment.activity</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <activity string="Appointments">
+                <field name="pateint_id"/>
+                <field name="ref"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activity_image('hospital.pateint', 'image', record.pateint_id.raw_value)" t-att-tittle="record.pateint_id.value" t-att-alt="record.pateint_id.value"/>
+                        <div>
+                            <field name="ref" display="full"/>
+                        </div>
+
+                    </div>
+                </templates>
+
+            </activity>
+        </field>
+    </record>
     <record id="view_hospital_appointment_search" model="ir.ui.view">
         <field name="name">hospital.appointment.search</field>
         <field name="model">hospital.appointment</field>
@@ -136,7 +156,7 @@
         <field name="name">Appointment</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hospital.appointment</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,activity</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
