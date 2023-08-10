@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import base64
+import xlsxwriter
+from io import BytesIO
 from datetime import date
 from odoo import models, fields, api
 
@@ -43,7 +46,43 @@ class Classroom(models.Model):
         return self.env.ref('class_room.report_student_card').report_action(self)
 
     def print_excel_report(self):
-        return self.env.ref('class_room.report_student_card_xls').report_action(self)
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output)
+        worksheet = workbook.add_worksheet('Student Report')
+
+        bold_format = workbook.add_format({'bold': True})
+        date_format = workbook.add_format({'num_format': 'mm/dd/yyyy'})
+
+        header = ['Name', 'Age', 'DOB', 'Address']
+        worksheet.write_row(0, 0, header, bold_format)
+
+        row = 1
+        for student in self:
+            worksheet.write(row, 0, student.name)
+            worksheet.write(row, 1, student.age)
+            worksheet.write(row, 2, student.dob, date_format)
+            worksheet.write(row, 3, student.address)
+            row += 1
+
+        workbook.close()
+
+        output.seek(0)
+        excel_content = output.read()
+        excel_base64 = base64.b64encode(excel_content)
+
+        attachment = self.env['ir.attachment'].create({
+            'name': 'Student_Report.xlsx',
+            'type': 'binary',
+            'datas': excel_base64,
+            'res_model': 'classroom',
+            'res_id': self.id,
+        })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/content/%s?download=true' % (attachment.id),
+            'target': 'self',
+        }
 
 
 class Marklist(models.Model):

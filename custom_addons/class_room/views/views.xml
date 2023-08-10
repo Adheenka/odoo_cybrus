@@ -9,7 +9,7 @@
                 <form>
                     <header>
                         <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
-                        <button name="print_excel_report" string="Print Excel" type="object" class="btn-secondary"/>
+                        <button string="Print Excel" type="object" name="print_excel_report" class="oe_highlight"/>
                     </header>
                     <sheet>
                         <group>
