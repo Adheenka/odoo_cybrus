@@ -50,11 +50,11 @@ class Classroom(models.Model):
         workbook = xlsxwriter.Workbook(output)
         sheet = workbook.add_worksheet('Student Excel Report')
 
-        format1 = workbook.add_format({'font_size': 9, 'align': 'vcenter', 'bold': True})
+        format1 = workbook.add_format({'font_size': 9, 'align': 'vcenter', 'bold': True,'color': 'gray'})
         format2 = workbook.add_format({'font_size': 9, 'align': 'vcenter'})
         date_format = workbook.add_format({'font_size': 9, 'num_format': 'mm/dd/yyyy', 'align': 'vcenter'})
 
-        header_format = workbook.add_format({'font_size': 14, 'align': 'center', 'bold': True})
+        header_format = workbook.add_format({'font_size': 14, 'align': 'center', 'bold': True,'color': 'green'})
         sheet.merge_range('C2:E2', 'Student Excel Report', header_format)
 
         sheet.write(3, 2, 'Name', format1)
@@ -91,7 +91,7 @@ class Classroom(models.Model):
             sheet.write(row, 8, mark.average, format2)
             row += 1
 
-        total_marks_format = workbook.add_format({'font_size': 12, 'align': 'vcenter'})
+        total_marks_format = workbook.add_format({'font_size': 12, 'align': 'vcenter', 'color': 'green'})
         sheet.merge_range(row + 1, 2, row + 1, 7, 'Final marks ', total_marks_format)
         sheet.write(row + 1, 8, self.total_marks_all, format2)
 
