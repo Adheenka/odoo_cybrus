@@ -48,21 +48,52 @@ class Classroom(models.Model):
     def print_excel_report(self):
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output)
-        worksheet = workbook.add_worksheet('Student Report')
+        sheet = workbook.add_worksheet('Student Excel Report')
 
-        bold_format = workbook.add_format({'bold': True})
-        date_format = workbook.add_format({'num_format': 'mm/dd/yyyy'})
+        format1 = workbook.add_format({'font_size': 9, 'align': 'vcenter', 'bold': True})
+        format2 = workbook.add_format({'font_size': 9, 'align': 'vcenter'})
+        date_format = workbook.add_format({'font_size': 9, 'num_format': 'mm/dd/yyyy', 'align': 'vcenter'})
 
-        header = ['Name', 'Age', 'DOB', 'Address']
-        worksheet.write_row(0, 0, header, bold_format)
+        header_format = workbook.add_format({'font_size': 14, 'align': 'center', 'bold': True})
+        sheet.merge_range('C2:E2', 'Student Excel Report', header_format)
 
-        row = 1
-        for student in self:
-            worksheet.write(row, 0, student.name)
-            worksheet.write(row, 1, student.age)
-            worksheet.write(row, 2, student.dob, date_format)
-            worksheet.write(row, 3, student.address)
+        sheet.write(3, 2, 'Name', format1)
+        sheet.write(3, 3, self.name, format2)
+        sheet.write(4, 2, 'Age', format1)
+        sheet.write(4, 3, self.age, format2)
+        sheet.write(5, 2, 'DOB', format1)
+        sheet.write(5, 3, self.dob.strftime('%m/%d/%Y'), date_format)
+
+        sheet.write(3, 6, 'Address', format1)
+        sheet.write(3, 7, self.address_street, format2)
+        sheet.write(4, 7, self.address_street2, format2)
+        sheet.write(5, 7, self.address_pincode, format2)
+        sheet.write(5, 8, self.country_id.name, format2)
+        sheet.write(6, 7, self.state_id.name, format2)
+
+        sheet.write(8, 2, 'Marklist', format1)
+        sheet.write(9, 2, 'Exam', format1)
+        sheet.write(9, 3, 'Subject 1', format1)
+        sheet.write(9, 4, 'Subject 2', format1)
+        sheet.write(9, 5, 'Subject 3', format1)
+        sheet.write(9, 6, 'Subject 4', format1)
+        sheet.write(9, 7, 'Total', format1)
+        sheet.write(9, 8, 'Average', format1)
+
+        row = 11
+        for mark in self.marklist:
+            sheet.write(row, 2, mark.exam_name, format2)
+            sheet.write(row, 3, mark.subject1, format2)
+            sheet.write(row, 4, mark.subject2, format2)
+            sheet.write(row, 5, mark.subject3, format2)
+            sheet.write(row, 6, mark.subject4, format2)
+            sheet.write(row, 7, mark.total, format2)
+            sheet.write(row, 8, mark.average, format2)
             row += 1
+
+        total_marks_format = workbook.add_format({'font_size': 12, 'align': 'vcenter'})
+        sheet.merge_range(row + 1, 2, row + 1, 7, 'Final marks ', total_marks_format)
+        sheet.write(row + 1, 8, self.total_marks_all, format2)
 
         workbook.close()
 
@@ -83,6 +114,44 @@ class Classroom(models.Model):
             'url': '/web/content/%s?download=true' % (attachment.id),
             'target': 'self',
         }
+    # def print_excel_report(self):
+    #     output = BytesIO()
+    #     workbook = xlsxwriter.Workbook(output)
+    #     worksheet = workbook.add_worksheet('Student Report')
+    #
+    #     bold_format = workbook.add_format({'bold': True})
+    #     date_format = workbook.add_format({'num_format': 'mm/dd/yyyy'})
+    #
+    #     header = ['Name', 'Age', 'DOB', 'Address']
+    #     worksheet.write_row(0, 0, header, bold_format)
+    #
+    #     row = 1
+    #     for student in self:
+    #         worksheet.write(row, 0, student.name)
+    #         worksheet.write(row, 1, student.age)
+    #         worksheet.write(row, 2, student.dob, date_format)
+    #         worksheet.write(row, 3, student.address)
+    #         row += 1
+    #
+    #     workbook.close()
+    #
+    #     output.seek(0)
+    #     excel_content = output.read()
+    #     excel_base64 = base64.b64encode(excel_content)
+    #
+    #     attachment = self.env['ir.attachment'].create({
+    #         'name': 'Student_Report.xlsx',
+    #         'type': 'binary',
+    #         'datas': excel_base64,
+    #         'res_model': 'classroom',
+    #         'res_id': self.id,
+    #     })
+    #
+    #     return {
+    #         'type': 'ir.actions.act_url',
+    #         'url': '/web/content/%s?download=true' % (attachment.id),
+    #         'target': 'self',
+    #     }
 
 
 class Marklist(models.Model):
