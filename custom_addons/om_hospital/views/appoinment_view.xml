@@ -80,8 +80,14 @@
                             class="oe_highlight" states="draft"/>
                     <button name="action_done" string="Done" data-hotkey="v" type="object" states="in_consultation"
                             class="oe_highlight"/>
+<!--                    cancel appointment using type action method no need python funtion-->
+
+<!--                     <button name="%(om_hospital.action_cancel_appointment)d" string="cancel" type="action" data-hotkey="z"-->
+<!--                            states="draft,in_consultation"/>-->
+
                     <button name="action_cancel" string="cancel" type="object" data-hotkey="z"
                             states="draft,in_consultation"/>
+
                     <button name="action_draft" data-hotkey="y" string="Reset To Draft" type="object" states="cancel"/>
                     <field name="state" widget="statusbar" data-hotkey="w " nolabel="1"
                            statusbar_visible="draft,in_consultation,done"/>
