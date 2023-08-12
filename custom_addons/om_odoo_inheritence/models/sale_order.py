@@ -8,3 +8,9 @@ class SaleOrder(models.Model):
 
 
 
+    def action_confirm(self):
+        super(SaleOrder, self).action_confirm()
+        self.confirmed_user_id = self.env.user.id
+
+
+
