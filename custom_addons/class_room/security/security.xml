@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Define Groups -->
+    <record id="group_level1" model="res.groups">
+        <field name="name">Level1 Group</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_level2" model="res.groups">
+        <field name="name">Level2 Group</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+
+</odoo>
