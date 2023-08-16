@@ -29,7 +29,8 @@
                                 <field name="age"/>
                             </group>
 
-                            <group string="Address">
+                            <group>
+                                 <label for="address_street" string="Address"/>
                                 <div class="o_address_format">
                                     <div class="o_address_street">
                                         <div class="o_address_format_div">

@@ -1,6 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access.classroom,access_classroom,class_room.model_classroom,base.group_user,1,1,1,1
 access.marklist,access_marklist,class_room.model_marklist,base.group_user,1,1,1,1
+access.classroom_level1,Classroom Level1 Access,class_room.model_classroom,class_room.group_level1,1,1,1,1
+access.classroom_level2,Classroom Level2 Access,class_room.model_classroom,class_room.group_level2,1,1,1,1
 
 
 
