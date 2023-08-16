@@ -10,6 +10,15 @@
                     <header>
                         <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
                         <button string="Print Excel" type="object" name="print_excel_report" class="oe_highlight"/>
+
+                    </header>
+                      <header>
+
+                        <button name="action_approve" string="Approve" type="object" class="oe_highlight"
+                                states="draft,level1" />
+                        <button name="action_draft" data-hotkey="y" string="Reset To Draft" type="object" states="level2"/>
+                        <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft,level1,level2"/>
                     </header>
                     <sheet>
                         <group>
@@ -88,6 +97,11 @@
                     <field name="name"/>
                     <field name="dob"/>
                     <field name="age"/>
+
+                <field name="state" decoration-success="state == 'done'"
+                       decoration-info="state == 'level1'"
+
+                       decoration-warning="state == 'level2'" widget="badge"/>
                 </tree>
             </field>
         </record>
@@ -127,6 +141,7 @@
                 </p>
             </field>
         </record>
+
         <menuitem
                 id="menu_classroom"
                 name="student"

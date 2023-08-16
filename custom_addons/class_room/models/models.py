@@ -24,7 +24,22 @@ class Classroom(models.Model):
     country_id = fields.Many2one('res.country', string='Country')
     state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
     total_marks_all = fields.Float(string='Total Marks (All)', compute='_compute_total_marks_all', store=True)
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('level1', 'Level 1'),
+        ('level2', 'Level 2'),
+    ], string='Status', default='draft', required=True,tracking=True)
 
+    def action_approve(self):
+        for record in self:
+            if record.state == 'draft':
+                record.state = 'level1'
+            elif record.state == 'level1':
+                record.state = 'level2'
+
+    def action_draft(self):
+        for rec in self:
+            rec.state = 'draft'
     @api.depends('marklist.total')
     def _compute_total_marks_all(self):
         for classroom in self:
