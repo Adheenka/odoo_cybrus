@@ -21,6 +21,7 @@
         'views/pateint_view.xml',
         'views/female_pateint_view.xml',
         'views/appoinment_view.xml',
+        'views/odoo_playground_view.xml',
         'views/patient_tag_view.xml',
     ],
     'demo': [],
