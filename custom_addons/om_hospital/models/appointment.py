@@ -5,7 +5,7 @@ class HospitalAppointment(models.Model):
     _name = "hospital.appointment"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Hospital Appointment"
-    _rec_name = 'pateint_id'
+    _rec_name = 'ref'
 
     pateint_id = fields.Many2one('hospital.pateint')
     ref = fields.Char(string='Reference', tracking=True)
