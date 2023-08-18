@@ -21,6 +21,6 @@ class OdooPlayGround(models.Model):
             else:
                 model = self
 
-            self.result = safe_eval(self.code.string(), {'self':model})
+            self.result = safe_eval(self.code.string(), {'self': model})
         except Exception as e:
             self.result = str(e)

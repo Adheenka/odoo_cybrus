@@ -2,24 +2,24 @@
 <odoo>
 
     <menuitem
-            id="menu_hosptaial_root"
+            id="menu_hospital_root"
             name="Hospital"
             web_icon="om_hospital/static/description/pngwing.com.png"
             sequence="0"/>
     <menuitem
             id="menu_pateint_master"
             name="Pateinent Details"
-            parent="menu_hosptaial_root"
+            parent="menu_hospital_root"
             sequence="0"/>
     <menuitem
             id="menu_appointment_master"
             name="Appointments"
-            parent="menu_hosptaial_root"
+            parent="menu_hospital_root"
             sequence="20"/>
     <menuitem
             id="menu_configuration"
             name="Configurations"
-            parent="menu_hosptaial_root"
+            parent="menu_hospital_root"
             sequence="10"/>
 
     <menuitem id="menu_cancel_appointment"
