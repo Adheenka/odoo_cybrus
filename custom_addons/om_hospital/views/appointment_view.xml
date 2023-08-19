@@ -83,7 +83,7 @@
 <!--                    cancel appointment using type action method no need python funtion-->
 
 <!--                     <button name="%(om_hospital.action_cancel_appointment)d" string="cancel" type="action" data-hotkey="z"-->
-<!--                            states="draft,in_consultation"/>-->
+<!--                            states="draft,in_consultation" context="{'default_appointment_id':active_id}"/>-->
 
                     <button name="action_cancel" string="cancel" type="object" data-hotkey="z"
                             states="draft,in_consultation"/>

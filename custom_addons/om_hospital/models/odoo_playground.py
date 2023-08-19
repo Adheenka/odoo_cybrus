@@ -11,9 +11,6 @@ class OdooPlayGround(models.Model):
     code = fields.Text(string="Code" ,default=DEFAULT_NEW_VARIABLES)
     result = fields.Text(string="Result")
 
-
-
-
     def action_execute(self):
         try:
             if self.model_id:
@@ -21,6 +18,6 @@ class OdooPlayGround(models.Model):
             else:
                 model = self
 
-            self.result = safe_eval(self.code.string(), {'self': model})
+            self.result = safe_eval(self.code, {'self': model}) 
         except Exception as e:
             self.result = str(e)
