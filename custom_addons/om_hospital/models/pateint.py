@@ -1,6 +1,6 @@
 from datetime import date
-from odoo import api, fields, models
-
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 class HospitalPateint(models.Model):
     _name = "hospital.pateint"
@@ -16,7 +16,11 @@ class HospitalPateint(models.Model):
     image = fields.Image(string="Image")
     tag_ids = fields.Many2many('patient.tag',string="Tag")
 
-
+    @api.constrains('date_of_birth')
+    def _check_date_of_birth(self):
+        for rec in self:
+            if rec.date_of_birth and rec.date_of_birth > fields.Date.today():
+                raise ValidationError(_("Entered DOB is not accepttable"))
     @api.model
     def create(self, vals):
         vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.pateint')
