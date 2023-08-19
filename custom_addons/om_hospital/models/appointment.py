@@ -1,4 +1,5 @@
-from odoo import api,fields, models
+from odoo import api,fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class HospitalAppointment(models.Model):
@@ -30,6 +31,11 @@ class HospitalAppointment(models.Model):
     @api.onchange('pateint_id')
     def onchange_pateint_id(self):
         self.ref = self.pateint_id.ref
+    def unlink(self):
+        for rec in self:
+            if rec.state != 'draft':
+                raise ValidationError(_("You can delete appointment only in 'Draft' state"))
+            return super(HospitalAppointment,self).unlink()
 
     def action_test(self):
         print("button")
