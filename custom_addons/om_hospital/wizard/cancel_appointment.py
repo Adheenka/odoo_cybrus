@@ -14,7 +14,7 @@ class CancelAppointmentWizard(models.TransientModel):
             res['appointment_id'] = self.env.context.get('active_id')
         return res
 
-    appointment_id = fields.Many2one('hospital.appointment', string="Apponintment")
+    appointment_id = fields.Many2one('hospital.appointment', string="Apponintment" ,domain=[('state','=','draft'), ('priority','in',('0','1',False))])
     reason = fields.Text(string="Reason")
     date_cancel = fields.Date(string="Cancellation Date")
 
