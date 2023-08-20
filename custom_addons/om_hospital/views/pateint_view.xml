@@ -31,7 +31,7 @@
         <field name="name">hospital.pateint.tree</field>
         <field name="model">hospital.pateint</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree export_xlsx="0">
                 <field name="name" string="Pateint Name"/>
                 <field name="age"/>
                 <field name="ref"/>
