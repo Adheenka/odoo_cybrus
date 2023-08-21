@@ -56,7 +56,10 @@
                   decoration-info="state == 'draft'"
                   decoration-danger="state=='cancel'"
                   decoration-warning="state == 'in_consultation'" sample="1" multi_edit="1">
-                <field name="name"/>
+                <header>
+                    <button name="action_in_consultation" string="In Consultation" type="object"/>
+                </header>
+                <field name="name" readonly="1"/>
                 <field name="pateint_id"/>
                 <field name="ref" optional="hide"/>
                 <field name="gender" optional="hide"/>
@@ -69,6 +72,13 @@
                        decoration-info="state == 'draft'"
                        decoration-danger="state=='cancel'"
                        decoration-warning="state == 'in_consultation'" widget="badge"/>
+                <button name="action_done"  type="object"  class="fa fa-check btn-success"
+                           attrs="{'invisible':[('state','!=','in_consultation')]}"/>
+
+                <button name="%(om_hospital.action_cancel_appointment)d" type="action" class="fa fa-times btn-danger"
+                        title="action_cancel"
+                        context="{'default_reason':'test','hide_appointment':1}"
+                        attrs="{'invisible':[('state','not in',('draft','in_consultation'))]}"/>
             </tree>
         </field>
     </record>
@@ -84,8 +94,8 @@
                             class="oe_highlight"/>
                     <!--                    cancel appointment using type action method no need python funtion-->
 
-                    <!--                     <button name="%(om_hospital.action_cancel_appointment)d" string="cancel" type="action" data-hotkey="z"-->
-                    <!--                            states="draft,in_consultation" context="{'default_appointment_id':active_id}"/>-->
+                    <!--                                         <button name="%(om_hospital.action_cancel_appointment)d" string="cancel" type="action" data-hotkey="z"-->
+                    <!--                                                states="draft,in_consultation" context="{'default_appointment_id':active_id}"/>-->
 
                     <button name="action_cancel" string="cancel" type="object" data-hotkey="z"
                             states="draft,in_consultation"/>
