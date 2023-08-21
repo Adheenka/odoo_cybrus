@@ -47,6 +47,11 @@ class HospitalPateint(models.Model):
                 rec.age = today.year - rec.date_of_birth.year
             else:
                 rec.age = 0
+    @api.ondelete(at_uninstall=False)
+    def _check_appointments(self):
+        for rec in self:
+            if rec.appointment_ids:
+                raise ValidationError(_("you cannot delete a patient with appointments !"))
 
     def name_get(self):
         return [(record.id,'[%s] %s' %(record.ref,record.name)) for record in self]
