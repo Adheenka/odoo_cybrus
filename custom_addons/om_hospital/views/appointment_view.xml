@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-       <record id="view_hospital_appointment_activity" model="ir.ui.view">
+    <record id="view_hospital_appointment_activity" model="ir.ui.view">
         <field name="name">hospital.appointment.activity</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
@@ -9,7 +9,8 @@
                 <field name="ref"/>
                 <templates>
                     <div t-name="activity-box">
-                        <img t-att-src="activity_image('hospital.pateint', 'image', record.pateint_id.raw_value)" t-att-tittle="record.pateint_id.value" t-att-alt="record.pateint_id.value"/>
+                        <img t-att-src="activity_image('hospital.pateint', 'image', record.pateint_id.raw_value)"
+                             t-att-tittle="record.pateint_id.value" t-att-alt="record.pateint_id.value"/>
                         <div>
                             <field name="ref" display="full"/>
                         </div>
@@ -55,6 +56,7 @@
                   decoration-info="state == 'draft'"
                   decoration-danger="state=='cancel'"
                   decoration-warning="state == 'in_consultation'" sample="1" multi_edit="1">
+                <field name="name"/>
                 <field name="pateint_id"/>
                 <field name="ref" optional="hide"/>
                 <field name="gender" optional="hide"/>
@@ -80,10 +82,10 @@
                             class="oe_highlight" states="draft"/>
                     <button name="action_done" string="Done" data-hotkey="v" type="object" states="in_consultation"
                             class="oe_highlight"/>
-<!--                    cancel appointment using type action method no need python funtion-->
+                    <!--                    cancel appointment using type action method no need python funtion-->
 
-<!--                     <button name="%(om_hospital.action_cancel_appointment)d" string="cancel" type="action" data-hotkey="z"-->
-<!--                            states="draft,in_consultation" context="{'default_appointment_id':active_id}"/>-->
+                    <!--                     <button name="%(om_hospital.action_cancel_appointment)d" string="cancel" type="action" data-hotkey="z"-->
+                    <!--                            states="draft,in_consultation" context="{'default_appointment_id':active_id}"/>-->
 
                     <button name="action_cancel" string="cancel" type="object" data-hotkey="z"
                             states="draft,in_consultation"/>
@@ -94,6 +96,9 @@
                 </header>
                 <sheet>
                     <div>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
                         <h1>
                             <field name="priority" widget="priority"/>
 
@@ -133,7 +138,8 @@
                             <field name="pharmacy_line_ids">
                                 <tree editable="bottom">
                                     <field name="product_id"/>
-                                    <field name="price_unit" attrs="{'column_invisible' : [('parent.hide_sales_price','=',True)]}"/>
+                                    <field name="price_unit"
+                                           attrs="{'column_invisible' : [('parent.hide_sales_price','=',True)]}"/>
                                     <field name="qty"/>
 
                                 </tree>

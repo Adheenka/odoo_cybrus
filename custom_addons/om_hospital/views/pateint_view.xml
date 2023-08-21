@@ -13,7 +13,7 @@
                 <filter name="filer_male" string="Male" domain="[('gender','=','male')]"/>
                 <filter name="filer_female" string="Female" domain="[('gender','=','female')]"/>
                 <separator/>
-<!--                <filter name="filer_kids" string="Kids" domain="[('age','&lt;=', 5)]"/>-->
+                <!--                <filter name="filer_kids" string="Kids" domain="[('age','&lt;=', 5)]"/>-->
                 <separator/>
                 <filter name="filer_archived" string="Archived" domain="[('active','=', False)]"/>
                 <group expand="0" string="Group By">
@@ -45,10 +45,19 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                     <field name="image" widget="image" class="oe_avatar"/>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                       <div class="oe_title">
+                            <h4>
+                                <field name="ref" readonly="1"/>
+                            </h4>
+                            <h2>
+                                <field name="name"/>
+                            </h2>
+                        </div>
                     <group>
+
                         <group>
-                            <field name="name"/>
+
                             <field name="date_of_birth"/>
                             <field name="age"/>
                             <field name="appointment_count"/>
@@ -59,6 +68,13 @@
                             <field name="gender" invisible="context.get('hide_gender')"/>
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Other Information" name="other_info">
+                            <field name="parent" attrs="{'invisible':[('age','&gt;=',18)]}"/>
+                            <field name="marital_status" attrs="{'invisible':[('age','&lt;',18)]}"/>
+
+                            <field name="partner_name" attrs="{'readonly':[('marital_status','!=','married')],
+                                                                'required':[('marital_status','=','married')]}"/>
                         </group>
                     </group>
                 </sheet>

@@ -28,7 +28,7 @@ class Classroom(models.Model):
         ('draft', 'Draft'),
         ('level1', 'Level 1'),
         ('level2', 'Level 2'),
-    ], string='Status', default='draft', required=True,tracking=True)
+    ], string='Status', default='draft', required=True, tracking=True)
 
     def action_approve(self):
         for record in self:
