@@ -29,7 +29,13 @@ class Classroom(models.Model):
         ('level1', 'Level 1'),
         ('level2', 'Level 2'),
     ], string='Status', default='draft', required=True, tracking=True)
+    sequence = fields.Char(string="Sequence",readonly=True,copy=False)
 
+    @api.model
+    def create(self, vals):
+        if vals.get('sequence', 'New') == 'New':
+            vals['sequence'] = self.env['ir.sequence'].next_by_code('classroom.sequence') or 'New'
+        return super(Classroom, self).create(vals)
     def action_approve(self):
         for record in self:
             if record.state == 'draft':

@@ -24,7 +24,7 @@
                         <group>
                             <group>
                                 <field name="name"/>
-
+                                <field name="sequence"/>
                                 <field name="dob"/>
                                 <field name="age"/>
                             </group>
@@ -95,6 +95,7 @@
             <field name="model">classroom</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="sequence"/>
                     <field name="name"/>
                     <field name="dob"/>
                     <field name="age"/>

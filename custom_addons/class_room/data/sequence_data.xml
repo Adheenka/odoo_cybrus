@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define the sequence for classroom model -->
+        <record id="sequence_classroom_sequence" model="ir.sequence">
+            <field name="name">Classroom Sequence</field>
+            <field name="code">classroom.sequence</field>
+            <field name="prefix">CLS</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
