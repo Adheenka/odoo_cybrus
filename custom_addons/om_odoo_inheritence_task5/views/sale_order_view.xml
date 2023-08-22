@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+<!--<odoo>-->
+<!--    <data>-->
+<!--        &lt;!&ndash; Inherit sale order form view &ndash;&gt;-->
+<!--        <record id="view_order_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">sale.order.inherit</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='partner_id']" position="after">-->
+<!--                    <field name="custom_user_id" string="Custom User"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </data>-->
+<!--</odoo>-->
+
 <odoo>
     <data>
         <!-- Inherit sale order form view -->
