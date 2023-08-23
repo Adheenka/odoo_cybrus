@@ -12,13 +12,14 @@
                         <button string="Print Excel" type="object" name="print_excel_report" class="oe_highlight"/>
 
                     </header>
-                      <header>
+                    <header>
 
                         <button name="action_approve" string="Approve" type="object" class="oe_highlight"
-                                states="draft,level1" />
-                        <button name="action_draft" data-hotkey="y" string="Reset To Draft" type="object" states="level2"/>
+                                states="draft,level1"/>
+                        <button name="action_draft" data-hotkey="y" string="Reset To Draft" type="object"
+                                states="level2"/>
                         <field name="state" widget="statusbar" nolabel="1"
-                           statusbar_visible="draft,level1,level2"/>
+                               statusbar_visible="draft,level1,level2"/>
                     </header>
                     <sheet>
                         <group>
@@ -30,7 +31,7 @@
                             </group>
 
                             <group>
-                                 <label for="address_street" string="Address"/>
+                                <label for="address_street" string="Address"/>
                                 <div class="o_address_format">
                                     <div class="o_address_street">
                                         <div class="o_address_format_div">
@@ -88,6 +89,54 @@
                 </form>
             </field>
         </record>
+        <record model="ir.ui.view" id="view_classroom_graph">
+            <field name="name">classroom.graph</field>
+            <field name="model">classroom</field>
+            <field name="arch" type="xml">
+                <graph string="Classroom Statistics" type="bar">
+                    <field name="state"/>
+                    <field name="age" type="avg"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_classroom_kanban">
+            <field name="name">classroom.kanban</field>
+            <field name="model">classroom</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="age"/>
+                    <field name="state"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb16">
+                                    <div class="o_kanban_record_headings mt4">
+                                        <strong class="o_kanban_record_title">
+                                            <span>
+                                                <field name="name"/>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                    <strong>
+                                        <field name="age"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left text-muted">
+                                        <span>
+                                            <field name="state"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
 
 
         <record model="ir.ui.view" id="view_classroom_tree">
@@ -100,10 +149,10 @@
                     <field name="dob"/>
                     <field name="age"/>
 
-                <field name="state" decoration-success="state == 'done'"
-                       decoration-info="state == 'level1'"
+                    <field name="state" decoration-success="state == 'done'"
+                           decoration-info="state == 'level1'"
 
-                       decoration-warning="state == 'level2'" widget="badge"/>
+                           decoration-warning="state == 'level2'" widget="badge"/>
                 </tree>
             </field>
         </record>
@@ -135,7 +184,7 @@
             <field name="name">student</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">classroom</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,kanban,graph</field>
             <field name="context">{ }</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
@@ -143,7 +192,20 @@
                 </p>
             </field>
         </record>
+        <!-- Actions for Kanban and Graph Views -->
+        <record id="action_classroom_kanban" model="ir.actions.act_window">
+            <field name="name">Classroom Kanban</field>
+            <field name="res_model">classroom</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_classroom_kanban"/>
+        </record>
 
+        <record id="action_classroom_graph" model="ir.actions.act_window">
+            <field name="name">Classroom Graph</field>
+            <field name="res_model">classroom</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_classroom_graph"/>
+        </record>
         <menuitem
                 id="menu_classroom"
                 name="student"

@@ -12,8 +12,21 @@
 
             sequence="0"/>
 
+    <!--    &lt;!&ndash; commit 45 &ndash;&gt;-->
+    <!--    <menuitem-->
+    <!--            id="menu_classroom_kanban"-->
+    <!--            name="Kanban View"-->
+    <!--            parent="menu_classroom_master"-->
+    <!--            action="action_classroom_kanban"-->
+    <!--            sequence="1"/>-->
 
 
+    <!--    <menuitem-->
+    <!--            id="menu_classroom_graph"-->
+    <!--            name="Graph View"-->
+    <!--            parent="menu_classroom_master"-->
+    <!--            action="action_classroom_graph"-->
+    <!--            sequence="2"/>-->
 
 
 </odoo>
