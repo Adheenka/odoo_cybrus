@@ -2,15 +2,21 @@
 <odoo>
     <data>
 
+
         <record model="ir.ui.view" id="view_classroom_form">
             <field name="name">classroom.form</field>
             <field name="model">classroom</field>
             <field name="arch" type="xml">
                 <form>
+
                     <header>
                         <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
                         <button string="Print Excel" type="object" name="print_excel_report" class="oe_highlight"/>
-
+                        <button string="Get Sales"
+                        class="oe_highlight"
+                        type="object"
+                        name="action_get_sales"
+                        style="float: left; margin-right: 10px;"/>
                     </header>
                     <header>
 
@@ -21,7 +27,7 @@
                         <field name="state" widget="statusbar" nolabel="1"
                                statusbar_visible="draft,level1,level2"/>
                     </header>
-                    <sheet>
+                    <sheet>+
                         <group>
                             <group>
                                 <field name="name"/>
@@ -89,6 +95,9 @@
                 </form>
             </field>
         </record>
+
+
+
         <record model="ir.ui.view" id="view_classroom_graph">
             <field name="name">classroom.graph</field>
             <field name="model">classroom</field>

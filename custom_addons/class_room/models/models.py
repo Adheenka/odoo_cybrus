@@ -6,6 +6,32 @@ from datetime import date
 from odoo import models, fields, api
 
 
+class SaleExtension(models.Model):
+    _inherit = 'sale.order'
+
+    confirmed_sales_count = fields.Integer(
+        compute='_compute_confirmed_sales_count',
+        string='Confirmed Sales Count',
+        store=True,
+    )
+
+    @api.depends('partner_id')
+    def _compute_confirmed_sales_count(self):
+        for order in self:
+            confirmed_sales = self.search_count([
+                ('partner_id', '=', order.partner_id.id),
+                ('state', '=', 'sale'),
+            ])
+            order.confirmed_sales_count = confirmed_sales
+
+    def action_get_confirmed_sales(self):
+        confirmed_sales = self.search([
+            ('partner_id', '=', self.partner_id.id),
+            ('state', '=', 'sale'),
+        ])
+        action = self.env.ref('sale.action_orders').read()[0]
+        action['domain'] = [('id', 'in', confirmed_sales.ids)]
+        return action
 class Classroom(models.Model):
     _name = "classroom"
     _description = "Classroom Model"
@@ -30,6 +56,31 @@ class Classroom(models.Model):
         ('level2', 'Level 2'),
     ], string='Status', default='draft', required=True, tracking=True)
     sequence = fields.Char(string="Sequence",readonly=True,copy=False)
+    partner_id = fields.Many2one('res.partner', string='Partner')
+    confirmed_sales_count = fields.Integer(
+        compute='_compute_confirmed_sales_count',
+        string='Confirmed Sales Count',
+        store=True,
+    )
+
+    @api.depends('partner_id')
+    def _compute_confirmed_sales_count(self):
+        for classroom in self:
+            confirmed_sales = self.env['sale.order'].search_count([
+                ('partner_id', '=', classroom.partner_id.id),
+                ('state', '=', 'sale'),
+            ])
+            classroom.confirmed_sales_count = confirmed_sales
+
+    def action_get_sales(self):
+        return {
+            'name': 'Sales Orders',
+            'res_model': 'sale.order',
+            'view_mode': 'tree,form',
+            'domain': [('partner_id', '=', self.partner_id.id), ('state', '=', 'sale')],
+            'type': 'ir.actions.act_window',
+        }
+
 
     @api.model
     def create(self, vals):
@@ -211,3 +262,4 @@ class ResPartner(models.Model):
         country = self.env['res.country'].browse(country_id)
         states = self.env['res.country.state'].search([('country_id', '=', country.id)])
         return states
+
