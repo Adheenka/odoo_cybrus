@@ -76,10 +76,18 @@ class Classroom(models.Model):
         return {
             'name': 'Sales Orders',
             'res_model': 'sale.order',
-            'view_mode': 'tree,form',
-            'domain': [('partner_id', '=', self.partner_id.id), ('state', '=', 'sale')],
+            'view_mode': 'list,form',
+            'domain': [('state', '=', 'sale')],
             'type': 'ir.actions.act_window',
         }
+    # def action_get_sales(self):
+    #     return {
+    #         'name': 'Sales Orders',
+    #         'res_model': 'sale.order',
+    #         'view_mode': 'tree,form,list',
+    #         'domain': [('partner_id', '=', self.partner_id.id), ('state', '=', 'sale')],
+    #         'type': 'ir.actions.act_window',
+    #     }
 
 
     @api.model

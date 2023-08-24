@@ -12,11 +12,7 @@
                     <header>
                         <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
                         <button string="Print Excel" type="object" name="print_excel_report" class="oe_highlight"/>
-                        <button string="Get Sales"
-                        class="oe_highlight"
-                        type="object"
-                        name="action_get_sales"
-                        style="float: left; margin-right: 10px;"/>
+                        <button string="Get Sales" class="oe_highlight" type="object" name="action_get_sales"/>
                     </header>
                     <header>
 
