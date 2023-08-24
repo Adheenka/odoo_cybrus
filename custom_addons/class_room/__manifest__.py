@@ -23,6 +23,7 @@
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
         'security/security.xml',
+        'wizard/classroom_report_view.xml',
         'views/views.xml',
         'views/menu.xml',
         'report/report.xml',

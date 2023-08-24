@@ -6,6 +6,7 @@ from datetime import date
 from odoo import models, fields, api
 
 
+#             trash code
 class SaleExtension(models.Model):
     _inherit = 'sale.order'
 
@@ -57,7 +58,7 @@ class Classroom(models.Model):
     ], string='Status', default='draft', required=True, tracking=True)
     sequence = fields.Char(string="Sequence",readonly=True,copy=False)
     partner_id = fields.Many2one('res.partner', string='Partner')
-
+    report_date = fields.Date(string="Report Date")
     confirmed_sales_count = fields.Integer(
         compute='_compute_confirmed_sales_count',
         string='Confirmed Sales Count',

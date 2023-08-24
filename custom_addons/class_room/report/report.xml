@@ -25,4 +25,13 @@
         <field name="binding_model_id" ref="model_classroom"/>
         <field name="binding_type">report</field>
     </record>
+    <record id="action_print_report" model="ir.actions.report">
+        <field name="name">student classroom</field>
+        <field name="model">classroom.report</field>
+        <field name="report_type">web-pdf</field>
+        <field name="report_name">class_room.report_student</field>
+        <field name="report_file">class_room.report_student</field>
+        <field name="binding_model_id" ref="model_classroom_report"/>
+        <field name="binding_type">report</field>
+    </record>
 </odoo>

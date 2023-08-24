@@ -11,6 +11,18 @@
             parent="menu_classroom_root"
 
             sequence="0"/>
+    <menuitem
+            id="menu_report"
+            name="report"
+            parent="menu_classroom_root"
+
+            sequence="40"/>
+    <menuitem
+            id="menu_classroom_report"
+            name="classroom_report"
+            parent="menu_report"
+            action="action_print_report"
+            sequence="10"/>
 
     <!--    &lt;!&ndash; commit 45 &ndash;&gt;-->
     <!--    <menuitem-->
