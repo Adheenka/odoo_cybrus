@@ -57,20 +57,20 @@ class Classroom(models.Model):
     ], string='Status', default='draft', required=True, tracking=True)
     sequence = fields.Char(string="Sequence",readonly=True,copy=False)
     partner_id = fields.Many2one('res.partner', string='Partner')
+
     confirmed_sales_count = fields.Integer(
         compute='_compute_confirmed_sales_count',
         string='Confirmed Sales Count',
-        store=True,
+        store=False,
     )
 
-    @api.depends('partner_id')
-    def _compute_confirmed_sales_count(self):
-        for classroom in self:
-            confirmed_sales = self.env['sale.order'].search_count([
-                ('partner_id', '=', classroom.partner_id.id),
-                ('state', '=', 'sale'),
-            ])
-            classroom.confirmed_sales_count = confirmed_sales
+    sales_order_count = fields.Integer('Sales Order Count', compute='_compute_sales_order_count')
+
+    def _compute_sales_order_count(self):
+        sale_order_data = self.env['sale.order'].with_context(active_test=False).read_group([], [], [])
+        total_count = sum(data.get('__count', 0) for data in sale_order_data)
+        for record in self:
+            record.sales_order_count = total_count
 
     def action_get_sales(self):
         return {

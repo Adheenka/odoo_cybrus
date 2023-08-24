@@ -10,9 +10,11 @@
                 <form>
 
                     <header>
+
+
                         <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
                         <button string="Print Excel" type="object" name="print_excel_report" class="oe_highlight"/>
-                        <button string="Get Sales" class="oe_highlight" type="object" name="action_get_sales"/>
+                        <!--                        <button string="Get Sales" class="oe_highlight" type="object" name="action_get_sales"/>-->
                     </header>
                     <header>
 
@@ -23,7 +25,26 @@
                         <field name="state" widget="statusbar" nolabel="1"
                                statusbar_visible="draft,level1,level2"/>
                     </header>
-                    <sheet>+
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_get_sales"  type="object" class="oe_stat_button" icon="fa-usd">
+                                <div class="o_stat_info">
+
+                                    <field name="sales_order_count" class="o_stat_value"/>
+                                    <span class="o_stat_text">Confirm Sales</span>
+                                </div>
+                            </button>
+                        </div>
+                        <!--                        <div class="oe_Button_box" name="button_box">-->
+                        <!--                            <button name="action_get_sales" string="Get Sales" type="object" class="oe_stat_button" icon="fa-calendar">-->
+                        <!--                                <div class="o_stat_info">-->
+                        <!--                                    <field name="confirmed_sales_count" class="o_stat_value"/>-->
+                        <!--                                    <span class="o_stat_text">Confirmed Sales Count:</span>-->
+
+                        <!--                                </div>-->
+                        <!--                            </button>-->
+                        <!--                        </div>-->
                         <group>
                             <group>
                                 <field name="name"/>
@@ -91,7 +112,6 @@
                 </form>
             </field>
         </record>
-
 
 
         <record model="ir.ui.view" id="view_classroom_graph">
