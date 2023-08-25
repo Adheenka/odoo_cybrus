@@ -1,36 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <odoo>
 
-        <!-- Wizard view for report generation -->
-        <record id="view_report_classroom_form" model="ir.ui.view">
-            <field name="name">classroom.report.form</field>
-            <field name="model">classroom.report</field>
-            <field name="arch" type="xml">
-                <form string="Generate Report">
-                    <group>
-                        <field name="classroom_id"/>
-                     </group>
-                     <group>
-                        <field name="to_date"/>
-                        <field name="from_date"/>
-
-                    </group>
-                    <footer>
-                        <button string="Generate Report" class="oe_highlight" type="object" name="action_print_report"/>
-                        <button string="Cancel" class="oe_secondary" special="cancel"/>
-                    </footer>
-                </form>
-            </field>
-        </record>
-
+    <record id="view_classroom_report_form" model="ir.ui.view">
+        <field name="name">classroom.report.wizard.form</field>
+        <field name="model">classroom.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Report">
+                <group>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="dealer"/>
+                </group>
+                <footer>
+                    <button string="Generate Report" class="oe_highlight" type="object" name="action_print_report"/>
+                    <button string="Cancel" class="oe_secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
     <record id="action_report_classroom" model="ir.actions.act_window">
-        <field name="name">classroom</field>
+        <field name="name">Generate Classroom Report</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">classroom.report</field>
+        <field name="res_model">classroom.report.wizard</field>
         <field name="view_mode">form</field>
-         <field name="view_id" ref="view_report_classroom_form"/>
 
         <field name="target">new</field>
     </record>
 
 </odoo>
+
+        <!--<odoo>-->
+
+        <!--        &lt;!&ndash; Wizard view for report generation &ndash;&gt;-->
+        <!--        <record id="view_report_classroom_form" model="ir.ui.view">-->
+        <!--            <field name="name">classroom.report.form</field>-->
+        <!--            <field name="model">classroom.report</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="Generate Report">-->
+        <!--                    <group>-->
+        <!--                        <field name="classroom_id"/>-->
+        <!--                     </group>-->
+        <!--                     <group>-->
+        <!--                        <field name="to_date"/>-->
+        <!--                        <field name="from_date"/>-->
+
+        <!--                    </group>-->
+        <!--                    <footer>-->
+        <!--                        <button string="Generate Report" class="oe_highlight" type="object" name="action_print_report"/>-->
+        <!--                        <button string="Cancel" class="oe_secondary" special="cancel"/>-->
+        <!--                    </footer>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!--    <record id="action_report_classroom" model="ir.actions.act_window">-->
+        <!--        <field name="name">classroom</field>-->
+        <!--        <field name="type">ir.actions.act_window</field>-->
+        <!--        <field name="res_model">classroom.report</field>-->
+        <!--        <field name="view_mode">form</field>-->
+        <!--         <field name="view_id" ref="view_report_classroom_form"/>-->
+
+        <!--        <field name="target">new</field>-->
+        <!--    </record>-->
+
+        <!--</odoo>-->

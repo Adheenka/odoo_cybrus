@@ -8,6 +8,16 @@
             report_type="qweb-pdf"
             name="class_room.report_student"
             file="class_room.report_student"/>
+
+
+    <record id="report_classroom_details" model="ir.actions.report">
+        <field name="name">Classroom Details</field>
+        <field name="model">classroom.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">class_room.report_classroom_details</field>
+        <field name="binding_model_id" ref="model_classroom"/>
+    </record>
+
     <!--    <report-->
     <!--            id="report_student_card_xlsx"-->
     <!--            model="classroom"-->
@@ -37,13 +47,14 @@
     <!--        <field name="binding_type">report</field>-->
     <!--    </record>-->
 
-    <record id="action_report_classroom" model="ir.actions.report">
-    <field name="name">Classroom Report</field>
-    <field name="model">classroom.report</field>
-    <field name="report_type">qweb-pdf</field>
-    <field name="report_name">class_room.report_classroom_details</field>
-    <field name="binding_model_id" ref="model_classroom_report"/>
-    <field name="binding_type">report</field>
-</record>
+
+    <!--    <record id="action_report_classroom" model="ir.actions.report">-->
+    <!--        <field name="name">Classroom Report</field>-->
+    <!--        <field name="model">classroom.report.wizard</field>-->
+    <!--        <field name="report_type">qweb-pdf</field>-->
+    <!--        <field name="report_name">class_room.report_classroom_details</field>-->
+    <!--        <field name="binding_model_id" ref="model_classroom_report_wizard"/>-->
+    <!--        <field name="binding_type">report</field>-->
+    <!--    </record>-->
 
 </odoo>

@@ -26,9 +26,10 @@
         'wizard/classroom_report_view.xml',
         'views/views.xml',
         'views/menu.xml',
+        'report/classroom_details.xml',
         'report/report.xml',
         'report/student_card.xml',
-        'report/classroom_details.xml',
+
 
 
 
