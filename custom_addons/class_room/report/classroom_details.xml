@@ -1,52 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_classroom">
+
+    <template id="report_student_detail">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <div class="oe structure"/>
-                        <div class="text-center">
-                            <h2>Classroom Report</h2>
-                        </div>
-                        <table class="table table-bordered">
+            <t t-call="web.external_layout">
+
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="text-center">
+                        <h1 style="text-align:center;">Student Report</h1>
+                    </div>
+                    <table>
+
+                        <tr>
+                            <td>Date from</td>
+                            <td>:</td>
+                            <td>
+                                <t t-if="form.get('start_date')">
+                                    <t t-esc="form['start_date']"/>
+                                </t>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Date to</td>
+                            <td>:</td>
+                            <td>
+                                <t t-if="form.get('end_date')">
+                                    <t t-esc="form['end_date']"/>
+                                </t>
+
+                            </td>
+                        </tr>
+                    </table>
+
+                    <row>
+                        <table class="table table-bordered mt-3">
                             <thead>
-                                <tr>
-                                    <th>SONO</th>
-                                    <th>Name</th>
-                                    <th>Total Marks</th>
-                                    <th>Date</th>
+                                <tr class="text-info">
+                                    <th name="th_seq_no" class="text-left">
+                                        <span>SQNO:</span>
+                                    </th>
+                                    <th name="th_name" class="text-left">
+                                        <span>Name</span>
+                                    </th>
+                                    <th name="th_total_marks" class="text-left">
+                                        <span>Total Marks</span>
+                                    </th>
+                                    <th name="th_date" class="text-left">
+                                        <span>Date</span>
+                                    </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <t t-foreach="student_detail" t-as="student">
+
                                 <tr>
-                                    <td><t t-esc="doc.sequence"/></td>
-                                    <td><t t-esc="doc.name"/></td>
-                                    <td><t t-esc="doc.total_marks_all"/></td>
-                                    <td><t t-esc="doc.report_date"/></td>
+                                    <td>
+                                        <t t-esc="student['sequence']"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="student['name']"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="student['total_marks_all']"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="student['date']"/>
+                                    </td>
                                 </tr>
-                                <t t-foreach="doc.students" t-as="student">
-                                    <tr>
-                                        <td><t t-esc="student.sequence"/></td>
-                                        <td><t t-esc="student.name"/></td>
-                                        <td><t t-esc="student.total_marks"/></td>
-                                        <td><t t-esc="student.report_date"/></td>
-                                    </tr>
-                                </t>
-                            </tbody>
+
+                            </t>
                         </table>
-                    </div>
-                </t>
+
+
+                    </row>
+
+
+                </div>
             </t>
         </t>
     </template>
-<!--        <report-->
-<!--            action="report_classroom_details"-->
-<!--            model="classroom.report.wizard"-->
-<!--            string="Classroom Students Details Report"-->
-<!--            report_type="qweb-pdf"-->
-<!--            name="class_room.report_classroom"-->
-<!--            file="class_room.report_classroom"/>-->
 
 </odoo>
 

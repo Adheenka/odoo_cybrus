@@ -8,9 +8,9 @@
         <field name="arch" type="xml">
             <form string="Generate Report">
                 <group>
-                    <field name="from_date"/>
-                    <field name="to_date"/>
-                    <field name="dealer"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+<!--                    <field name="dealer"/>-->
                 </group>
                 <footer>
                     <button string="Generate Report" class="oe_highlight" type="object" name="action_print_report"/>

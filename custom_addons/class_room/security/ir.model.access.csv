@@ -3,7 +3,7 @@ access.classroom,access_classroom,class_room.model_classroom,base.group_user,1,1
 access.marklist,access_marklist,class_room.model_marklist,base.group_user,1,1,1,1
 access.classroom_level1,access_classroom_level1,class_room.model_classroom,group_level1,1,1,1,0
 access.classroom_level2,access_classroom_level2,class_room.model_classroom,group_level2,1,1,1,0
-access.classroom.report.wizard,access_classroom_report_wizard,class_room.model_classroom_report_wizard,base.group_user,1,1,1,1
+access_classroom_report_wizard,access.classroom.report.wizard,class_room.model_classroom_report_wizard,,1,1,1,1
 
 
 

@@ -10,21 +10,28 @@
             file="class_room.report_student"/>
 
 
-<!--    <record id="report_classroom_details" model="ir.actions.report">-->
-<!--        <field name="name">Classroom Details</field>-->
-<!--        <field name="model">classroom.report.wizard</field>-->
-<!--        <field name="report_type">qweb-pdf</field>-->
-<!--        <field name="report_name">class_room.report_classroom_details</field>-->
-<!--        <field name="binding_model_id" ref="model_classroom"/>-->
-<!--    </record>-->
-
-        <report
-                id="action_report_student"
-                model="classroom.report.wizard"
-                string="stufe"
-                report_type="qweb-pdf"
-                name="class_room.report_classroom"
-                file="class_room.report_classroom"/>
+    <report
+        id="action_report_student"
+        model="classroom.report.wizard"
+        string="Classroom Details"
+        report_type="qweb-pdf"
+        name="class_room.report_student_detail"
+        file="class_room.report_student_detail"
+    />
+    <!--    <report id="action_report_student"-->
+    <!--            model="classroom.report.wizard"-->
+    <!--            string="Student Detailss"-->
+    <!--            report_type="qweb-pdf"-->
+    <!--            name="class_room.report_student_detail"-->
+    <!--            file="class_room.report_student_detail"-->
+    <!--    />-->
+    <!--        <report-->
+    <!--                id="action_report_student"-->
+    <!--                model="classroom.report.wizard"-->
+    <!--                string="class_room_student_details"-->
+    <!--                report_type="qweb-pdf"-->
+    <!--                name="class_room.report_classroom"-->
+    <!--                file="class_room.report_classroom"/>-->
 
     <record id="report_student_card_xls" model="ir.actions.report">
         <field name="name">student Card Excel</field>

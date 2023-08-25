@@ -7,32 +7,32 @@ from odoo import models, fields, api
 
 
 #             trash code
-class SaleExtension(models.Model):
-    _inherit = 'sale.order'
-
-    confirmed_sales_count = fields.Integer(
-        compute='_compute_confirmed_sales_count',
-        string='Confirmed Sales Count',
-        store=True,
-    )
-
-    @api.depends('partner_id')
-    def _compute_confirmed_sales_count(self):
-        for order in self:
-            confirmed_sales = self.search_count([
-                ('partner_id', '=', order.partner_id.id),
-                ('state', '=', 'sale'),
-            ])
-            order.confirmed_sales_count = confirmed_sales
-
-    def action_get_confirmed_sales(self):
-        confirmed_sales = self.search([
-            ('partner_id', '=', self.partner_id.id),
-            ('state', '=', 'sale'),
-        ])
-        action = self.env.ref('sale.action_orders').read()[0]
-        action['domain'] = [('id', 'in', confirmed_sales.ids)]
-        return action
+# class SaleExtension(models.Model):
+#     _inherit = 'sale.order'
+#
+#     confirmed_sales_count = fields.Integer(
+#         compute='_compute_confirmed_sales_count',
+#         string='Confirmed Sales Count',
+#         store=True,
+#     )
+#
+#     @api.depends('partner_id')
+#     def _compute_confirmed_sales_count(self):
+#         for order in self:
+#             confirmed_sales = self.search_count([
+#                 ('partner_id', '=', order.partner_id.id),
+#                 ('state', '=', 'sale'),
+#             ])
+#             order.confirmed_sales_count = confirmed_sales
+#
+#     def action_get_confirmed_sales(self):
+#         confirmed_sales = self.search([
+#             ('partner_id', '=', self.partner_id.id),
+#             ('state', '=', 'sale'),
+#         ])
+#         action = self.env.ref('sale.action_orders').read()[0]
+#         action['domain'] = [('id', 'in', confirmed_sales.ids)]
+#         return action
 class Classroom(models.Model):
     _name = "classroom"
     _description = "Classroom Model"
@@ -58,9 +58,9 @@ class Classroom(models.Model):
     ], string='Status', default='draft', required=True, tracking=True)
     sequence = fields.Char(string="Sequence",readonly=True,copy=False)
     partner_id = fields.Many2one('res.partner', string='Partner')
-    report_date = fields.Date(string="Report Date")
+    date = fields.Date(string="Date")
     confirmed_sales_count = fields.Integer(
-        compute='_compute_confirmed_sales_count',
+        # compute='_compute_confirmed_sales_count',
         string='Confirmed Sales Count',
         store=False,
     )
