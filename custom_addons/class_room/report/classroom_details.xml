@@ -8,7 +8,7 @@
                 <div class="page">
                     <div class="oe_structure"/>
                     <div class="text-center">
-                        <h1 style="text-align:center;">Student Report</h1>
+                        <h1 style="text-align:center;">Students Details Report</h1>
                     </div>
                     <table>
 
@@ -35,6 +35,7 @@
                     </table>
 
                     <row>
+
                         <table class="table table-bordered mt-3">
                             <thead>
                                 <tr class="text-info">

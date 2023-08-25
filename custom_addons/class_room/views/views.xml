@@ -51,6 +51,7 @@
                                 <field name="sequence"/>
                                 <field name="dob"/>
                                 <field name="age"/>
+                                <field name="date"/>
                             </group>
 
                             <group>
