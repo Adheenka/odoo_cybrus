@@ -23,11 +23,6 @@
             </field>
         </record>
 
-
-
-
-
-
     <record id="action_report_classroom" model="ir.actions.act_window">
         <field name="name">classroom</field>
         <field name="type">ir.actions.act_window</field>
