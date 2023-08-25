@@ -9,7 +9,7 @@ class GenerateReportWizard(models.TransientModel):
 
     from_date = fields.Date(string="From Date", required=True)
     to_date = fields.Date(string="To Date", required=True)
-    classroom_id = fields.Many2one('classroom',string="classroom")
+    classroom_id = fields.Many2one("classroom", string="Student_Name")
 
     def action_print_report(self):
         classroom = self.env['classroom'].search_read([])
@@ -17,4 +17,4 @@ class GenerateReportWizard(models.TransientModel):
             'form': self.read()[0],
             'classroom': classroom,
         }
-        return self.env.ref('class_room.action_print_report').report_action(self, data=data)
+        return self.env.ref('class_room.action_report_classroom').report_action(self, data=data)

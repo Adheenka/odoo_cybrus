@@ -16,7 +16,7 @@
     <!--            name="class_room.student_card_xlsx"-->
     <!--            file="class_room.student_card_xlsx"/>-->
 
-  <record id="report_student_card_xls" model="ir.actions.report">
+    <record id="report_student_card_xls" model="ir.actions.report">
         <field name="name">student Card Excel</field>
         <field name="model">classroom</field>
         <field name="report_type">xlsx</field>
@@ -25,13 +25,25 @@
         <field name="binding_model_id" ref="model_classroom"/>
         <field name="binding_type">report</field>
     </record>
-    <record id="action_print_report" model="ir.actions.report">
-        <field name="name">student classroom</field>
-        <field name="model">classroom.report</field>
-        <field name="report_type">web-pdf</field>
-        <field name="report_name">class_room.report_student</field>
-        <field name="report_file">class_room.report_student</field>
-        <field name="binding_model_id" ref="model_classroom_report"/>
-        <field name="binding_type">report</field>
-    </record>
+
+
+    <!--    <record id="action_report_classroom" model="ir.actions.report">-->
+    <!--        <field name="name">student classroom</field>-->
+    <!--        <field name="model">classroom.report</field>-->
+    <!--        <field name="report_type">qweb-pdf</field>-->
+    <!--        <field name="report_name">class_room.report_classroom_details</field>-->
+    <!--        <field name="report_file">class_room.report_classroom_details</field>-->
+    <!--        <field name="binding_model_id" ref="model_classroom_report"/>-->
+    <!--        <field name="binding_type">report</field>-->
+    <!--    </record>-->
+
+    <record id="action_report_classroom" model="ir.actions.report">
+    <field name="name">Classroom Report</field>
+    <field name="model">classroom.report</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">class_room.report_classroom_details</field>
+    <field name="binding_model_id" ref="model_classroom_report"/>
+    <field name="binding_type">report</field>
+</record>
+
 </odoo>

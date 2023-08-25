@@ -28,6 +28,7 @@
         'views/menu.xml',
         'report/report.xml',
         'report/student_card.xml',
+        'report/classroom_details.xml',
 
 
 
