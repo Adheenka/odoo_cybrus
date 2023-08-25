@@ -10,12 +10,20 @@ class ClassroomReportWizard(models.TransientModel):
     dealer = fields.Many2one('res.partner', string='Dealer')
 
     def action_print_report(self):
-        data = {
-            'from_date': self.from_date,
-            'to_date': self.to_date,
-            'dealer_id': self.dealer.id,
+        report_data = {
+            'doc_ids': [self.id],
+            'doc_model': 'classroom',
+            'docs': self,
         }
-        return self.env.ref('class_room.action_report_classroom').report_action(self, data=data)
+        return self.env.ref('class_room.action_report_student').report_action(self, data=report_data)
+    # def action_print_report(self):
+    #     student_details = self.env['classroom'].search_read([])
+    #     data = {
+    #         'form':self.read()[0],
+    #         'student_details': 'student_details',
+    #         'docs': self,
+    #     }
+    #     return self.env.ref('class_room.action_report_student').report_action(self, data=data)
 
 
 

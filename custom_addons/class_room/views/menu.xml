@@ -20,7 +20,7 @@
             id="menu_classroom_report"
             name="classroom_report"
             parent="menu_report"
-            action="action_report_classroom"
+            action="action_report_customer"
             sequence="10"/>
 
     <!--    &lt;!&ndash; commit 45 &ndash;&gt;-->

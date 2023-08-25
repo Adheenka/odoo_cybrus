@@ -19,11 +19,12 @@
             </form>
         </field>
     </record>
-    <record id="action_report_classroom" model="ir.actions.act_window">
+    <record id="action_report_customer" model="ir.actions.act_window">
         <field name="name">Generate Classroom Report</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">classroom.report.wizard</field>
         <field name="view_mode">form</field>
+        <field name="view_id" ref="view_classroom_report_form"/>
 
         <field name="target">new</field>
     </record>
