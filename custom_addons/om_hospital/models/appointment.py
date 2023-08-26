@@ -16,6 +16,7 @@ class HospitalAppointment(models.Model):
     booking_time = fields.Date(string='Booking Date', default=fields.Date.context_today)
     prescription = fields.Html(string="Prescription")
     doctor_id = fields.Many2one('res.users', string='Docter',tracking=True)
+    # sequence = fields.Char(string="Sequence", readonly=True, copy=False)
 
     priority = fields.Selection([
         ('0', 'Normal'),
@@ -29,6 +30,18 @@ class HospitalAppointment(models.Model):
         ('cancel', 'Cancelled')],default='draft',required=True, string="status",tracking=True)
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Lines')
     hide_sales_price =fields.Boolean(striing="HIde Sales Price")
+
+    # @api.model
+    # def create(self, vals):
+    #     vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
+    #     res = super(HospitalAppointment, self).create(vals)
+    #     res.sl_number()
+    #     return res
+    @api.model
+    def create(self, vals):
+
+        vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
+        return super(HospitalAppointment, self).create(vals)
     @api.onchange('pateint_id')
     def onchange_pateint_id(self):
         self.ref = self.pateint_id.ref

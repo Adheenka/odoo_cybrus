@@ -79,6 +79,11 @@
                         title="action_cancel"
                         context="{'default_reason':'test','hide_appointment':1}"
                         attrs="{'invisible':[('state','not in',('draft','in_consultation'))]}"/>
+                <groupby name="pateint_id">
+                    <button name="action_test" string="click me" type="object" class="oe_highlight"/>
+                    <button name="edit" string="edit" type="edit" class="oe_highlight"/>
+
+                </groupby>
             </tree>
         </field>
     </record>
