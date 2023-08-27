@@ -8,7 +8,7 @@ class HospitalAppointment(models.Model):
     _description = "Hospital Appointment"
     _rec_name = 'name'
 
-    name = fields.Char(string="Sequence", default='New')
+    name = fields.Char(string="Sequence", default='New', tracking=True)
     pateint_id = fields.Many2one('hospital.pateint',ondelete='cascade')
     ref = fields.Char(string='Reference', tracking=True)
     gender = fields.Selection(related='pateint_id.gender',readonly=False)
@@ -39,7 +39,6 @@ class HospitalAppointment(models.Model):
     #     return res
     @api.model
     def create(self, vals):
-
         vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
         return super(HospitalAppointment, self).create(vals)
     @api.onchange('pateint_id')
