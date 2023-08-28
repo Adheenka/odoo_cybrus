@@ -37,6 +37,7 @@ class Classroom(models.Model):
     _name = "classroom"
     _description = "Classroom Model"
 
+
     name = fields.Char(string="Name")
     dob = fields.Date(string="Date of Birth")
     age = fields.Integer(compute="_compute_age", store=True)

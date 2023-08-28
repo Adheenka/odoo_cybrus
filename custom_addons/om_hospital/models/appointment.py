@@ -6,9 +6,11 @@ class HospitalAppointment(models.Model):
     _name = "hospital.appointment"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Hospital Appointment"
-    _rec_name = 'name'
+    _rec_name = 'ref'
 
-    name = fields.Char(string="Sequence", default='New', tracking=True)
+    name = fields.Char(string="Sequence", required=True, copy=False,
+                       readonly=True,
+                       index=True, default=lambda self: _('New'))
     pateint_id = fields.Many2one('hospital.pateint',ondelete='cascade')
     ref = fields.Char(string='Reference', tracking=True)
     gender = fields.Selection(related='pateint_id.gender',readonly=False)
@@ -31,25 +33,34 @@ class HospitalAppointment(models.Model):
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Lines')
     hide_sales_price =fields.Boolean(striing="HIde Sales Price")
 
+    @api.model
+    def create(self, vals):
+       if vals.get('name', 'New') == 'New':
+           vals['name'] = self.env['ir.sequence'].next_by_code(
+               'hospital.pateint.sequence') or 'New'
+       result = super(HospitalAppointment, self).create(vals)
+       return result
     # @api.model
     # def create(self, vals):
     #     vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
-    #     res = super(HospitalAppointment, self).create(vals)
-    #     res.sl_number()
-    #     return res
-    @api.model
-    def create(self, vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
-        return super(HospitalAppointment, self).create(vals)
+    #     return super(HospitalAppointment, self).create(vals)
+
+
+
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('name', 'New') == 'New':
+    #         vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment') or 'New'
+    #     return super(HospitalAppointment, self).create(vals)
     @api.onchange('pateint_id')
     def onchange_pateint_id(self):
         self.ref = self.pateint_id.ref
+
     def unlink(self):
         for rec in self:
             if rec.state != 'draft':
                 raise ValidationError(_("You can delete appointment only in 'Draft' state"))
-            return super(HospitalAppointment,self).unlink()
-
+            return super(HospitalAppointment, self).unlink()
     def action_test(self):
         print("button")
         return {

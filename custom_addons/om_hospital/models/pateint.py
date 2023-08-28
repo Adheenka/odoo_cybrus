@@ -38,7 +38,7 @@ class HospitalPateint(models.Model):
         return super(HospitalPateint,self).create(vals)
     def write(self, vals):
         if not self.ref and not vals.get('ref'):
-            vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.pateint')
+            vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.pateint.sequence')
         return super(HospitalPateint, self).write(vals)
 
     @api.depends('date_of_birth')
