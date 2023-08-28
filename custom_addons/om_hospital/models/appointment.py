@@ -8,9 +8,13 @@ class HospitalAppointment(models.Model):
     _description = "Hospital Appointment"
     _rec_name = 'ref'
 
-    name = fields.Char(string="Sequence", required=True, copy=False,
-                       readonly=True,
-                       index=True, default=lambda self: _('New'))
+
+
+    # name = fields.Char(string="Sequence", required=True, copy=False,
+    #                    readonly=True,
+    #                    index=True, default=lambda self: _('New'))
+    name = fields.Char(string="Sequence", required=True, copy=False, readonly=True,
+                           index=True, default=lambda self: _('New'))
     pateint_id = fields.Many2one('hospital.pateint',ondelete='cascade')
     ref = fields.Char(string='Reference', tracking=True)
     gender = fields.Selection(related='pateint_id.gender',readonly=False)
@@ -18,6 +22,7 @@ class HospitalAppointment(models.Model):
     booking_time = fields.Date(string='Booking Date', default=fields.Date.context_today)
     prescription = fields.Html(string="Prescription")
     doctor_id = fields.Many2one('res.users', string='Docter',tracking=True)
+    operation = fields.Many2one('hospital.operation', string="Operation")
     # sequence = fields.Char(string="Sequence", readonly=True, copy=False)
 
     priority = fields.Selection([
@@ -35,11 +40,18 @@ class HospitalAppointment(models.Model):
 
     @api.model
     def create(self, vals):
-       if vals.get('name', 'New') == 'New':
-           vals['name'] = self.env['ir.sequence'].next_by_code(
-               'hospital.pateint.sequence') or 'New'
-       result = super(HospitalAppointment, self).create(vals)
-       return result
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'hospital.appointment') or _('New')
+            result = super(HospitalAppointment, self).create(vals)
+            return result
+    # @api.model
+    # def create(self, vals):
+    #    if vals.get('name', 'New') == 'New':
+    #        vals['name'] = self.env['ir.sequence'].next_by_code(
+    #            'hospital.pateint.sequence') or 'New'
+    #    result = super(HospitalAppointment, self).create(vals)
+    #    return result
     # @api.model
     # def create(self, vals):
     #     vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
