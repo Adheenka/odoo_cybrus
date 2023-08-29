@@ -46,6 +46,8 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+
+
                     <div class="alert alert-warning text-center o_form_heading" role="alert"
                          attrs="{'invisible':[('is_birthday','=',False)]}">
                         <a class="close" data-dismiss="alert" href="#">X</a>
@@ -53,20 +55,21 @@
                             <strong>Today is Birthday!</strong>
                         </div>
                         <div>
-                            Wish <field name="name" readonly="1"/>
+                            Wish
+                            <field name="name" readonly="1"/>
                         </div>
 
                     </div>
                     <field name="image" widget="image" class="oe_avatar"/>
-                       <div class="oe_title">
-                            <h4>
-                                <field name="ref" readonly="1"/>
-                            </h4>
-                            <h2>
-                                <label for="name" string="Name" class="oe_edit_only"/>
-                                <field name="name"/>
-                            </h2>
-                        </div>
+                    <div class="oe_title">
+                        <h4>
+                            <field name="ref" readonly="1"/>
+                        </h4>
+                        <h2>
+                            <label for="name" string="Name" class="oe_edit_only"/>
+                            <field name="name"/>
+                        </h2>
+                    </div>
                     <group>
 
                         <group>
@@ -89,6 +92,11 @@
 
                             <field name="partner_name" attrs="{'readonly':[('marital_status','!=','married')],
                                                                 'required':[('marital_status','=','married')]}"/>
+                        </group>
+                        <group>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="website" widget="url"/>
                         </group>
                     </group>
                 </sheet>

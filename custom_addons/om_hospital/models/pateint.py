@@ -23,6 +23,9 @@ class HospitalPateint(models.Model):
     marital_status = fields.Selection([('married', 'Married'), ('single', 'Single')])
     partner_name = fields.Char(string="Partner Name")
     is_birthday = fields.Boolean(string="Birthday", compute='_compute_is_birthday')
+    phone=fields.Char(string="Phone Number")
+    email=fields.Char(string="Email")
+    website=fields.Char(string="Website")
 
     @api.depends('date_of_birth')
     def _compute_is_birthday(self):

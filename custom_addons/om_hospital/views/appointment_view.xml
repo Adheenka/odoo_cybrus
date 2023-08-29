@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="actions_mark_as_done" model="ir.actions.server">
+        <field name="name">Mark as Done</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="binding_model_id" ref="model_hospital_appointment"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                if record.state == "in_consultation":
+                    record.action_done()
+        </field>
+    </record>
     <record id="view_hospital_appointment_activity" model="ir.ui.view">
         <field name="name">hospital.appointment.activity</field>
         <field name="model">hospital.appointment</field>
@@ -72,8 +85,8 @@
                        decoration-info="state == 'draft'"
                        decoration-danger="state=='cancel'"
                        decoration-warning="state == 'in_consultation'" widget="badge"/>
-                <button name="action_done"  type="object"  class="fa fa-check btn-success"
-                           attrs="{'invisible':[('state','!=','in_consultation')]}"/>
+                <button name="action_done" type="object" class="fa fa-check btn-success"
+                        attrs="{'invisible':[('state','!=','in_consultation')]}"/>
 
                 <button name="%(om_hospital.action_cancel_appointment)d" type="action" class="fa fa-times btn-danger"
                         title="action_cancel"
@@ -125,7 +138,7 @@
                             <field name="ref" readonly="1" force_save="1"/>
                             <field name="gender"/>
                             <field name="doctor_id" widget="many2one_avatar_user"/>
-                             <field name="operation"/>
+                            <field name="operation"/>
 
 
                         </group>
