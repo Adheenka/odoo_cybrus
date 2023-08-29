@@ -46,6 +46,17 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="alert alert-warning text-center o_form_heading" role="alert"
+                         attrs="{'invisible':[('is_birthday','=',False)]}">
+                        <a class="close" data-dismiss="alert" href="#">X</a>
+                        <div>
+                            <strong>Today is Birthday!</strong>
+                        </div>
+                        <div>
+                            Wish <field name="name" readonly="1"/>
+                        </div>
+
+                    </div>
                     <field name="image" widget="image" class="oe_avatar"/>
                        <div class="oe_title">
                             <h4>
@@ -70,6 +81,7 @@
                             <field name="gender" invisible="context.get('hide_gender')"/>
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="active" invisible="1"/>
+                            <field name="is_birthday"/>
                         </group>
                         <group string="Other Information" name="other_info">
                             <field name="parent" attrs="{'invisible':[('age','&gt;=',18)]}"/>
