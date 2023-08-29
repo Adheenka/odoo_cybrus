@@ -10,6 +10,8 @@ class HospitalOperation(models.Model):
     doctor_id = fields.Many2one('res.users' , string="Doctor")
 
     operation_name = fields.Char(string="Name")
+    reference_record = fields.Reference(
+        selection=[('hospital.pateint', 'Patient'), ('hospital.appointment', 'Appointment')])
     # reference_record = fields.Reference(
     #     selection=[('hospital.patient', 'Hospital'), ('hospital.appointment', 'Appointment')])
     # sequence = fields.Integer(string="Sequence", default=1)

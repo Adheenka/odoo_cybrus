@@ -5,8 +5,9 @@
         <field name="model">hospital.operation</field>
         <field name="arch" type="xml">
             <tree>
-<!--                <field name="sequence" widget="handle"/>-->
+                <!--                <field name="sequence" widget="handle"/>-->
                 <field name="doctor_id"/>
+                <field name="operation_name"/>
                 <field name="operation_name"/>
             </tree>
         </field>
@@ -18,19 +19,19 @@
             <form>
                 <sheet>
                     <group>
-                    <group>
-                        <field name="doctor_id"/>
-<!--                        <field name="reference_record"/>-->
+                        <group>
+                            <field name="doctor_id"/>
+                            <field name="reference_record"/>
+                            <!--                        <field name="reference_record"/>-->
+                        </group>
+                        <group>
+                            <field name="operation_name"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="operation_name"/>
-                    </group>
-                </group>
                 </sheet>
             </form>
         </field>
     </record>
-
 
 
     <record id="action_hospital_operation" model="ir.actions.act_window">
