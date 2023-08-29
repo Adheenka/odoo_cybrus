@@ -1,6 +1,6 @@
 from odoo import api,fields, models, _
 from odoo.exceptions import ValidationError
-
+import random
 
 class HospitalAppointment(models.Model):
     _name = "hospital.appointment"
@@ -24,6 +24,7 @@ class HospitalAppointment(models.Model):
     prescription = fields.Html(string="Prescription")
     doctor_id = fields.Many2one('res.users', string='Docter',tracking=True)
     operation = fields.Many2one('hospital.operation', string="Operation")
+    progress = fields.Integer(string="Progress", compute='_compute_progress')
     # sequence = fields.Char(string="Sequence", readonly=True, copy=False)
 
     priority = fields.Selection([
@@ -39,6 +40,30 @@ class HospitalAppointment(models.Model):
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Lines')
     hide_sales_price =fields.Boolean(striing="HIde Sales Price")
 
+    @api.depends('state')
+    def _compute_progress(self):
+        for rec in self:
+            if rec.state == 'draft':
+                progress = random.randrange(10, 25)
+            elif rec.state == 'in_consultation':
+                progress = random.randrange(26, 99)
+            elif rec.state == 'done':
+                progress = 100
+            else:
+                progress = 0
+            rec.progress = progress
+    # @api.depends('state')
+    # def _compute_progress(self):
+    #     for rec in self:
+    #         if rec.state == 'draft':
+    #             progress = 25
+    #         elif rec.state == 'in_consultation':
+    #             progress = 50
+    #         elif rec.state == 'done':
+    #             progress = 100
+    #         else:
+    #             progress = 0
+    #         rec.progress = progress
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):

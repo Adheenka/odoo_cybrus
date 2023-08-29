@@ -81,6 +81,7 @@
                 <field name="booking_time" optional="show"/>
                 <field name="activity_ids" widget="list_activity"/>
 
+
                 <field name="state" decoration-success="state == 'done'"
                        decoration-info="state == 'draft'"
                        decoration-danger="state=='cancel'"
@@ -97,6 +98,7 @@
                     <button name="edit" string="edit" type="edit" class="oe_highlight"/>
 
                 </groupby>
+                <field name="progress" widget="progressbar"/>
             </tree>
         </field>
     </record>
@@ -156,6 +158,9 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="Progress" name="progress">
+                            <field name="progress" widget="gauge" options="{'style':'width:100px ; height:100px;'}"/>
+                        </page>
                         <page string="Prescription" name="prescription">
 
                             <field name="prescription" placeholder="Enter Your prescription"
