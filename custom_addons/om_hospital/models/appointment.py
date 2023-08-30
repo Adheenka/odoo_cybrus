@@ -39,6 +39,7 @@ class HospitalAppointment(models.Model):
         ('cancel', 'Cancelled')],default='draft',required=True, string="status",tracking=True)
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Lines')
     hide_sales_price =fields.Boolean(striing="HIde Sales Price")
+    duration = fields.Float(string="Duration", tracking='6')
 
     @api.depends('state')
     def _compute_progress(self):
