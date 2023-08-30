@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <!-- Index -->
     <record id="menu_student_form12" model="website.menu">
         <field name="name">Create Student</field>
@@ -25,7 +26,7 @@
                                        class="form-control" required="required"/>
                             </div>
                             <div class="clearfix oe_login_buttons">
-                                <button type="submit" class="btn btn-primary pull-left">Submit</button>
+                                <button type="submit" class="btn btn-primary pull-left">Create Student</button>
                             </div>
                         </form>
                     </div>
@@ -49,8 +50,7 @@
                             <div class="row">
                                 <div class="col-lg-8">
                                     <div class="alert alert-success" role="status">
-                                        Your message has been sent successfully.
-                                        We will get back to you shortly.
+                                        Your email and phone no verifiyed
                                     </div>
                                     <p>
                                         We will get back to you shortly.
