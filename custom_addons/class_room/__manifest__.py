@@ -15,8 +15,7 @@
     'version': '1.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale',
-                'report_xlsx'],
+    'depends': ['base','sale','website','report_xlsx'],
 
     # always loaded
     'data': [
@@ -26,6 +25,7 @@
         'wizard/classroom_report_view.xml',
         'views/views.xml',
         'views/menu.xml',
+        'views/website_form.xml',
         'report/classroom_details.xml',
         'report/report.xml',
         'report/student_card.xml',

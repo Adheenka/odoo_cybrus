@@ -41,6 +41,8 @@ class Classroom(models.Model):
     name = fields.Char(string="Name")
     dob = fields.Date(string="Date of Birth")
     age = fields.Integer(compute="_compute_age", store=True)
+    phone = fields.Char(string="Phone Number")
+    email = fields.Char(string="Email")
 
     marklist = fields.One2many("marklist", "classroom_id", string="Marklist")
     # Add new field
