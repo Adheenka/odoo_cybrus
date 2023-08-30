@@ -14,17 +14,40 @@ class Classroom(http.Controller):
     # def update_patient(self, **kw):
     #     request.env['classroom'].sudo().create(kw)
     #     return request.render("class_room.student_thanks", {})
+    # @http.route('/create/webstudent', type="http", auth="public", website=True)
+    # def create_webstudent(self, **post):
+    #     name = post.get('name')
+    #     email = post.get('email')
+    #     phone = post.get('phone')
+    #     dob = post.get('dob')
+    #
+    #     # Create a student record
+    #     classroom_model = request.env['classroom']
+    #     new_student = classroom_model.sudo().create({
+    #         'name': name,
+    #         'email': email,
+    #         'phone': phone,
+    #         'dob': dob,
+    #
+    #         # Add other fields as needed
+    #     })
+    #
+    #     return http.request.render('class_room.student_thanks', {})
     @http.route('/create/webstudent', type="http", auth="public", website=True)
     def create_webstudent(self, **post):
-        student_name = post.get('student_name')
+        name = post.get('name')
         email = post.get('email')
+        phone = post.get('phone')
+        dob = post.get('dob')
+
 
         # Create a student record
-        classroom_model = request.env['classroom']
+        classroom_model = http.request.env['classroom']
         new_student = classroom_model.sudo().create({
-            'name': student_name,
+            'name': name,
             'email': email,
-            # Add other fields as needed
+            'phone': phone,
+            'dob': dob,
         })
 
         return http.request.render('class_room.student_thanks', {})
