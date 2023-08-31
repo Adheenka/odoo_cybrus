@@ -34,7 +34,9 @@
 
 
     ],
-
+    'assets':{
+        'web.assets_common':['class_room/static/src/js/website_form_validation.js'],
+    },
     # only loaded in demonstration mode
     'demo': [],
 
