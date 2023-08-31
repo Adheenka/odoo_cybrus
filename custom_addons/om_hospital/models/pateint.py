@@ -39,7 +39,7 @@ class HospitalPateint(models.Model):
 
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
-        appointment_group = self.env['hospital.appointment'].read_group(domain=[('state','=','done')], fields=['pateint_id'],
+        appointment_group = self.env['hospital.appointment'].read_group(domain=[], fields=['pateint_id'],
                                                                         groupby=['pateint_id'])
         for appointment in appointment_group:
             pateint_id = appointment.get('pateint_id')[0]
@@ -97,3 +97,13 @@ class HospitalPateint(models.Model):
         print("clicked")
         return
 
+    def action_view_appointment(self):
+        return {
+            'name': _('Appointments'),
+            'res_model': 'hospital.appointment',
+            'view_mode': 'list,form,calendar,activity',
+            'context': {'default_pateint_id': self.id},
+            'domain': [('pateint_id', '=', self.id)],
+            'target': 'current',
+            'type': 'ir.actions.act_window'
+        }

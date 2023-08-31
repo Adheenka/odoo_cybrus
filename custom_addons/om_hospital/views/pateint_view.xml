@@ -46,7 +46,11 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-
+                   <div class="oe_button_box" name="button-box">
+                        <button class="oe_stat_button" string="Appointment" type="object" name="action_view_appointment" icon="fa-star">
+                            <field name="appointment_count" string="Appointment" widget="statinfo"/>
+                        </button>
+                    </div>
 
                     <div class="alert alert-warning text-center o_form_heading" role="alert"
                          attrs="{'invisible':[('is_birthday','=',False)]}">
