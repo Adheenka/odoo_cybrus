@@ -36,10 +36,21 @@ class HospitalPateint(models.Model):
                 if today.day == rec.date_of_birth.day and today.month == rec.date_of_birth.month:
                     is_birthday = True
             rec.is_birthday = is_birthday
+
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
-            for rec in self:
-                rec.appointment_count = self.env['hospital.appointment'].search_count([('pateint_id', '=', rec.id)])
+        appointment_group = self.env['hospital.appointment'].read_group(domain=[('state','=','done')], fields=['pateint_id'],
+                                                                        groupby=['pateint_id'])
+        for appointment in appointment_group:
+            pateint_id = appointment.get('pateint_id')[0]
+            patient_rec = self.browse(pateint_id)
+            patient_rec.appointment_count = appointment['pateint_id_count']
+            self -= patient_rec
+        self.appointment_count = 0
+    # @api.depends('appointment_ids')
+    # def _compute_appointment_count(self):
+    #         for rec in self:
+    #             rec.appointment_count = self.env['hospital.appointment'].search_count([('pateint_id', '=', rec.id)])
 
     @api.constrains('date_of_birth')
     def _check_date_of_birth(self):
