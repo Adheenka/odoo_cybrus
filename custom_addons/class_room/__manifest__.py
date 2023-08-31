@@ -34,6 +34,7 @@
 
 
     ],
+
     # only loaded in demonstration mode
     'demo': [],
 
