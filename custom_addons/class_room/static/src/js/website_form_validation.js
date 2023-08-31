@@ -1,48 +1,41 @@
-odoo.define('class_room.website_form_validation', function (require) {
-    'use strict';
+function validateEmail(email) {
+  if (email == null || email == "") {
+    return false;
+  }
 
-    var ajax = require('web.ajax');
-    var core = require('web.core');
-    var qweb = core.qweb;
+  let atSymbolPos = email.indexOf("@");
+  if (atSymbolPos < 1) {
+    return false;
+  }
 
-    $(document).ready(function () {
-        // ... Your existing code ...
+  let dotPos = email.indexOf(".");
+  if (dotPos <= atSymbolPos + 2) {
+    return false;
+  }
 
-        // Validate email format
-        $('#email').on('blur', function () {
-            var email = $(this).val();
-            var emailError = $('#email-error');
+  return dotPos !== email.length - 1;
+}
 
-            if (!isValidEmail(email)) {
-                emailError.text('Invalid email format. Please write the email in the correct format.');
-            } else {
-                emailError.text('');
-            }
-        });
+function validateEmailWithRegex(email) {
+  let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        // Validate phone number format
-        $('#phone').on('blur', function () {
-            var phone = $(this).val();
-            var phoneError = $('#phone-error');
+  return !!email && typeof email === "string" && email.match(emailRegex);
+}
 
-            if (!isValidPhoneNumber(phone)) {
-                phoneError.text('Invalid phone number format (10 digits). Please write the phone number in the correct format.');
-            } else {
-                phoneError.text('');
-            }
-        });
+function checkInputEmail(email) {
+  let isValidEmail = validateEmail(email);
+  let emailInput = document.getElementById("email");
+  let emailErrorSpan = document.getElementById("emailError");
+  if (!isValidEmail) {
+    emailErrorSpan.innerText = "Invalid email!";
+    emailInput.valid = false;
+    return false;
+  }
+  emailErrorSpan.remove();
+  alert("Valid email!");
+  return true;
+}
 
-        // ... Your existing code ...
-
-        function isValidEmail(email) {
-            // ... Your existing email validation code ...
-        }
-
-        function isValidPhoneNumber(phone) {
-            // ... Your existing phone validation code ...
-        }
-    });
-});
 
 //function validateForm() {
 //  var phoneNumber = document.getElementById("phone").value;

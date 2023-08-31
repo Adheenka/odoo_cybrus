@@ -67,6 +67,50 @@
                     </div>
                 </div>
             </div>
+                    <script>
+            function validateForm() {
+                var phoneNumber = document.getElementById("phone").value;
+                var emailFormat = document.getElementById("email").value;
+
+
+                var phonePattern = /^\d{10}$/;
+
+
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                var phoneError = document.getElementById("phoneError");
+                var emailError = document.getElementById("emailError");
+
+                if (!phonePattern.test(phoneNumber)) {
+                    phoneError.textContent = "Invalid phone number Format";
+                    return false;
+                } else {
+                    phoneError.textContent = "";
+                }
+
+                if (!emailPattern.test(emailFormat)) {
+                    emailError.textContent = "Invalid email Format ";
+                    return false;
+                } else {
+                    emailError.textContent = "";
+                }
+
+
+                return true;
+            }
+
+            function saveData() {
+                var formData = {
+                    name: document.getElementById("name").value,
+                    phone: document.getElementById("phone").value,
+                    email: document.getElementById("email").value,
+                    dob: document.getElementById("dob").value
+                };
+
+
+
+            }
+        </script>
         </t>
     </template>
 
@@ -99,52 +143,9 @@
             </t>
         </field>
     </record>
-    <template id="default_js" name="Default JavaScript">
-        <script type="text/javascript">
-            function validateForm() {
-                var phoneNumber = document.getElementById("phone").value;
-                var email = document.getElementById("email").value;
 
-                // Regular expression for validating phone number
-                var phonePattern = /^\d{10}$/;
 
-                // Regular expression for validating email address
-                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                var phoneError = document.getElementById("phoneError");
-                var emailError = document.getElementById("emailError");
-
-                if (!phonePattern.test(phoneNumber)) {
-                    phoneError.textContent = "Invalid phone number";
-                    return false;
-                } else {
-                    phoneError.textContent = "";
-                }
-
-                if (!emailPattern.test(email)) {
-                    emailError.textContent = "Invalid email address";
-                    return false;
-                } else {
-                    emailError.textContent = "";
-                }
-
-                // Validation successful
-                return true;
-            }
-
-            function saveData() {
-                var formData = {
-                    name: document.getElementById("name").value,
-                    phone: document.getElementById("phone").value,
-                    email: document.getElementById("email").value,
-                    dob: document.getElementById("dob").value
-                };
-
-                // Send formData to backend (e.g., using AJAX)
-                // Example: Send data to Odoo backend using REST API
-            }
-        </script>
-   </template>
 
 </odoo>
 
