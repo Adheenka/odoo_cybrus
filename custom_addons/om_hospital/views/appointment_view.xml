@@ -165,8 +165,8 @@
                                     confirm="Are you sure open this windows"
                                     help="click this button,you will be redirect pateient reecords" type="action"
                                     class="oe_highlight"/>
-                            <button name="action_test" string="object button" confirm="Are you sure open this windows"
-                                    help="click this button,you will show rainbow" type="object" class="oe_highlight"/>
+                            <button name="action_test" string="git button" confirm="Are you sure open class_room module git "
+                                    help="click this button,you will show class_room module" type="object" class="oe_highlight"/>
                             <field name="duration"/>
                         </group>
 

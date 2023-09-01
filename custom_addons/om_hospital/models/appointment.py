@@ -20,7 +20,7 @@ class HospitalAppointment(models.Model):
     ref = fields.Char(string='Reference', tracking=True)
     gender = fields.Selection(related='pateint_id.gender',readonly=False)
     appointment_time = fields.Datetime(string='Appointment Time', default=fields.Datetime.now)
-    booking_time = fields.Date(string='Booking Date', default=fields.Date.context_today)
+    booking_time = fields.Date(string='Booking Date',tracking=True, default=fields.Date.context_today)
     prescription = fields.Html(string="Prescription")
     doctor_id = fields.Many2one('res.users', string='Docter',tracking=True)
     operation = fields.Many2one('hospital.operation', string="Operation")
@@ -36,10 +36,10 @@ class HospitalAppointment(models.Model):
         ('draft', 'Draft'),
         ('in_consultation', 'In Consultation'),
         ('done', 'Done'),
-        ('cancel', 'Cancelled')],default='draft',required=True, string="status",tracking=True)
+        ('cancel', 'Cancelled')],default='draft',required=True, string="status", tracking=1)
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Lines')
     hide_sales_price =fields.Boolean(striing="HIde Sales Price")
-    duration = fields.Float(string="Duration", tracking='6')
+    duration = fields.Float(string="Duration", tracking=4)
 
 #add monetry fieds
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company)
@@ -50,6 +50,7 @@ class HospitalAppointment(models.Model):
     def _compute_full_total(self):
         for rec in self:
             rec.full_total = sum(rec.pharmacy_line_ids.mapped('subtotal'))
+
     @api.depends('state')
     def _compute_progress(self):
         for rec in self:
@@ -112,12 +113,11 @@ class HospitalAppointment(models.Model):
     def action_test(self):
         print("button")
         return {
-            'effect':{
-                'fadout':'slow',
-                'messege':'click sucessful',
-                'type':'rainbow_man'
-            }
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': 'https://github.com/Adheenka/odoo_cybrus/tree/detached2/custom_addons/class_room'
         }
+
     def action_in_consultation(self):
         for rec in self:
             if rec.state == 'draft':
@@ -125,9 +125,14 @@ class HospitalAppointment(models.Model):
     def action_done(self):
         for rec in self:
             rec.state = 'done'
-    # def action_cancel(self):
-    #     for rec in self:
-    #         rec.state = 'cancel'
+            return {
+                'effect': {
+                    'fadout': 'slow',
+                    'messege': 'appointment is done',
+                    'type': 'rainbow_man'
+                }
+            }
+
     def action_cancel(self):
         action = self.env.ref('om_hospital.action_cancel_appointment').read()[0]
         return action
