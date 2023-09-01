@@ -41,6 +41,15 @@ class HospitalAppointment(models.Model):
     hide_sales_price =fields.Boolean(striing="HIde Sales Price")
     duration = fields.Float(string="Duration", tracking='6')
 
+#add monetry fieds
+    company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company)
+    currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
+    full_total = fields.Float(string="Total", compute='_compute_full_total')
+
+    @api.depends('pharmacy_line_ids')
+    def _compute_full_total(self):
+        for rec in self:
+            rec.full_total = sum(rec.pharmacy_line_ids.mapped('subtotal'))
     @api.depends('state')
     def _compute_progress(self):
         for rec in self:
@@ -134,3 +143,10 @@ class AppointmentPharmacyLines(models.Model):
     price_unit = fields.Float(related='product_id.lst_price')
     qty = fields.Integer(string='Quantity', default=1)
     appointment_id = fields.Many2one('hospital.appointment',string='Appointment')
+    currency_id = fields.Many2one('res.currency', related='appointment_id.currency_id')
+    subtotal = fields.Monetary(string="Subtotal", compute="_compute_subtotal", currency_field='currency_id')
+
+    @api.depends('qty', 'price_unit')
+    def _compute_subtotal(self):
+        for rec in self:
+            rec.subtotal = rec.price_unit * rec.qty

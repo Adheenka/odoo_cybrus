@@ -27,6 +27,10 @@
               parent="menu_appointment_master"
               action="action_cancel_appointment"
               sequence="20"/>
+    <menuitem id="menu_qurry"
+              name="qurry"
+              parent="menu_technical"
+              sequence="50"/>
 
 
 </odoo>

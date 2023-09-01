@@ -102,7 +102,7 @@
             </tree>
         </field>
     </record>
-        <record id="view_hospital_appointment_calendar" model="ir.ui.view">
+    <record id="view_hospital_appointment_calendar" model="ir.ui.view">
         <field name="name">hospital.appointment.calendar</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
@@ -159,6 +159,8 @@
                             <field name="hide_sales_price" groups="base.group_no_one"/>
                             <field name="booking_time" default_focus="1"/>
                             <field name="appointment_time"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
                             <button name="%(om_hospital.action_hospital_appointment)d" string="Action Button"
                                     confirm="Are you sure open this windows"
                                     help="click this button,you will be redirect pateient reecords" type="action"
@@ -184,20 +186,29 @@
                             <field name="pharmacy_line_ids">
                                 <tree editable="bottom">
                                     <field name="product_id"/>
-                                    <field name="price_unit"
+                                    <field name="price_unit" widget="monetary"
                                            attrs="{'column_invisible' : [('parent.hide_sales_price','=',True)]}"/>
                                     <field name="qty"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="subtotal"/>
 
                                 </tree>
                                 <form>
                                     <group>
                                         <field name="product_id"/>
-                                        <field name="price_unit"/>
+                                        <field name="price_unit"
+                                               attrs="{'column_invisible' :[('parent.hide_sales_price','=',True)]}"/>
                                         <field name="qty"/>
+                                        <field name="appointment_id"/>
+                                        <field name="subtotal"/>
                                     </group>
 
                                 </form>
                             </field>
+                            <div style="text-align:right">
+                                <label string="Total : " for="full_total"/>
+                                <field name="full_total" style="font-weight: bold;"/>
+                            </div>
                         </page>
                     </notebook>
 

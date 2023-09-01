@@ -5,10 +5,11 @@
         <field name="model">hospital.operation</field>
         <field name="arch" type="xml">
             <tree>
-                <!--                <field name="sequence" widget="handle"/>-->
+                <field name="sequence" widget="handle"/>
                 <field name="doctor_id"/>
+
                 <field name="operation_name"/>
-                <field name="operation_name"/>
+
             </tree>
         </field>
     </record>
@@ -26,6 +27,7 @@
                         </group>
                         <group>
                             <field name="operation_name"/>
+                            <field name="sequence"/>
                         </group>
                     </group>
                 </sheet>
