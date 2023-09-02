@@ -75,12 +75,12 @@
                 <field name="name" readonly="1"/>
                 <field name="pateint_id"/>
                 <field name="ref" optional="hide"/>
-                <field name="gender" optional="hide"/>
+                <field name="gender" optional="hide" decoration-success="gender=='female'"/>
                 <field name="doctor_id" widget="many2one_avatar_user"/>
                 <field name="appointment_time" optional="show"/>
                 <field name="booking_time" optional="show"/>
                 <field name="activity_ids" widget="list_activity"/>
-
+                <field name="full_total" decoration-bf="1"/>
 
                 <field name="state" decoration-success="state == 'done'"
                        decoration-info="state == 'draft'"
@@ -119,10 +119,13 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="action_whatsapp_message" string="Share in Whatsapp" type="object"
+                            class="oe_highlight" icon="fa-whatsapp"/>
                     <button name="action_in_consultation" data-hotkey="x" string="In Consultation" type="object"
                             class="oe_highlight" states="draft"/>
                     <button name="action_done" string="Done" data-hotkey="v" type="object" states="in_consultation"
                             class="oe_highlight"/>
+
                     <!--                    cancel appointment using type action method no need python funtion-->
 
                     <!--                                         <button name="%(om_hospital.action_cancel_appointment)d" string="cancel" type="action" data-hotkey="z"-->
@@ -153,7 +156,6 @@
                             <field name="doctor_id" widget="many2one_avatar_user"/>
                             <field name="operation"/>
 
-
                         </group>
                         <group>
                             <field name="hide_sales_price" groups="base.group_no_one"/>
@@ -165,8 +167,10 @@
                                     confirm="Are you sure open this windows"
                                     help="click this button,you will be redirect pateient reecords" type="action"
                                     class="oe_highlight"/>
-                            <button name="action_test" string="git button" confirm="Are you sure open class_room module git "
-                                    help="click this button,you will show class_room module" type="object" class="oe_highlight"/>
+                            <button name="action_test" string="git button"
+                                    confirm="Are you sure open class_room module git "
+                                    help="click this button,you will show class_room module" type="object"
+                                    class="oe_highlight"/>
                             <field name="duration"/>
                         </group>
 

@@ -19,6 +19,7 @@ class HospitalAppointment(models.Model):
     pateint_id = fields.Many2one('hospital.pateint',ondelete='cascade')
     ref = fields.Char(string='Reference', tracking=True)
     gender = fields.Selection(related='pateint_id.gender',readonly=False)
+
     appointment_time = fields.Datetime(string='Appointment Time', default=fields.Datetime.now)
     booking_time = fields.Date(string='Booking Date',tracking=True, default=fields.Date.context_today)
     prescription = fields.Html(string="Prescription")
@@ -118,6 +119,16 @@ class HospitalAppointment(models.Model):
             'url': 'https://github.com/Adheenka/odoo_cybrus/tree/detached2/custom_addons/class_room'
         }
 
+    def action_whatsapp_message(self):
+        if not self.pateint_id.phone:
+            raise ValidationError('Phone number is not specified')
+        message = 'Hai %s Your *Appointment* number is %s' % (self.pateint_id.name, self.name)
+        whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s ' % (self.pateint_id.phone, message)
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': whatsapp_api_url
+        }
     def action_in_consultation(self):
         for rec in self:
             if rec.state == 'draft':
