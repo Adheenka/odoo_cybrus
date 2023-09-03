@@ -8,9 +8,18 @@ class SaleOrder(models.Model):
 
 
 
+    # def action_confirm(self):
+    #     super(SaleOrder, self).action_confirm()
+    #     self.confirmed_user_id = self.env.user.id
+
+    def _prepare_invoice(self):
+        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        # print("invoice_vals",invoice_vals)
+        invoice_vals['so_confirmed_user_id'] = self.confirmed_user_id.name
+        return invoice_vals
     def action_confirm(self):
-        super(SaleOrder, self).action_confirm()
-        self.confirmed_user_id = self.env.user.id
-
-
+        res = super(SaleOrder, self).action_confirm()
+        for order in self:
+            order.write({'confirmed_user_id': self.env.user.id})
+        return res
 

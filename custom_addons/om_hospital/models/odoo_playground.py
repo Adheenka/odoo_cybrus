@@ -11,6 +11,9 @@ class OdooPlayGround(models.Model):
     code = fields.Text(string="Code" ,default=DEFAULT_NEW_VARIABLES)
     result = fields.Text(string="Result")
 
+    def action_clear(self):
+        self.result = ''
+        self.code = ''
     def action_execute(self):
         try:
             if self.model_id:

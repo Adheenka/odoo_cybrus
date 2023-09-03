@@ -9,7 +9,7 @@
     'summary': 'odoo_sale_inherit',
     'description': """ sale management system
 """,
-    'depends': ['sale'],
+    'depends': ['sale','crm','account'],
     'data': [
 
         'views/sale_order_view.xml',
