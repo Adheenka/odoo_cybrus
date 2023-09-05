@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="OrderReceipt">
+        <t t-jquery=".pos-receipt pos-receipt-contact" t-operation="append">
+            <t t-if="receipt.client and widget.pos.get_client().mobile">
+                <div style="font-weight:bold;">phone: <t t-esc="receipt.client + ' ' + widget.pos.get_client().mobile"/></div>
+            </t>
+        </t>
+    </t>
+</templates>
