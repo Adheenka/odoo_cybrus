@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-        <record id="view_partner_form_inherit" model="ir.ui.view">
-            <field name="name">res.partner.inherit</field>
+         <record id="view_partner_form_field" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
                 <!-- Add your custom fields after the email field -->
-                <xpath expr="//field[@name='email']" position="after">
+                <xpath expr="//form/sheet/group/group/field[@name='website']" position="after">
+<!--                <xpath expr="//field[@name='email']" position="after">-->
                     <field name="dob" string="Date of Birth"/>
-                    <field name="mobile" string="Mobile Number"/>
+                    <field name="mobile" string="Mobile number"/>
 
                 </xpath>
             </field>
