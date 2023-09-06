@@ -4,13 +4,13 @@ odoo.define('point_of_sale_assets', function (require) {
     const models = require('point_of_sale.models');
     const CustomClientLine = require('point_of_sale.ClientLine'); // Import your custom client line widget here
 
-    // Load the 'dob' field for the 'res.partner' model
-    models.load_fields('res.partner', ['dob']);
 
-    // Define your custom models, screens, and widgets here
+    models.load_fields('res.partner', ['dob','mobile']);
+
+
 
     return {
-        // Export any objects or functions that should be accessible outside this module
+
     };
 });
 //odoo.define('pos_custom_addons.ClientLine', function (require) {

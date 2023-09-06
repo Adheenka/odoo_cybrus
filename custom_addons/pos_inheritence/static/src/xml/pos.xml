@@ -7,6 +7,9 @@
             <td>
                 <t t-esc="props.partner.dob || 'No DOB'"/>
             </td>
+            <td>
+                <t t-esc="props.partner.mobile || 'No mobile'"/>
+            </td>
         </xpath>
     </t>
 </template>
