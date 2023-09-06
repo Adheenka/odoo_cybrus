@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<template id="template" xml:space="preserve">
+    <t t-name="ClientLine" t-inherit="point_of_sale.ClientLine" t-inherit-mode="extension" owl="1">
+        <xpath expr="//tr/td[hasclass('client-line-email')]" position="after">
+            <td>
+                <t t-esc="props.partner.dob || 'No DOB'"/>
+            </td>
+        </xpath>
+    </t>
+</template>
+
+
+        <!--        <template id="template" xml:space="preserve">-->
+        <!--    <t t-name="ClientLine" t-inherit="point_of_sale.ClientLine" t-inherit-mode="extension" owl="1">-->
+
+        <!--        <xpath expr="//tr/td[hasclass('client-line-email')]" position="after">-->
+        <!--            <td>-->
+        <!--                <t t-esc="props.partner.dob || 'dob'"/>-->
+        <!--            </td>-->
+
+        <!--        </xpath>-->
+
+        <!--    </t>-->
+        <!--</template>-->
+        <!--        <template id="custom_client_line" inherit_id="point_of_sale.ClientLine">-->
+        <!--            <xpath expr="//td[@class='client-line-email']" position="after">-->
+        <!--                <td class="client-line-dob">-->
+        <!--                    <t t-esc="widget.formatDate(client.dob)"/>-->
+        <!--                </td>-->
+        <!--            </xpath>-->
+        <!--        </template>-->
+

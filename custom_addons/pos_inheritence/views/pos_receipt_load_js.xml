@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<odoo>-->
+<!--    <template id="assets_backend" name="pos_receipt assets" inherit_id="web.assets_backend">-->
+<!--        <xpath expr="." position="inside">-->
+<!--            <script type="text/javascript" src="/pos_inheritence/static/src/js/pos_receipt.js"></script>-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--</odoo>-->
+
 <odoo>
-    <template id="assets_backend" name="pos_receipt assets" inherit_id="web.assets_backend">
-        <xpath expr="." position="inside">
-            <script type="text/javascript" src="/pos_inheritence/static/src/js/pos_receipt.js"></script>
-        </xpath>
-    </template>
+
+        <template id="assets_backend" name="pos_receipt assets" inherit_id="point_of_sale.assets">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/pos_inheritence/static/src/js/pos_receipt.js"/>
+            </xpath>
+        </template>
+
 </odoo>
+<!--<openerp>-->
+<!--    <data>-->
+<!--        <template id="assets" name="pos_receipt assets" inherit_id="point_of_sale.assets">-->
+<!--            <xpath expr="." position="inside">-->
+<!--                <script type="text/javascript" src="/pos_receipt/static/src/js/pos_receipt.js"></script>-->
+<!--            </xpath>-->
+<!--        </template>-->
+<!--    </data>-->
+<!--</openerp>-->

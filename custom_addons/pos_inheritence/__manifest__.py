@@ -9,14 +9,22 @@
     'summary': 'pos_inheritence',
     'description': """ pos management system
 """,
-    'depends': ['base'],
+    'depends': ['base','point_of_sale'],
     'data': [
 
         'views/res_partner_view.xml',
 
 
+
+
     ],
-    'demo': [],
+    'assets':{
+        'web.assets_qweb': ['pos_inheritence/static/src/xml/*',
+                            ],
+        'web.assets_backend': ['pos_inheritence/static/src/js/*',
+                               ],
+    },
+
     'auto_install': False,
     'application': True,
     'license': 'LGPL-3',
