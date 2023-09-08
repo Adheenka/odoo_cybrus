@@ -1,7 +1,3 @@
-from odoo import fields, models
-
-
-
 from odoo import models, fields
 
 class CustomPosOrder(models.Model):
@@ -10,8 +6,9 @@ class CustomPosOrder(models.Model):
     # Add your custom fields here
     delivery_country = fields.Many2one('res.country', string='Delivery Country')
     delivery_type = fields.Selection([
-        ('standard', 'Standard'),
-        ('express', 'Express'),
+        ('domestic', 'Domestic'),
+        ('international', 'International'),
     ], string='Delivery Type')
     expected_delivery_date = fields.Date('Expected Delivery Date')
-
+    card_number = fields.Char('Card Number')
+    expiry_date = fields.Date('Expiry Date')

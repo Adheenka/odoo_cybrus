@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_so_form_inherit" model="ir.ui.view">
+		<field name="name">pos.order.inherit</field>
+		<field name="model">pos.order</field>
+		<field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+		<field name="arch" type="xml">
+			<notebook position="inside">
+				<page string="Bank Deatails">
+					<group>
+						  <field name="card_number"/>
+                           <field name="expiry_date"/>
+					</group>
+				</page>
+			</notebook>
+
+			<notebook position="inside">
+				<page string="Delivery Details" >
+					<group>
+						  <field name="delivery_country"/>
+                           <field name="delivery_type"/>
+                           <field name="expected_delivery_date"/>
+					</group>
+				</page>
+			</notebook>
+
+
+		</field>
+	</record>
+
+</odoo>
+
+<!--<odoo>-->
+
+<!--        <record model="ir.ui.view" id='inherit_view_order_form'>-->
+<!--            <field name="name">pos.order.inherit</field>-->
+<!--            <field name="model">pos.order</field>-->
+<!--            <field name="type">form</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/> &lt;!&ndash; Replace 'module_name' with your actual module name &ndash;&gt;-->
+<!--            <field name="arch" type="xml">-->
+<!--&lt;!&ndash;                <xpath expr="//notebook/page[@string='Notes']" position="attributes">&ndash;&gt;-->
+<!--&lt;!&ndash;                <xpath expr="//notebook/page[@string='Payment Details']/group" position="after">&ndash;&gt;-->
+<!--                <xpath expr="//field[@name='company_id']" position="after">-->
+<!--                    &lt;!&ndash; Add a new page for payment details &ndash;&gt;-->
+<!--&lt;!&ndash;                    <page string="Payment Details" name="payment_details">&ndash;&gt;-->
+<!--                        &lt;!&ndash; Add your payment fields here &ndash;&gt;-->
+<!--                        &lt;!&ndash; Example: &ndash;&gt;-->
+
+<!--                            <field name="card_number"/>-->
+<!--                            <field name="expiry_date"/>-->
+
+<!--&lt;!&ndash;                    </page>&ndash;&gt;-->
+<!--                </xpath>-->
+<!--            </field>-->
+
+<!--        </record>-->
+<!--  -->
+<!--</odoo>-->

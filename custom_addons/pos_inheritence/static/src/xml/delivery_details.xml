@@ -9,14 +9,25 @@
 <!--       </button>-->
 <!--    </t>-->
 <!--</template>-->
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget"-->
+<!--       t-inherit-mode="extension" owl="1">-->
+<!--        <xpath expr="//div[@class='actionpad']" position="inside">-->
+<!--&lt;!&ndash;            <button class="button set-partner" t-on-click="openDeliveryDetailsPopup">&ndash;&gt;-->
+<!--&lt;!&ndash;                <i class="fa fa-truck"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                <span>  Delivery Details</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </button>&ndash;&gt;-->
+<!--            <button class="button set-partner" t-on-click="openDeliveryDetailsPopup">-->
+<!--                <i class="fa fa-truck"></i> &lt;!&ndash; Font Awesome truck icon &ndash;&gt;-->
+<!--                Delivery Details-->
+<!--            </button>-->
+<!--        </xpath>-->
+<!--    </t>-->
+<!--</templates>-->
 <templates id="template" xml:space="preserve">
     <t t-name="ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget"
        t-inherit-mode="extension" owl="1">
         <xpath expr="//div[@class='actionpad']" position="inside">
-<!--            <button class="button set-partner" t-on-click="openDeliveryDetailsPopup">-->
-<!--                <i class="fa fa-truck"></i>-->
-<!--                <span>  Delivery Details</span>-->
-<!--            </button>-->
             <button class="button set-partner" t-on-click="openDeliveryDetailsPopup">
                 <i class="fa fa-truck"></i> <!-- Font Awesome truck icon -->
                 Delivery Details

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<odoo>-->
+<!--    &lt;!&ndash; Inherit the existing pos.order form view &ndash;&gt;-->
+<!--    <record id="view_pos_order_inherited" model="ir.ui.view">-->
+<!--        <field name="name">pos.order.inherited</field>-->
+<!--        <field name="model">pos.order</field>-->
+<!--        <field name="inherit_id" ref="module_name.view_pos_pos_form"/> &lt;!&ndash; Replace 'module_name' with your actual module name &ndash;&gt;-->
+<!--        <field name="arch" type="xml">-->
+<!--            <notebook position="inside">-->
+<!--                &lt;!&ndash; Add a new page for payment details after the 'Notes' page &ndash;&gt;-->
+<!--                <page string="Payment Details" name="payment_details">-->
+<!--                    &lt;!&ndash; Add your payment fields here &ndash;&gt;-->
+<!--                    &lt;!&ndash; Example: &ndash;&gt;-->
+<!--                    <group>-->
+<!--                        <field name="card_number"/>-->
+<!--                        <field name="expiry_date"/>-->
+<!--                    </group>-->
+<!--                </page>-->
+<!--            </notebook>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--</odoo>-->
+<odoo>
+    <data>
+        <record model="ir.ui.view" id='inherit_view_order_form'>
+            <field name="name">pos.order.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/> <!-- Replace 'module_name' with your actual module name -->
+            <field name="arch" type="xml">
+<!--                <xpath expr="//notebook/page[@string='Notes']" position="attributes">-->
+<!--                <xpath expr="//notebook/page[@string='Payment Details']/group" position="after">-->
+                <xpath expr="//field[@name='date_order']" position="before">
+                    <!-- Add a new page for payment details -->
+<!--                    <page string="Payment Details" name="payment_details">-->
+                        <!-- Add your payment fields here -->
+                        <!-- Example: -->
+                        <group>
+                            <field name="card_number"/>
+                            <field name="expiry_date"/>
+                        </group>
+<!--                    </page>-->
+                </xpath>
+            </field>
+
+        </record>
+    </data>
+</odoo>
