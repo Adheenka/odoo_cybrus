@@ -29,57 +29,10 @@
 //
 //    return ActionpadWidget;
 //});
-odoo.define('your_module_name.delivery_details', function (require) {
-    'use strict';
-
-    const AbstractAwaitablePopup = require('point_of_sale.AbstractAwaitablePopup');
-    const Registries = require('point_of_sale.Registries');
-    const { rpc } = require('web.core');
-
-    class DeliveryDetailsPopup extends AbstractAwaitablePopup {
-        constructor() {
-            super(...arguments);
-        }
-
-        getPayload() {
-            const deliveryCountry = this.el.querySelector('#delivery-country').value;
-            const deliveryType = this.el.querySelector('#delivery-type').value;
-            const expectedDeliveryDate = this.el.querySelector('#expected-delivery-date').value;
-
-            return {
-                deliveryCountry,
-                deliveryType,
-                expectedDeliveryDate,
-            };
-        }
-
-        saveDeliveryDetails() {
-            const payload = this.getPayload();
-            const orderID = this.env.pos.get_order().id;
-
-            rpc.query({
-                model: 'pos.order',
-                method: 'write',
-                args: [[orderID], payload],
-            }).then(() => {
-                this.showPopup('SuccessPopup', {
-                    title: 'Success',
-                    body: 'Delivery details saved successfully!',
-                });
-                this.trigger('close-popup');
-            }).catch((error) => {
-                this.showPopup('ErrorPopup', {
-                    title: 'Error',
-                    body: 'Failed to save delivery details. Please try again.',
-                });
-                console.error(error);
-            });
-        }
-    }
-
-    DeliveryDetailsPopup.template = 'DeliveryDetailsPopup';
-    Registries.Component.add(DeliveryDetailsPopup);
-
-    return DeliveryDetailsPopup;
-});
-
+//async onClick() {
+//    const selectedOrder = this.env.pos.get_order();
+//    if (selectedOrder) {
+//        // Show the delivery details popup when the button is clicked
+//        this.showPopup('view_delivery_details_popup');
+//    }
+//}

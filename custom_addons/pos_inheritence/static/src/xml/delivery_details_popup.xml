@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <templates id="template" xml:space="preserve">
-    <t t-name="DeliveryDetailsPopup" owl="1">
+    <t t-name="view_delivery_details_popup'" owl="1">
         <div role="dialog" class="modal-dialog">
             <div class="popup delivery-details-popup">
                 <header class="title">

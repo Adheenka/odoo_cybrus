@@ -1,4 +1,4 @@
-odoo.define('pos_receipt.pos_order_extend', function (require) {
+odoo.define('point_of_sale_assets', function (require){
     "use strict";
 
     var models = require('point_of_sale.models');

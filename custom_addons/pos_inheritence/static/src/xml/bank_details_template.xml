@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="BankDetailsPopup">
+        <div class="popup-widget">
+            <div class="popup-header">
+                <h3>Bank Details</h3>
+            </div>
+            <div class="popup-content">
+                <div>
+                    <label for="cardNumber">Card Number:</label>
+                    <input type="text" name="cardNumber" t-att-value="payload.cardNumber" readonly="readonly"/>
+                </div>
+                <div>
+                    <label for="expiryDate">Expiry Date:</label>
+                    <input type="text" name="expiryDate" t-att-value="payload.expiryDate" readonly="readonly"/>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <button class="button" t-on-click="closePopup">Close</button>
+            </div>
+        </div>
+    </t>
+</templates>
+
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="popup_bank_details_template">-->
+<!--        <div class="popup-dialog">-->
+<!--            <div class="popup-header">-->
+<!--                <h3 class="popup-title">Bank Details</h3>-->
+<!--                <a class="popup-close" t-on-click="closePopup">×</a>-->
+<!--            </div>-->
+<!--            <div class="popup-body">-->
+<!--                <div>-->
+<!--                    <strong>Card Number:</strong>-->
+<!--                    <span t-esc="order.card_number" />-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <strong>Expiry Date:</strong>-->
+<!--                    <span t-esc="order.expiry_date" />-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
