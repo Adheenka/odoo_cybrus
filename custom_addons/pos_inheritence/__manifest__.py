@@ -14,6 +14,7 @@
 
         'views/res_partner_view.xml',
         'views/pos_bank_details.xml',
+        'views/coupon.xml',
 
 
 

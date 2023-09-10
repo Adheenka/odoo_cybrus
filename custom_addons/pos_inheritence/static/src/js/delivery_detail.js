@@ -1,3 +1,59 @@
+odoo.define('pos_inheritence.RewardButton', function(require) {
+'use strict';
+   const { Gui } = require('point_of_sale.Gui');
+   const PosComponent = require('point_of_sale.PosComponent');
+   const { posbus } = require('point_of_sale.utils');
+   const ProductScreen = require('point_of_sale.ProductScreen');
+   const { useListener } = require('web.custom_hooks');
+   const Registries = require('point_of_sale.Registries');
+   const PaymentScreen = require('point_of_sale.PaymentScreen');
+   class CustomRewardButtons extends PosComponent {
+       constructor() {
+           super(...arguments);
+           useListener('click', this.onClick);
+       }
+       is_available() {
+           const order = this.env.pos.get_order();
+           return order
+       }
+       onClick() {
+                Gui.showPopup("SelectionPopup", {
+                       title: this.env._t('Delivery Details'),
+//                       list: this.env._t('Welcome to OWL'),
+                   });
+       }
+   }
+   CustomRewardButtons.template = 'CustomRewardButtons';
+   ProductScreen.addControlButton({
+       component: CustomRewardButtons,
+       condition: function() {
+           return this.env.pos;
+       },
+   });
+   Registries.Component.add(CustomRewardButtons);
+   return CustomRewardButtons;
+
+//   class CouponButton extends PosComponent{
+//      //Generate popup
+//      display_popup_products() {
+//      var core = require('web.core');
+//      var _t = core._t;
+//       Gui.showPopup("CouponProductsPopup", {
+//       title : _t("Coupon Products"),
+//       confirmText: _t("Exit")
+//          });
+//      }
+//  }
+//  //Add coupon button and set visibility
+//      ProductScreen.addControlButton({
+//      component: CouponButton,
+//      condition: function() {
+//          return this.env.pos.config.coupon_category;
+//      },
+//  });
+//  Registries.Component.add(CouponButton);
+//  export default CouponButton;
+});
 //odoo.define('pos_inheritence.DeliveryDetailsButton', function (require) {
 //    "use strict";
 //

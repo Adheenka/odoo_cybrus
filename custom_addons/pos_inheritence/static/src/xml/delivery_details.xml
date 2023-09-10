@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="CustomRewardButtons" owl="1">-->
+<!--       <span class="control-button" t-att-class="is_available()?    'highlight' : ''">-->
+<!--           <i class="fa fa-star"></i>-->
+<!--           <span> </span>-->
+<!--           <span>My Button</span>-->
+<!--       </span>-->
+<!--   </t>-->
+<!--</templates>-->
+
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget"-->
+<!--       t-inherit-mode="extension" owl="1">-->
+<!--&lt;!&ndash;        <xpath expr="//div[@class='actionpad']" position="inside">&ndash;&gt;-->
+<!--        <xpath expr="//button[hasclass('pay')]" position="before">-->
+<!--&lt;!&ndash;            <button class="button set-partner" t-on-click="openDeliveryDetailsPopup">&ndash;&gt;-->
+<!--&lt;!&ndash;                <i class="fa fa-truck"></i> &lt;!&ndash; Font Awesome truck icon &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                Delivery Details&ndash;&gt;-->
+<!--&lt;!&ndash;            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </xpath>&ndash;&gt;-->
+<!--        <button class="button set-partner" t-on-click="DeliveryDetailsButton">-->
+<!--&lt;!&ndash;            <button class="control-button" t-on-click="display_popup_products">&ndash;&gt;-->
+<!--&lt;!&ndash;            <t t-call="DeliveryDetailsButton"/>&ndash;&gt;-->
+<!--                <i class="fa fa-truck" t-on-click="onClick"/>-->
+<!--                Delivery Details-->
+<!--          </button>-->
+<!--        </xpath>-->
+<!--    </t>-->
+
+<!--</templates>-->
 
 
 <templates id="template" xml:space="preserve">
-    <t t-name="ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget"
-       t-inherit-mode="extension" owl="1">
-<!--        <xpath expr="//div[@class='actionpad']" position="inside">-->
-        <xpath expr="//button[hasclass('pay')]" position="before">
-<!--            <button class="button set-partner" t-on-click="openDeliveryDetailsPopup">-->
-<!--                <i class="fa fa-truck"></i> &lt;!&ndash; Font Awesome truck icon &ndash;&gt;-->
-<!--                Delivery Details-->
-<!--            </button>-->
-<!--        </xpath>-->
-        <button class="button set-partner"
-                          t-on-click="DeliveryDetailsButton">
-<!--            <t t-call="DeliveryDetailsButton"/>-->
-                <i class="fa fa-truck" t-on-click="onClick"/>
-                Delivery Details
-          </button>
-        </xpath>
-    </t>
-
+    <t t-name="CustomRewardButtons" owl="1">
+       <span class="control-button" t-att-class="is_available()?    'highlight' : ''">
+           <i class="fa fa-truck"></i>
+           <span> </span>
+           <span>Delivery Details</span>
+       </span>
+   </t>
 </templates>
-
 
 
 
