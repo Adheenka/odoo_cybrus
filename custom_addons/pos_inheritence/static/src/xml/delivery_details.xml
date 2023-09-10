@@ -5,21 +5,53 @@
 <templates id="template" xml:space="preserve">
     <t t-name="ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget"
        t-inherit-mode="extension" owl="1">
-        <xpath expr="//div[@class='actionpad']" position="inside">
+<!--        <xpath expr="//div[@class='actionpad']" position="inside">-->
+        <xpath expr="//button[hasclass('pay')]" position="before">
 <!--            <button class="button set-partner" t-on-click="openDeliveryDetailsPopup">-->
 <!--                <i class="fa fa-truck"></i> &lt;!&ndash; Font Awesome truck icon &ndash;&gt;-->
 <!--                Delivery Details-->
 <!--            </button>-->
 <!--        </xpath>-->
         <button class="button set-partner"
-                   >
-                <i class="fa fa-truck"/>
+                          t-on-click="DeliveryDetailsButton">
+<!--            <t t-call="DeliveryDetailsButton"/>-->
+                <i class="fa fa-truck" t-on-click="onClick"/>
                 Delivery Details
           </button>
         </xpath>
     </t>
 
 </templates>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!--<templates id="template" xml:space="preserve">-->
 <!--    &lt;!&ndash; Inherit ActionpadWidget to Modify it &ndash;&gt;-->
