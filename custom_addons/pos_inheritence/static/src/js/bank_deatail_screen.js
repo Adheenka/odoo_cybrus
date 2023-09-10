@@ -39,37 +39,37 @@
 //    return CustomPosModel;
 //});
 
-//odoo.define('pos_inheritence.custom_pos', function (require) {
-//    "use strict";
-//
-//    var PaymentScreen = require('point_of_sale.PaymentScreen');
-//    var PopupWidget = require('point_of_sale.Popups');
-//
-//    PaymentScreen.include({
-//        events: _.extend({}, PaymentScreen.prototype.events, {
-//            'click .js_bank_details': 'showBankDetailsPopup',
-//        }),
-//
-//        showBankDetailsPopup: function () {
-//            var self = this;
-//
-//            var popup = new PopupWidget(this, {
-//                title: 'Bank Details',
-//                body: 'Add your bank details here.',
-//                buttons: [
-//                    {
-//                        text: 'Close',
-//                        click: function () {
-//                            popup.close();
-//                        },
-//                    },
-//                ],
-//            });
-//
-//            popup.open();
-//        },
-//    });
-//});
+odoo.define('pos_inheritence.custom_pos', function (require) {
+    "use strict";
+
+    var PaymentScreen = require('point_of_sale.PaymentScreen');
+    var PopupWidget = require('point_of_sale.Popups');
+
+    PaymentScreen.include({
+        events: _.extend({}, PaymentScreen.prototype.events, {
+            'click .js_bank_details': 'showBankDetailsPopup',
+        }),
+
+        showBankDetailsPopup: function () {
+            var self = this;
+
+            var popup = new PopupWidget(this, {
+                title: 'Bank Details',
+                body: 'Add your bank details here.',
+                buttons: [
+                    {
+                        text: 'Close',
+                        click: function () {
+                            popup.close();
+                        },
+                    },
+                ],
+            });
+
+            popup.open();
+        },
+    });
+});
 
 
 
