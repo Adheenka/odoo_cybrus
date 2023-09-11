@@ -7,6 +7,7 @@ odoo.define('pos_inheritence.RewardButton', function(require) {
    const { useListener } = require('web.custom_hooks');
    const Registries = require('point_of_sale.Registries');
    const PaymentScreen = require('point_of_sale.PaymentScreen');
+   models.load_fields('pos.order', ['delivery_type', 'expected_delivery_date', 'delivery_country']);
    class CustomRewardButtons extends PosComponent {
        constructor() {
            super(...arguments);
