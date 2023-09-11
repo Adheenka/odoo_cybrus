@@ -7,7 +7,8 @@ odoo.define('pos_inheritence.RewardButton', function(require) {
    const { useListener } = require('web.custom_hooks');
    const Registries = require('point_of_sale.Registries');
    const PaymentScreen = require('point_of_sale.PaymentScreen');
-   models.load_fields('pos.order', ['delivery_type', 'expected_delivery_date', 'delivery_country']);
+   const models =require('point_of_sale.models');
+//   models.load_fields('pos.order', ['delivery_type', 'expected_delivery_date', 'delivery_country']);
    class CustomRewardButtons extends PosComponent {
        constructor() {
            super(...arguments);
@@ -20,6 +21,7 @@ odoo.define('pos_inheritence.RewardButton', function(require) {
        onClick() {
                 Gui.showPopup("SelectionPopup", {
                        title: this.env._t('Delivery Details'),
+
 //                       list: this.env._t('Welcome to OWL'),
                    });
        }
@@ -33,6 +35,11 @@ odoo.define('pos_inheritence.RewardButton', function(require) {
    });
    Registries.Component.add(CustomRewardButtons);
    return CustomRewardButtons;
+
+
+
+
+
 
 //   class CouponButton extends PosComponent{
 //      //Generate popup
