@@ -12,3 +12,5 @@ class CustomPosOrder(models.Model):
     expected_delivery_date = fields.Date('Expected Delivery Date')
     card_number = fields.Char('Card Number')
     expiry_date = fields.Date('Expiry Date')
+
+

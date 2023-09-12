@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="MyPopup" owl="1">-->
+<!--        <div role="dialog" class="modal-dialog">-->
+<!--            &lt;!&ndash; Popup header with title &ndash;&gt;-->
+<!--               <header class="tittle drag-handle">-->
+<!--                    <t t-esc="props.title"/>-->
+
+<!--               </header>-->
+<!--        <main class="body">-->
+<!--            <div class="popup-header">-->
+<!--                <h2 class="title drag-handle" t-esc="props.title">Enter Cheque Details</h2>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Popup body &ndash;&gt;-->
+<!--            <div class="popup-body">-->
+<!--                <label for="ch_no">Cheque Number</label>-->
+<!--                <input type="text" t-model="state.ch_no" required="1" />-->
+<!--                <br />-->
+
+<!--                <label for="ch_date">Cheque Date</label>-->
+<!--                <input type="date" t-model="state.ch_date" required="1" />-->
+<!--            </div>-->
+<!--        </main>-->
+<!--            &lt;!&ndash; Popup footer with buttons &ndash;&gt;-->
+<!--            <div class="popup-footer">-->
+<!--                <button class="button confirm" t-on-click="confirm">-->
+<!--                    <t t-esc="props.confirmText">Confirm</t>-->
+<!--                </button>-->
+
+<!--                <button class="button cancel" t-on-click="cancel">-->
+<!--                    <t t-esc="props.cancelText">Cancel</t>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
+<!-- Creating Owl Template for Cheque Popup -->
+<template id="template" xml:space="preserve">
+    <t t-name="MyPopup" owl="1">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-confirm">
+                <header class="title drag-handle">
+                    <t t-esc="props.title"/>
+                </header>
+                <main class="body">
+                    <div>
+                        <label>Cheque Number</label>
+                        <br/>
+                        <input type="text" t-model="state.ch_no" required="1"/>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div>
+                        <label>Cheque Date</label>
+                        <br/>
+                        <input type="date" t-model="state.ch_date" required="1"/>
+                    </div>
+                </main>
+                <footer class="footer">
+                    <div class="button confirm" t-on-click="confirm">
+                        <t t-esc="props.confirmText"/>
+                    </div>
+                    <div class="button cancel" t-on-click="cancel">
+                        <t t-esc="props.cancelText"/>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+</template>

@@ -7,8 +7,13 @@ odoo.define('pos_inheritence.RewardButton', function(require) {
    const { useListener } = require('web.custom_hooks');
    const Registries = require('point_of_sale.Registries');
    const PaymentScreen = require('point_of_sale.PaymentScreen');
-   const models =require('point_of_sale.models');
-//   models.load_fields('pos.order', ['delivery_type', 'expected_delivery_date', 'delivery_country']);
+   const models = require('point_of_sale.models');
+
+    // Define a function to load the required fields for pos.order model
+    function loadPosOrderFields(self) {
+        models.load_fields('pos.order', ['delivery_type', 'expected_delivery_date', 'delivery_country']);
+    }
+
    class CustomRewardButtons extends PosComponent {
        constructor() {
            super(...arguments);
@@ -27,6 +32,7 @@ odoo.define('pos_inheritence.RewardButton', function(require) {
        }
    }
    CustomRewardButtons.template = 'CustomRewardButtons';
+
    ProductScreen.addControlButton({
        component: CustomRewardButtons,
        condition: function() {

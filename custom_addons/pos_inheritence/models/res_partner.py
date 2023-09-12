@@ -5,3 +5,5 @@ class CustomResPartner(models.Model):
 
     dob = fields.Date(string='Date of Birth')
     mobile = fields.Char(string='Mobile number')
+
+
