@@ -24,9 +24,12 @@ odoo.define('pos_inheritence.RewardButton', function(require) {
            return order
        }
        onClick() {
-                Gui.showPopup("SelectionPopup", {
+
+                Gui.showPopup("TextInputPopup", {
                        title: this.env._t('Delivery Details'),
 
+
+                         placeholder: this.env._t('Gift card or Discount code'),
 //                       list: this.env._t('Welcome to OWL'),
                    });
        }

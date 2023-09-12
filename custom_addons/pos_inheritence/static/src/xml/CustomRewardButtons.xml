@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-    <t t-name="delivery_details_popup">
+    <t t-name="CustomewardButtons" owl="1">
         <div class="popup delivery-details-popup">
             <header class="title">
                 Enter Delivery Details
@@ -38,7 +38,6 @@
         </div>
     </t>
 </templates>
-
 
 
 
