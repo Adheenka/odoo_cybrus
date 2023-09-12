@@ -30,17 +30,37 @@
 <!--    </t>-->
 
 <!--</templates>-->
-
-
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="DeliveryDetailsButton" owl="1">-->
+<!--        &lt;!&ndash; Define the HTML structure of the button here &ndash;&gt;-->
+<!--        <div class="delivery-details-button" t-on-click="onClick">-->
+<!--            <i class="fa fa-truck"></i>-->
+<!--            <span>Delivery Details</span>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
 <templates id="template" xml:space="preserve">
-    <t t-name="CustomRewardButtons" owl="1">
-       <span class="control-button" t-att-class="is_available()?    'highlight' : ''">
-           <i class="fa fa-truck"></i>
-           <span> </span>
-           <span>Delivery Details</span>
-       </span>
-   </t>
+
+    <t t-name="DeliveryDetailsButton" owl="1">
+        <span class="control-button">
+             <i class="fa fa-truck"></i>
+            <span> </span>
+            <span>Gift Card</span>
+        </span>
+    </t>
+
 </templates>
+
+
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="CustomRewardButtons" owl="1">-->
+<!--       <span class="control-button" t-att-class="is_available()?    'highlight' : ''">-->
+<!--           <i class="fa fa-truck"></i>-->
+<!--           <span> </span>-->
+<!--           <span>Delivery Details</span>-->
+<!--       </span>-->
+<!--   </t>-->
+<!--</templates>-->
 
 
 

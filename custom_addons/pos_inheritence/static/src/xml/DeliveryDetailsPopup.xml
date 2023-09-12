@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="DeliveryDetailsPopup" owl="1">
+        <div role="dialog" class="modal-dialog">
+             <Draggable>
+        <div class="popup popup-textarea">
+            <header>
+                <h2>Delivery Details</h2>
+            </header>
+            <main>
+                <div>
+                    <label for="delivery_country">Delivery Country:</label>
+                    <select id="delivery_country">
+                        <!-- Add options for the delivery country here -->
+                    </select>
+                </div>
+                <div>
+                    <label for="delivery_type">Delivery Type:</label>
+                    <select id="delivery_type">
+                        <option value="domestic">Domestic</option>
+                        <option value="international">International</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="expected_delivery_date">Expected Delivery Date:</label>
+                    <input type="date" id="expected_delivery_date"/>
+                </div>
+            </main>
+            <footer>
+                <div class="button confirm" t-on-click="confirm">Confirm</div>
+                <div class="button cancel" t-on-click="cancel">Cancel</div>
+            </footer>
+        </div>
+            </Draggable>
+        </div>
+    </t>
+</templates>

@@ -1,103 +1,109 @@
-odoo.define('pos_inheritence.RewardButton', function(require) {
-'use strict';
-   const { Gui } = require('point_of_sale.Gui');
-   const PosComponent = require('point_of_sale.PosComponent');
-   const { posbus } = require('point_of_sale.utils');
-   const ProductScreen = require('point_of_sale.ProductScreen');
-   const { useListener } = require('web.custom_hooks');
-   const Registries = require('point_of_sale.Registries');
-   const PaymentScreen = require('point_of_sale.PaymentScreen');
-   const models = require('point_of_sale.models');
+odoo.define('pos_inheritence.DeliveryDetailsButton', function (require) {
+    'use strict';
 
-    // Define a function to load the required fields for pos.order model
-    function loadPosOrderFields(self) {
-        models.load_fields('pos.order', ['delivery_type', 'expected_delivery_date', 'delivery_country']);
+    const PosComponent = require('point_of_sale.PosComponent');
+    const ProductScreen = require('point_of_sale.ProductScreen');
+    const { useListener } = require('web.custom_hooks');
+    const Registries = require('point_of_sale.Registries');
+    const { Gui } = require("point_of_sale.Gui");
+
+    class DeliveryDetailsButton extends PosComponent {
+        constructor() {
+            super(...arguments);
+            useListener('click', this.onClick);
+        }
+
+        async onClick() {
+            // Open the 'DeliveryDetailsPopup' when the button is clicked.
+            this.showPopup('DeliveryDetailsPopup', { });
+        }
     }
 
-   class CustomRewardButtons extends PosComponent {
-       constructor() {
-           super(...arguments);
-           useListener('click', this.onClick);
-       }
-       is_available() {
-           const order = this.env.pos.get_order();
-           return order
-       }
-       onClick() {
+    // Define the template for the button.
+    DeliveryDetailsButton.template = 'DeliveryDetailsButton';
 
-                Gui.showPopup("TextInputPopup", {
-                       title: this.env._t('Delivery Details'),
+    // Add the custom button to the Product Screen.
+    ProductScreen.addControlButton({
+        component: DeliveryDetailsButton,
+        condition: function() {
+            // You can add a condition here to control when the button should appear.
+            return true;
+        },
+    });
 
+    // Register the custom button component.
+    Registries.Component.add(DeliveryDetailsButton);
 
-                         placeholder: this.env._t('Gift card or Discount code'),
-//                       list: this.env._t('Welcome to OWL'),
-                   });
-       }
-   }
-   CustomRewardButtons.template = 'CustomRewardButtons';
-
-   ProductScreen.addControlButton({
-       component: CustomRewardButtons,
-       condition: function() {
-           return this.env.pos;
-       },
-   });
-   Registries.Component.add(CustomRewardButtons);
-   return CustomRewardButtons;
-
-
-
-
-
-
-//   class CouponButton extends PosComponent{
-//      //Generate popup
-//      display_popup_products() {
-//      var core = require('web.core');
-//      var _t = core._t;
-//       Gui.showPopup("CouponProductsPopup", {
-//       title : _t("Coupon Products"),
-//       confirmText: _t("Exit")
-//          });
-//      }
-//  }
-//  //Add coupon button and set visibility
-//      ProductScreen.addControlButton({
-//      component: CouponButton,
-//      condition: function() {
-//          return this.env.pos.config.coupon_category;
-//      },
-//  });
-//  Registries.Component.add(CouponButton);
-//  export default CouponButton;
+    return DeliveryDetailsButton;
 });
-//odoo.define('pos_inheritence.DeliveryDetailsButton', function (require) {
-//    "use strict";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//odoo.define('pos_inheritence.RewardButton', function(require) {
+//'use strict';
+//   const { Gui } = require('point_of_sale.Gui');
+//   const PosComponent = require('point_of_sale.PosComponent');
+//   const { posbus } = require('point_of_sale.utils');
+//   const ProductScreen = require('point_of_sale.ProductScreen');
+//   const { useListener } = require('web.custom_hooks');
+//   const Registries = require('point_of_sale.Registries');
+//   const PaymentScreen = require('point_of_sale.PaymentScreen');
+//   const models = require('point_of_sale.models');
 //
-//    const PosComponent = require('point_of_sale.PosComponent');
-//    const Registries = require('point_of_sale.Registries');
-//    const { useListener } = require('@web/core/utils/hooks');
-//    const { _t } = require('web.core');
-//
-//   class DeliveryDetailsButton extends PosComponent {
-//        constructor() {
-//            super(...arguments);
-//            useListener('click', this.openDeliveryDetailsPopup);
-//        }
-//
-//        async openDeliveryDetailsPopup() {
-//            // Add your code to open the delivery details popup here
-//            // For example, you can show a custom popup or perform any other action
-//            console.log('Delivery Details button clicked');
-//        }
+//    // Define a function to load the required fields for pos.order model
+//    function loadPosOrderFields(self) {
+//        models.load_fields('pos.order', ['delivery_type', 'expected_delivery_date', 'delivery_country']);
 //    }
 //
-//    DeliveryDetailsButton.template = 'DeliveryDetailsButton';
+//   class CustomRewardButtons extends PosComponent {
+//       constructor() {
+//           super(...arguments);
+//           useListener('click', this.onClick);
+//       }
+//       is_available() {
+//           const order = this.env.pos.get_order();
+//           return order
+//       }
+//       onClick() {
 //
-//    Registries.Component.add(DeliveryDetailsButton);
+//                Gui.showPopup("TextInputPopup", {
+//                       title: this.env._t('Delivery Details'),
 //
-//    return DeliveryDetailsButton;
-//});
+//
+//                         placeholder: this.env._t('Gift card or Discount code'),
+////                       list: this.env._t('Welcome to OWL'),
+//                   });
+//       }
+//   }
+//   CustomRewardButtons.template = 'CustomRewardButtons';
+//
+//   ProductScreen.addControlButton({
+//       component: CustomRewardButtons,
+//       condition: function() {
+//           return this.env.pos;
+//       },
+//   });
+//   Registries.Component.add(CustomRewardButtons);
+//   return CustomRewardButtons;
+//
+//
+//
+//
+//
+
 
 //odoo.define("pos_inheritence.WBSampleButton", function(require){
 //"use strict";
