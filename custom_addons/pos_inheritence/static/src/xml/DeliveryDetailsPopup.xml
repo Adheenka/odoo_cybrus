@@ -9,18 +9,25 @@
                 <h2>Delivery Details</h2>
             </header>
             <main>
-                <div>
-                    <label for="delivery_country">Delivery Country:</label>
-                    <select id="delivery_country">
-                        <!-- Add options for the delivery country here -->
-                    </select>
-                </div>
-                <div>
-                    <label for="delivery_type">Delivery Type:</label>
-                    <select id="delivery_type">
-                        <option value="domestic">Domestic</option>
-                        <option value="international">International</option>
-                    </select>
+               <div class='client-detail'>
+    <div class='label'>Delivery Country</div>
+                   <div class="input-group">
+        <input t-att-value="props.delivery_country_name" t-att-readonly="readonly" class="detail delivery_country"
+               type="text" placeholder="Select a Country"/>
+
+    </div>
+</div>
+<!--                <div>-->
+<!--                    <label for="delivery_country">Delivery Country:</label>-->
+<!--                    <select id="delivery_country">-->
+<!--                        &lt;!&ndash; Add options for the delivery country here &ndash;&gt;-->
+<!--                    </select>-->
+<!--                </div>-->
+
+
+                 <div class='client-detail'>
+                    <div class='label'>delivey type.</div>
+                    <input id="delivery_type" class="detail delivery_type" type='text' t-att-value="props.inputDeliveryType" placeholder="input deliver type"/>
                 </div>
                 <div>
                     <label for="expected_delivery_date">Expected Delivery Date:</label>

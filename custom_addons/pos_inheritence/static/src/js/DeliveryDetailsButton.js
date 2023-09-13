@@ -14,8 +14,12 @@ odoo.define('pos_inheritence.DeliveryDetailsButton', function (require) {
         }
 
         async onClick() {
+             var self = this;
+             const order = this.env.pos.get_order();
             // Open the 'DeliveryDetailsPopup' when the button is clicked.
-            this.showPopup('DeliveryDetailsPopup', { });
+            this.showPopup('DeliveryDetailsPopup', { delivery_country: order.delivery_country,
+                    delivery_type: order.delivery_type ,
+                    expected_delivery_date: order.expected_delivery_date,});
         }
     }
 
