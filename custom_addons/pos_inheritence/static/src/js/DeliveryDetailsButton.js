@@ -8,18 +8,13 @@ odoo.define('pos_inheritence.DeliveryDetailsButton', function (require) {
     const { Gui } = require("point_of_sale.Gui");
 
     class DeliveryDetailsButton extends PosComponent {
-        constructor() {
-            super(...arguments);
-            useListener('click', this.onClick);
-        }
 
-        async onClick() {
-             var self = this;
-             const order = this.env.pos.get_order();
+        onClick() {
+
+
+            const order = this.env.pos.get_order();
             // Open the 'DeliveryDetailsPopup' when the button is clicked.
-            this.showPopup('DeliveryDetailsPopup', { delivery_country: order.delivery_country,
-                    delivery_type: order.delivery_type ,
-                    expected_delivery_date: order.expected_delivery_date,});
+            this.showPopup('DeliveryDetailsPopup', {});
         }
     }
 
