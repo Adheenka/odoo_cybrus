@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 
-class CustomPosOrder(models.Model):
+class PosOrder(models.Model):
     _inherit = 'pos.order'
 
     # Add your custom fields here
@@ -13,13 +13,4 @@ class CustomPosOrder(models.Model):
     card_number = fields.Char('Card Number')
     expiry_date = fields.Date('Expiry Date')
 
-    @api.model
-    def create_delivery_order(self, partner, delivery_country, delivery_type, expected_delivery_date):
 
-        order = self.create({
-            'partner_id': partner,
-            'delivery_country': delivery_country,
-            'delivery_type': delivery_type,
-            'expected_delivery_date': expected_delivery_date,
-        })
-        return order

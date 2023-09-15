@@ -6,6 +6,7 @@ odoo.define("point_of_sale.DeliveryDetailsPopup", function (require) {
     const ProductScreen = require("point_of_sale.ProductScreen");
     const { useListener } = require("web.custom_hooks");
     const Registries = require("point_of_sale.Registries");
+
 //    class DeliveryDetailsPopup extends AbstractAwaitablePopup {
 //        constructor() {
 //            super(...arguments);
@@ -82,20 +83,6 @@ odoo.define("point_of_sale.DeliveryDetailsPopup", function (require) {
 
     return DeliveryDetailsPopup;
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

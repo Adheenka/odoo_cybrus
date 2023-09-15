@@ -22,26 +22,37 @@
 <!--</templates>-->
 
 
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">-->
+
+<!--        &lt;!&ndash; Add a new button for Bank Details &ndash;&gt;-->
+<!--        <xpath expr="//div[hasclass('customer-button')]" position="before">-->
+<!--&lt;!&ndash;         <xpath expr="//div[hasclass('button')" position="before">&ndash;&gt;-->
+<!--            <div class="bank-details" style="margin-bottom: 10px;">-->
+<!--                <div class="button js_bank_details"-->
+<!--                    >-->
+
+<!--                    <i class='fa fa-university'/> Bank Details-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--    </t>-->
+
+<!--</templates>-->
+
 <templates id="template" xml:space="preserve">
-    <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+    <!-- Inherit PaymentScreenPaymentLines to Modify it -->
+    <t t-inherit="point_of_sale.PaymentScreenPaymentLines"
+       t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('delete-button')]" position="replace">
+            <div class="delete-button"
 
-        <!-- Add a new button for Bank Details -->
-        <xpath expr="//div[hasclass('customer-button')]" position="before">
-<!--         <xpath expr="//div[hasclass('button')" position="before">-->
-            <div class="bank-details" style="margin-bottom: 10px;">
-                <div class="button js_bank_details"
-                    >
-
-                    <i class='fa fa-university'/> Bank Details
-                </div>
+                 aria-label="Delete" title="Delete">
+                <i class="fa fa-times-circle"/>
             </div>
         </xpath>
     </t>
-
 </templates>
-
-
-
 
 
 

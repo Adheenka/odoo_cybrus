@@ -12,7 +12,7 @@
                <div class='client-detail'>
                         <div class='label'>Delivery Country</div>
                     <div class="input-group">
-                                <input t-att-value="props.delivery_country_name" t-att-readonly="readonly" class="detail delivery_country"
+                                <input t-model="state.delivery_country_name" 
                                                                      type="text" placeholder="Select a Country"/>
 
                     </div>
@@ -20,7 +20,7 @@
 
 
                  <div class='client-detail'>
-                    <div class='label'>delivey type.</div>
+                    <div class='label'>delivey type</div>
 
                     <input id="delivery_type" class="detail delivery_type" type='text' t-att-value="props.inputDeliveryType" placeholder="input deliver type"/>
                 </div>

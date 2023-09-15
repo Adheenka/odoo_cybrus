@@ -2,7 +2,7 @@ odoo.define('point_of_sale_assets', function (require) {
     'use strict';
 
     const models = require('point_of_sale.models');
-    const CustomClientLine = require('point_of_sale.ClientLine'); // Import your custom client line widget here
+    const CustomClientLine = require('point_of_sale.ClientLine');
 
 
     models.load_fields('res.partner', ['dob','mobile']);

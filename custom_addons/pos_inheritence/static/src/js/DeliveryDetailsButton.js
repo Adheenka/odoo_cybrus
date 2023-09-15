@@ -21,7 +21,7 @@ odoo.define('pos_inheritence.DeliveryDetailsButton', function (require) {
     // Define the template for the button.
     DeliveryDetailsButton.template = 'DeliveryDetailsButton';
 
-    // Add the custom button to the Product Screen.
+
     ProductScreen.addControlButton({
         component: DeliveryDetailsButton,
         condition: function() {
