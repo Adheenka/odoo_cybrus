@@ -33,6 +33,11 @@
 
 
 </templates>
+
+
+
+
+
 <!--        <templates id="template" xml:space="preserve">-->
 <!--            <t t-extend="OrderReceipt">-->
 <!--                <t t-jquery=".pos-receipt pos-receipt-contact" t-operation="append">-->

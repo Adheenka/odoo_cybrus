@@ -12,7 +12,7 @@
                <div class='client-detail'>
                         <div class='label'>Delivery Country</div>
                     <div class="input-group">
-                                <input t-model="state.delivery_country_name" 
+                                <input t-model="state.delivery_country_name"
                                                                      type="text" placeholder="Select a Country"/>
 
                     </div>
@@ -39,4 +39,88 @@
     </t>
 </templates>
 
+
+
+
+
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="DeliveryDetailsPopup" owl="1">-->
+<!--        <div role="dialog" class="modal-dialog">-->
+<!--            <Draggable>-->
+<!--                <div class="popup popup-textarea">-->
+<!--                    <header>-->
+<!--                        <h2>Delivery Details</h2>-->
+<!--                    </header>-->
+<!--                    <main>-->
+<!--                        <div class="client-detail">-->
+<!--                            <div class="label">Delivery Country</div>-->
+<!--                            <div class="input-group">-->
+<!--                                <Field name="delivery_country_id" widget="country_selector"/>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="client-detail">-->
+<!--                            <div class="label">Delivery Type</div>-->
+<!--                            <Field name="delivery_type" widget="selection"/>-->
+<!--                        </div>-->
+
+<!--                        <div>-->
+<!--                            <label for="expected_delivery_date">Expected Delivery Date:</label>-->
+<!--                            <Field name="expected_delivery_date" widget="date"/>-->
+<!--                        </div>-->
+<!--                    </main>-->
+<!--                    <footer>-->
+<!--                        <div class="button confirm" t-on-click="confirm">Confirm</div>-->
+<!--                        <div class="button cancel" t-on-click="cancel">Cancel</div>-->
+<!--                    </footer>-->
+<!--                </div>-->
+<!--            </Draggable>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
+
+
+<!--Error code-->
+
+
+
+<!--<templates id="template" xml:space="preserve">-->
+<!--    <t t-name="DeliveryDetailsPopup" owl="1">-->
+<!--        <div class="popup popup-textarea">-->
+<!--            <div role="dialog" class="modal-dialog">-->
+<!--            <Draggable>-->
+<!--                <header class="title drag-handle">-->
+<!--                    Delivery Details-->
+<!--                </header>-->
+<!--                <div class="popup-textarea-wrap">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="delivery_country">Delivery Country:</label>-->
+<!--                        <input type="text" id="delivery_country" t-att-value="state.deliveryCountryName" readonly="readonly" />-->
+<!--                        <button class="btn btn-primary" t-on-click="openCountrySelectionPopup">Select</button>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="delivery_type">Delivery Type:</label>-->
+<!--                        <select id="delivery_type" t-model="state.deliveryType">-->
+<!--                            <option value="domestic">Domestic</option>-->
+<!--                            <option value="international">International</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="expected_delivery_date">Expected Delivery Date:</label>-->
+<!--                        <input type="date" id="expected_delivery_date" t-model="state.expectedDeliveryDate" />-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <footer class="footer">-->
+<!--                    <div class="button confirm highlight" t-on-click="confirm">-->
+<!--                        <t t-esc="'Confirm'" />-->
+<!--                    </div>-->
+<!--                    <div class="button cancel" t-on-click="cancel">-->
+<!--                        <t t-esc="'Cancel'" />-->
+<!--                    </div>-->
+<!--                </footer>-->
+<!--            </Draggable>-->
+<!--                </div>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
 
