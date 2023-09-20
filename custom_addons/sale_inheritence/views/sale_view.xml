@@ -13,7 +13,7 @@
                     <field name="sequence"/>
                     <field name="customer_name"/>
                     <field name="creation_date"/>
-                    <field name="estimation_id"/>
+                    <field name="estimation_ids"/>
 
                 </tree>
             </field>
@@ -26,6 +26,9 @@
 
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="convert_to_quotation" string="Convert to Quotation" type="object" class="btn-primary"/>
+                    </header>
                     <group>
                         <group>
                             <field name="sequence"/>
@@ -33,8 +36,8 @@
                         </group>
                         <group>
                             <field name="creation_date"/>
-                            <field name="estimation_id"/>
-                            <!--                             <field name="estimation_ids" widget="one2many" options="{'mode': 'tree,kanban'}"/>-->
+
+          <field name="estimation_ids" widget="one2many" options="{'mode': 'tree,form'}"/>
 
 
                         </group>

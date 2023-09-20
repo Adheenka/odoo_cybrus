@@ -13,18 +13,18 @@ class SaleOrderInherit(models.Model):
     estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
 
-    # @api.model
-    # def create(self, vals):
-    #     if vals.get('sequence', 'New') == 'New':
-    #         vals['sequence'] = self.env['ir.sequence'].next_by_code('sale.sequence') or 'New'
-    #     return super(SaleOrderInherit, self).create(vals)
+
 
     @api.model
     def create(self, vals):
         vals['sequence'] = self.env['ir.sequence'].next_by_code('sale')
         return super(SaleOrderInherit, self).create(vals)
-
-
+    def convert_to_quotation(self):
+        val={
+            'partner_id':self.customer_name.id,
+            'date_order':self.creation_date,
+        }
+        self.env['sale.order'].create(val)
 class EstimationModel(models.Model):
     _name = 'estimation'
     _description = 'Your Estimation Model'
@@ -48,15 +48,15 @@ class EstimationModel(models.Model):
         vals['sequence'] = self.env['ir.sequence'].next_by_code('estimation')
         return super(EstimationModel, self).create(vals)
 
-    @api.depends('width', 'length', 'quantity')
+    @api.depends('width', 'length',)
     def _compute_area(self):
         for estimation in self:
-            estimation.area = estimation.width * estimation.length * estimation.quantity
+            estimation.area = estimation.width * estimation.length
 
-    @api.depends('width', 'length', 'quantity')
+    @api.depends('area', 'quantity')
     def _compute_total(self):
         for estimation in self:
-            estimation.total =  estimation.width + estimation.length + estimation.quantity
+            estimation.total = estimation.quantity * estimation.quantity
 
 
 class DescriptionMaster(models.Model):
