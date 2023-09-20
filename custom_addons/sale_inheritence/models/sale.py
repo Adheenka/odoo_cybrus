@@ -56,7 +56,7 @@ class EstimationModel(models.Model):
     @api.depends('area', 'quantity')
     def _compute_total(self):
         for estimation in self:
-            estimation.total = estimation.quantity * estimation.quantity
+            estimation.total = estimation.area + estimation.quantity
 
 
 class DescriptionMaster(models.Model):
@@ -65,10 +65,25 @@ class DescriptionMaster(models.Model):
 
     name = fields.Char(string='Description')
 
-# class SaleOrder(models.Model):
-#     _inherit = 'sale.order'
-#
-#     related_estimation = fields.Many2one('estimation', string='Related Estimation')
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    # related_estimation = fields.Many2one('estimation', string='Related Estimation')
+    # estimation_id = fields.Many2one('sale', string='Appointment')
+    sequence = fields.Char(string='Serialno')
+    amount = fields.Float(string='Estimation Amount')
+
+    # Add any additional fields you need for your estimation
+    description = fields.Many2one('description', string='Description')
+    # sale_order_id = fields.Many2one('sale.order', string='Sale Order')
+
+    width = fields.Float(string='Width')
+    length = fields.Float(string='Length')
+    area = fields.Float(string='Area')
+    quantity = fields.Float(string='Quantity')
+    total = fields.Float(string='Total')
+
+
 #
 # # In models.py
 #
