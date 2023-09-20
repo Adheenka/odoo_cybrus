@@ -10,13 +10,17 @@ class SaleOrderInherit(models.Model):
     creation_date = fields.Date(string='Creation Date')
     estimation_ids = fields.One2many('estimation', 'sale_order_id', string='Estimations')
 
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('sequence', 'New') == 'New':
+    #         vals['sequence'] = self.env['ir.sequence'].next_by_code('sale.sequence') or 'New'
+    #     return super(SaleOrderInherit, self).create(vals)
+
+
     @api.model
     def create(self, vals):
-        if vals.get('sequence', 'New') == 'New':
-            vals['sequence'] = self.env['ir.sequence'].next_by_code('SaleOrderInherit.sequence') or 'New'
+        vals['sequence'] = self.env['ir.sequence'].next_by_code('sale')
         return super(SaleOrderInherit, self).create(vals)
-
-
 
 class EstimationModel(models.Model):
     _name = 'estimation'

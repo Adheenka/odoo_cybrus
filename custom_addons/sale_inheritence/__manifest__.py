@@ -12,6 +12,7 @@
     'depends': ['base','sale'],
     'data': [
         'security/ir.model.access.csv',
+        'data/sequence_data.xml',
         'views/sale_view.xml',
 
 
