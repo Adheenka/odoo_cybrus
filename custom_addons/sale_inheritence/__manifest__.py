@@ -13,6 +13,8 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
+        'views/estimation_view.xml',
+        'views/description_view.xml',
         'views/sale_view.xml',
 
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<odoo>
+    <data>
+        <!-- Define the tree view for your custom model -->
+        <record model="ir.ui.view" id="view_description_tree">
+            <field name="name">description.tree</field>
+            <field name="model">description</field>
+
+            <field name="arch" type="xml">
+                <tree export_xlsx="0">
+                    <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- Define the form view for your custom model -->
+        <record model="ir.ui.view" id="view_description_form">
+            <field name="name">description.form</field>
+            <field name="model">description</field>
+
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+
+                            <field name="name"/>
+
+
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Define the action for your custom model -->
+        <record model="ir.actions.act_window" id="action_description">
+            <field name="name">description</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">description</field>
+            <field name="view_mode">tree,form</field>
+             <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+               add description
+            </p>
+        </field>
+        </record>
+
+        <!-- Define the menu item for your custom model -->
+        <menuitem id="menu_description"
+                  action="action_description"
+                  parent="sale.menu_sale_config"
+                  sequence="0"/>
+                  name="Description"/>
+
+    </data>
+</odoo>

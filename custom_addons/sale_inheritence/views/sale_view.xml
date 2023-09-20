@@ -1,63 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--<odoo>-->
-<!--    <data>-->
-
-<!--        &lt;!&ndash; Define the tree view for your custom model &ndash;&gt;-->
-<!--        <record model="ir.ui.view" id="view_estimation_tree">-->
-<!--            <field name="name">estimation.tree</field>-->
-<!--            <field name="model">estimation</field>-->
-<!--            <field name="type">tree,form</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <tree string="Estimations">-->
-<!--                    <field name="sequence"/>-->
-<!--                    <field name="description"/>-->
-<!--                    <field name="amount"/>-->
-<!--                    <field name="width"/>-->
-<!--                    <field name="length"/>-->
-<!--                    <field name="area"/>-->
-<!--                    <field name="quantity"/>-->
-<!--                    <field name="total"/>-->
-<!--                    &lt;!&ndash; Add any additional fields you want to display &ndash;&gt;-->
-<!--                </tree>-->
-<!--            </field>-->
-<!--        </record>-->
-
-<!--        &lt;!&ndash; Define the form view for your custom model &ndash;&gt;-->
-<!--        <record model="ir.ui.view" id="view_estimation_form">-->
-<!--            <field name="name">estimation.form</field>-->
-<!--            <field name="model">estimation</field>-->
-<!--            <field name="type">form</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <form string="Estimation Form">-->
-<!--                    <field name="sequence"/>-->
-<!--                    <field name="description"/>-->
-<!--                    <field name="amount"/>-->
-<!--                    <field name="width"/>-->
-<!--                    <field name="length"/>-->
-<!--                    <field name="area"/>-->
-<!--                    <field name="quantity"/>-->
-<!--                    <field name="total"/>-->
-<!--                    &lt;!&ndash; Add any additional fields you want to display in the form &ndash;&gt;-->
-<!--                </form>-->
-<!--            </field>-->
-<!--        </record>-->
-
-<!--        &lt;!&ndash; Define the action for your custom model &ndash;&gt;-->
-<!--        <record model="ir.actions.act_window" id="action_estimation_tree">-->
-<!--            <field name="name">Estimations</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model">estimation</field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--        </record>-->
-
-<!--        &lt;!&ndash; Define the menu item for your custom model &ndash;&gt;-->
-<!--        <menuitem id="menu_estimation"-->
-<!--            action="action_estimation_tree"-->
-<!--            parent="sale.sale_menu_root"-->
-<!--            name="Estimations" />-->
-
-<!--    </data>-->
-<!--</odoo>-->
 
 
 <odoo>
@@ -72,7 +13,8 @@
                     <field name="sequence"/>
                     <field name="customer_name"/>
                     <field name="creation_date"/>
-                    <field name="estimation_ids" widget="one2many_list"/>
+                    <field name="estimation_id"/>
+
                 </tree>
             </field>
         </record>
@@ -90,11 +32,49 @@
                             <field name="customer_name"/>
                         </group>
                         <group>
-                          <field name="creation_date"/>
-                          <field name="estimation_ids" widget="one2many" options="{'mode': 'tree,kanban'}"/>
+                            <field name="creation_date"/>
+                            <field name="estimation_id"/>
+                            <!--                             <field name="estimation_ids" widget="one2many" options="{'mode': 'tree,kanban'}"/>-->
+
+
                         </group>
                     </group>
+                    <sheet>
 
+                        <notebook>
+
+                            <page string="Estimation" name="estimation">
+                                <field name="estimation_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="description"/>
+                                        <field name="width"/>
+                                        <field name="length"/>
+
+                                        <field name="quantity"/>
+                                        <field name="area"/>
+                                        <field name="total"/>
+
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="sequence"/>
+                                            <field name="description"/>
+                                            <field name="width"/>
+                                            <field name="length"/>
+                                            <field name="area"/>
+                                            <field name="quantity"/>
+                                            <field name="area"/>
+                                            <field name="total"/>
+                                        </group>
+
+                                    </form>
+                                </field>
+
+                            </page>
+                        </notebook>
+
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -105,11 +85,11 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale</field>
             <field name="view_mode">tree,form</field>
-             <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create your firest sale
-            </p>
-        </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your firest sale
+                </p>
+            </field>
         </record>
 
         <!-- Define the menu item for your custom model -->

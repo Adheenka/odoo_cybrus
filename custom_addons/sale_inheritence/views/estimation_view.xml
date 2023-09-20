@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<!--    <data>-->
+
+<!--        &lt;!&ndash; Define the tree view for your custom model &ndash;&gt;-->
+<!--        <record model="ir.ui.view" id="view_estimation_tree">-->
+<!--            <field name="name">estimation.tree</field>-->
+<!--            <field name="model">estimation</field>-->
+<!--            <field name="type">tree,form</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="Estimations">-->
+<!--                    <field name="sequence"/>-->
+<!--                    <field name="description"/>-->
+<!--                    <field name="amount"/>-->
+<!--                    <field name="width"/>-->
+<!--                    <field name="length"/>-->
+<!--                    <field name="area"/>-->
+<!--                    <field name="quantity"/>-->
+<!--                    <field name="total"/>-->
+<!--                    &lt;!&ndash; Add any additional fields you want to display &ndash;&gt;-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Define the form view for your custom model &ndash;&gt;-->
+<!--        <record model="ir.ui.view" id="view_estimation_form">-->
+<!--            <field name="name">estimation.form</field>-->
+<!--            <field name="model">estimation</field>-->
+<!--            <field name="type">form</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Estimation Form">-->
+<!--                    <field name="sequence"/>-->
+<!--                    <field name="description"/>-->
+<!--                    <field name="amount"/>-->
+<!--                    <field name="width"/>-->
+<!--                    <field name="length"/>-->
+<!--                    <field name="area"/>-->
+<!--                    <field name="quantity"/>-->
+<!--                    <field name="total"/>-->
+<!--                    &lt;!&ndash; Add any additional fields you want to display in the form &ndash;&gt;-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <!-- Define the action for your custom model -->
+        <record model="ir.actions.act_window" id="action_estimation_tree">
+            <field name="name">Estimations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">estimation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Define the menu item for your custom model -->
+
+
+<!--    </data>-->
+</odoo>
