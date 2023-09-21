@@ -37,7 +37,7 @@
                         <group>
                             <field name="creation_date"/>
 
-          <field name="estimation_ids" widget="one2many" options="{'mode': 'tree,form'}"/>
+
 
 
                         </group>

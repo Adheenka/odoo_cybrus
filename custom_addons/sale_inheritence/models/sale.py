@@ -12,7 +12,7 @@ class SaleOrderInherit(models.Model):
     creation_date = fields.Date(string='Creation Date')
     estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
-
+    related_estimation_id = fields.Many2one('estimation', string='Related Estimation')
 
 
     @api.model
@@ -21,15 +21,20 @@ class SaleOrderInherit(models.Model):
         return super(SaleOrderInherit, self).create(vals)
     def convert_to_quotation(self):
         val={
-            'partner_id':self.customer_name.id,
-            'date_order':self.creation_date,
+
+             'partner_id':self.customer_name.id,
+             'state':'sale',
+             'date_order':self.creation_date,
+             'estimation_line_ids':self.estimation_ids,
+            # 'related_estimation_id': self.customer_name.id,
         }
         self.env['sale.order'].create(val)
 class EstimationModel(models.Model):
     _name = 'estimation'
     _description = 'Your Estimation Model'
 
-    estimation_id = fields.Many2one('sale', string='Appointment')
+    estimation_id = fields.Many2one('sale', string='estimation')
+    estimation_i = fields.Many2one('sale.order', string='estimation')
     sequence = fields.Char(string='Serialno')
     amount = fields.Float(string='Estimation Amount')
 
@@ -69,19 +74,24 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     # related_estimation = fields.Many2one('estimation', string='Related Estimation')
-    # estimation_id = fields.Many2one('sale', string='Appointment')
-    sequence = fields.Char(string='Serialno')
-    amount = fields.Float(string='Estimation Amount')
+    related_estimation = fields.Many2one('sale', string='Appointment')
 
-    # Add any additional fields you need for your estimation
-    description = fields.Many2one('description', string='Description')
-    # sale_order_id = fields.Many2one('sale.order', string='Sale Order')
+    estimation_line_ids = fields.One2many('estimation', 'sequence', string='Estimations')
 
-    width = fields.Float(string='Width')
-    length = fields.Float(string='Length')
-    area = fields.Float(string='Area')
-    quantity = fields.Float(string='Quantity')
-    total = fields.Float(string='Total')
+
+
+
+
+
+    # # Add any additional fields you need for your estimation
+    # description = fields.Many2one('description', string='Description')
+    # # sale_order_id = fields.Many2one('sale.order', string='Sale Order')
+    #
+    # width = fields.Float(string='Width')
+    # length = fields.Float(string='Length')
+    # area = fields.Float(string='Area')
+    # quantity = fields.Float(string='Quantity')
+    # total = fields.Float(string='Total')
 
 
 #
