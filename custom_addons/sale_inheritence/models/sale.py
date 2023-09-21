@@ -70,15 +70,20 @@ class DescriptionMaster(models.Model):
 
     name = fields.Char(string='Description')
 
+# class SaleOrder(models.Model):
+#     _inherit = 'sale.order'
+#
+#     # related_estimation = fields.Many2one('estimation', string='Related Estimation')
+#     related_estimation = fields.Many2one('sale', string='Appointment')
+#
+#     estimation_line_ids = fields.One2many('estimation', 'sequence', string='Estimations')
+
 class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+     _inherit = 'sale.order'
 
-    # related_estimation = fields.Many2one('estimation', string='Related Estimation')
-    related_estimation = fields.Many2one('sale', string='Appointment')
+     related_estimation = fields.Many2one('sale', string='Appointment')
 
-    estimation_line_ids = fields.One2many('estimation', 'sequence', string='Estimations')
-
-
+     estimation_line_ids = fields.One2many('estimation', 'estimation_i', string='Estimations')
 
 
 
