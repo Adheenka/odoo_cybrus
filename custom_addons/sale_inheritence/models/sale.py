@@ -21,7 +21,7 @@ class SaleOrderInherit(models.Model):
         return super(SaleOrderInherit, self).create(vals)
     def convert_to_quotation(self):
         val={
-            # 'related_estimation': self.saleorder_ids,
+            'related_estimation':self.id,
              'partner_id':self.customer_name.id,
              'state':'sale',
              'date_order':self.creation_date,
@@ -51,7 +51,7 @@ class EstimationModel(models.Model):
     area = fields.Float(string='Area', compute='_compute_area', store=True)
     quantity = fields.Float(string='Quantity')
     total = fields.Float(string='Total', compute='_compute_total', store=True)
-    seq = fields.Integer(string='Serial Number', compute='_compute_serial_number', readonly=True)
+    seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
 
     @api.depends('estimation_id', 'estimation_id.estimation_ids')
     def _compute_serial_number(self):
@@ -61,19 +61,8 @@ class EstimationModel(models.Model):
                 l.seq = no
                 no += 1
 
-    # @api.model
-    # def create(self, vals):
-    #     if vals.get('seq', _('New')) == _('New'):
-    #         vals['seq'] = self.env['ir.sequence'].next_by_code(
-    #             'estimation') or _('New')
-    #         result = super(EstimationModel, self).create(vals)
-    #         return result
 
 
-    # @api.model
-    # def create(self, vals):
-    #     vals['sequence'] = self.env['ir.sequence'].next_by_code('estimation')
-    #     return super(EstimationModel, self).create(vals)
 
     @api.depends('width', 'length',)
     def _compute_area(self):
