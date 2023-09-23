@@ -38,8 +38,6 @@
                             <field name="creation_date"/>
 
 
-
-
                         </group>
                     </group>
                     <sheet>
@@ -49,7 +47,7 @@
                             <page string="Estimation" name="estimation">
                                 <field name="estimation_ids">
                                     <tree editable="bottom">
-                                        <field name="sequence"/>
+                                        <field name="seq"/>
                                         <field name="description"/>
                                         <field name="width"/>
                                         <field name="length"/>
@@ -59,19 +57,19 @@
                                         <field name="total"/>
 
                                     </tree>
-                                    <form>
-                                        <group>
-                                            <field name="sequence"/>
-                                            <field name="description"/>
-                                            <field name="width"/>
-                                            <field name="length"/>
-                                            <field name="area"/>
-                                            <field name="quantity"/>
-                                            <field name="area"/>
-                                            <field name="total"/>
-                                        </group>
+<!--                                    <form>-->
+<!--                                        <group>-->
+<!--                                            <field name="sequence"/>-->
+<!--                                            <field name="description"/>-->
+<!--                                            <field name="width"/>-->
+<!--                                            <field name="length"/>-->
+<!--                                            <field name="area"/>-->
+<!--                                            <field name="quantity"/>-->
+<!--                                            <field name="area"/>-->
+<!--                                            <field name="total"/>-->
+<!--                                        </group>-->
 
-                                    </form>
+<!--                                    </form>-->
                                 </field>
 
                             </page>

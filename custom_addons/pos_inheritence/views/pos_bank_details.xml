@@ -16,7 +16,7 @@
 			</notebook>
 
 			<notebook position="inside">
-				<page string="Delivery Details" >
+				<page string="Delivery Details">
 					<group>
 						  <field name="delivery_country"/>
                            <field name="delivery_type"/>

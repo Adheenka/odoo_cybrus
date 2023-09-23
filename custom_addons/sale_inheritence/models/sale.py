@@ -1,4 +1,4 @@
-from odoo import fields, models, api
+from odoo import fields, models, api ,_
 
 
 class SaleOrderInherit(models.Model):
@@ -12,7 +12,7 @@ class SaleOrderInherit(models.Model):
     creation_date = fields.Date(string='Creation Date')
     estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
-    related_estimation_id = fields.Many2one('estimation', string='Related Estimation')
+    # related_estimation_id = fields.Many2one('estimation', string='Related Estimation')
 
 
     @api.model
@@ -21,24 +21,28 @@ class SaleOrderInherit(models.Model):
         return super(SaleOrderInherit, self).create(vals)
     def convert_to_quotation(self):
         val={
-
+            # 'related_estimation': self.saleorder_ids,
              'partner_id':self.customer_name.id,
              'state':'sale',
              'date_order':self.creation_date,
              'estimation_line_ids':self.estimation_ids,
-            # 'related_estimation_id': self.customer_name.id,
+
         }
         self.env['sale.order'].create(val)
 class EstimationModel(models.Model):
     _name = 'estimation'
     _description = 'Your Estimation Model'
+    # _rec_name = 'seq'
+
+
 
     estimation_id = fields.Many2one('sale', string='estimation')
     estimation_i = fields.Many2one('sale.order', string='estimation')
-    sequence = fields.Char(string='Serialno')
+    # seq = fields.Char(string='Serialno' ,required=True, copy=False, readonly=True,
+    #                        index=True, default=lambda self: _('New'))
     amount = fields.Float(string='Estimation Amount')
 
-    # Add any additional fields you need for your estimation
+
     description = fields.Many2one('description', string='Description')
     # sale_order_id = fields.Many2one('sale.order', string='Sale Order')
 
@@ -47,11 +51,29 @@ class EstimationModel(models.Model):
     area = fields.Float(string='Area', compute='_compute_area', store=True)
     quantity = fields.Float(string='Quantity')
     total = fields.Float(string='Total', compute='_compute_total', store=True)
+    seq = fields.Integer(string='Serial Number', compute='_compute_serial_number', readonly=True)
 
-    @api.model
-    def create(self, vals):
-        vals['sequence'] = self.env['ir.sequence'].next_by_code('estimation')
-        return super(EstimationModel, self).create(vals)
+    @api.depends('estimation_id', 'estimation_id.estimation_ids')
+    def _compute_serial_number(self):
+        for line in self:
+            no = 1  # Initialize the serial number to 1
+            for l in line.estimation_id.estimation_ids:
+                l.seq = no
+                no += 1
+
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('seq', _('New')) == _('New'):
+    #         vals['seq'] = self.env['ir.sequence'].next_by_code(
+    #             'estimation') or _('New')
+    #         result = super(EstimationModel, self).create(vals)
+    #         return result
+
+
+    # @api.model
+    # def create(self, vals):
+    #     vals['sequence'] = self.env['ir.sequence'].next_by_code('estimation')
+    #     return super(EstimationModel, self).create(vals)
 
     @api.depends('width', 'length',)
     def _compute_area(self):
@@ -71,19 +93,12 @@ class DescriptionMaster(models.Model):
     name = fields.Char(string='Description')
 
 # class SaleOrder(models.Model):
-#     _inherit = 'sale.order'
+#      _inherit = 'sale.order'
 #
-#     # related_estimation = fields.Many2one('estimation', string='Related Estimation')
-#     related_estimation = fields.Many2one('sale', string='Appointment')
+#      related_estimation = fields.Many2one('sale', string='Estimation_id', ondelete='cascade')
 #
-#     estimation_line_ids = fields.One2many('estimation', 'sequence', string='Estimations')
+#      estimation_line_ids = fields.One2many('estimation', 'estimation_i', string='Estimations')
 
-class SaleOrder(models.Model):
-     _inherit = 'sale.order'
-
-     related_estimation = fields.Many2one('sale', string='Appointment')
-
-     estimation_line_ids = fields.One2many('estimation', 'estimation_i', string='Estimations')
 
 
 
