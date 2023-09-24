@@ -171,6 +171,8 @@
                                     confirm="Are you sure open class_room module git "
                                     help="click this button,you will show class_room module" type="object"
                                     class="oe_highlight"/>
+                            <button name="action_notification" string="Send Notification" type="object"
+                                    groups="base.group_no_one" class="oe_highlight"/>
                             <field name="duration"/>
                         </group>
 
@@ -190,7 +192,7 @@
                             <field name="pharmacy_line_ids">
                                 <tree editable="bottom">
                                     <field name="product_id"/>
-                                    <field name="price_unit" widget="monetary"
+                                    <field name="price_unit" widget="monetary"  options="{'field_digits':True}"
                                            attrs="{'column_invisible' : [('parent.hide_sales_price','=',True)]}"/>
                                     <field name="qty"/>
                                     <field name="currency_id" invisible="1"/>

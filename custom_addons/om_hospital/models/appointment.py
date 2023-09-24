@@ -102,6 +102,23 @@ class HospitalAppointment(models.Model):
     #     if vals.get('name', 'New') == 'New':
     #         vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment') or 'New'
     #     return super(HospitalAppointment, self).create(vals)
+
+    def action_notification(self):
+        action = self.env.ref('om_hospital.action_hospital_pateint')
+        return{
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title':('Click open patient records'),
+                'message': '%s',
+                'links': [{
+                    'label':self.pateint_id.name,
+                    'url': f'#action={action.id}&id={self.pateint_id.id}&model=hospital.pateint'
+                }],
+                'sticky': True,
+
+            }
+        }
     @api.onchange('pateint_id')
     def onchange_pateint_id(self):
         self.ref = self.pateint_id.ref
@@ -156,7 +173,7 @@ class AppointmentPharmacyLines(models.Model):
     _description = "Appointment Pharmacy Lines"
 
     product_id = fields.Many2one('product.product', required=True)
-    price_unit = fields.Float(related='product_id.lst_price')
+    price_unit = fields.Float(related='product_id.lst_price', digits='Product Price')
     qty = fields.Integer(string='Quantity', default=1)
     appointment_id = fields.Many2one('hospital.appointment',string='Appointment')
     currency_id = fields.Many2one('res.currency', related='appointment_id.currency_id')
