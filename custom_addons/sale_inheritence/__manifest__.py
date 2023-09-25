@@ -26,6 +26,7 @@
 
 
 
+
     ],
     # 'assets':{
     #     'web.assets_qweb': ['pos_inheritence/static/src/xml/*',

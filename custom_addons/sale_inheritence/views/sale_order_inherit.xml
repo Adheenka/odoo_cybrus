@@ -4,57 +4,65 @@
 
         <record id="view_order_form_inherit" model="ir.ui.view">
             <field name="name">sale.order.inherit</field>
-             <field name="model">sale.order</field>
-             <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+
+<!--                task 8 code Quantity string name change-->
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="string">sqmt</attribute>
+                </xpath>
+
+
+
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="related_estimation"/>
 
                 </xpath>
 
-            <notebook position="inside">
-			  <page string="Estimation Details">
-                       <field name="estimation_line_ids">
-                             <field name="estimation_line_ids">
-                                    <tree editable="bottom">
+                <notebook position="inside">
+                    <page string="Estimation Details">
+                        <field name="estimation_line_ids">
+                            <field name="estimation_line_ids">
+                                <tree editable="bottom">
+                                    <field name="seq"/>
+                                    <field name="description"/>
+                                    <field name="width"/>
+                                    <field name="length"/>
+
+                                    <field name="quantity"/>
+                                    <field name="area"/>
+                                    <field name="total"/>
+
+                                </tree>
+                                <form>
+                                    <group>
                                         <field name="seq"/>
                                         <field name="description"/>
                                         <field name="width"/>
                                         <field name="length"/>
-
+                                        <field name="area"/>
                                         <field name="quantity"/>
                                         <field name="area"/>
                                         <field name="total"/>
+                                    </group>
 
-                                    </tree>
-                                    <form>
-                                        <group>
-                                            <field name="seq"/>
-                                            <field name="description"/>
-                                            <field name="width"/>
-                                            <field name="length"/>
-                                            <field name="area"/>
-                                            <field name="quantity"/>
-                                            <field name="area"/>
-                                            <field name="total"/>
-                                        </group>
-
-                                    </form>
-                                </field>
+                                </form>
+                            </field>
 
                         </field>
 
                     </page>
-			</notebook>
+                </notebook>
 
             </field>
         </record>
     </data>
 
 </odoo>
-<!--  <notebook position="inside">-->
-<!--                    <page string="Estimation Details">-->
-<!--                        <field name="estimation_lines_ids"/>-->
-<!--                        <field name="related_estimation"/>-->
-<!--                    </page>-->
-<!--                </notebook>-->
+        <!--  <notebook position="inside">-->
+        <!--                    <page string="Estimation Details">-->
+        <!--                        <field name="estimation_lines_ids"/>-->
+        <!--                        <field name="related_estimation"/>-->
+        <!--                    </page>-->
+        <!--                </notebook>-->
