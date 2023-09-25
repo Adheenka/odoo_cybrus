@@ -17,6 +17,7 @@
         'views/description_view.xml',
         'views/sale_order_inherit.xml',
         'views/sale_view.xml',
+        'views/colour_view.xml',
 
 
 

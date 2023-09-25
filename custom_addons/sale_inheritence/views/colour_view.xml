@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Define the tree view for your custom model -->
+        <record model="ir.ui.view" id="viewF_colour_tree">
+            <field name="name">colour.tree</field>
+            <field name="model">colour</field>
+
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="job_number"/>
+                    <field name="colour_widget" widget="color_picker"/>
+                    <!-- Add more fields as needed -->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Define the form view for your custom model -->
+        <record model="ir.ui.view" id="view_colour_form">
+            <field name="name">colour.form</field>
+            <field name="model">colour</field>
+
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="job_number"/>
+                         <field name="colour_widget" widget="color_picker"/>
+
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Define the action for your custom model -->
+        <record model="ir.actions.act_window" id="action_colour">
+            <field name="name">colour</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">colour</field>
+            <field name="context">{}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add color master
+                </p>
+            </field>
+        </record>
+
+        <!-- Define the menu item for your custom model -->
+        <menuitem id="menu_colour"
+                  action="action_colour"
+                  parent="sale.menu_sale_config"
+                  sequence="1"
+                  name="Color"/>
+    </data>
+</odoo>

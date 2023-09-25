@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access.estimation,access_estimation,sale_inheritence.model_estimation,base.group_user,1,1,1,1
 access.sale,access_sale,sale_inheritence.model_sale,base.group_user,1,1,1,1
 access.description,access_description,sale_inheritence.model_description,base.group_user,1,1,1,1
+access.colour,access_colour,sale_inheritence.model_colour,base.group_user,1,1,1,1
