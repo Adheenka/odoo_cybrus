@@ -81,6 +81,21 @@ class DescriptionMaster(models.Model):
 
     name = fields.Char(string='Description')
 
+
+   # task 8 code
+
+
+
+
+
+
+
+
+
+
+
+
+
 # class SaleOrder(models.Model):
 #      _inherit = 'sale.order'
 #

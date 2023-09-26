@@ -7,20 +7,34 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+<!--       button code-->
+              <xpath expr="//header/button[@name='action_confirm']" position="replace">
+                <button name="action_create_job_order" string="Confirm Job Order" type="object"/>
+            </xpath>
 
-<!--                task 8 code Quantity string name change-->
+
+<!--     task 8 code Quantity string name change-->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
                     <attribute name="string">sqmt</attribute>
                 </xpath>
-                  <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
+                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
+                    <field name="quantity"/>
+                </xpath>
+                  <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="after">
                     <field name="price_total"/>
+
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="replace" invisible="1">
 
                 </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                       <field name="seq"/>
+                </xpath>
 
 
 
+
+<!--tast 7 code-->
 
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="related_estimation"/>

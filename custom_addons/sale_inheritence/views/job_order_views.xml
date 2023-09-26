@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Define the view for the job.order model -->
+    <record id="view_job_order_form" model="ir.ui.view">
+        <field name="name">job.order.form</field>
+        <field name="model">job.order</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="job_no"/>
+                            <field name="customer_name"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Job Order Line">
+                            <field name="job_order_line">
+                                <tree>
+                                    <!-- Define your tree view fields here -->
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
