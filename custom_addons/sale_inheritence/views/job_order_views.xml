@@ -16,11 +16,11 @@
                     </group>
                     <notebook>
                         <page string="Job Order Line">
-                            <field name="job_order_line">
+                            <field name="job_order_lines">
                                 <tree>
                                     <!-- Define your tree view fields here -->
                                     <field name="product_id"/>
-                                    <field name="product_qty"/>
+
                                 </tree>
                             </field>
                         </page>
