@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
 <!--       button code-->
               <xpath expr="//header/button[@name='action_confirm'][1]" position="replace">
-                <button  string="Confirm Job Order" />
+                <button name="action_open_job_order" type="object" string="Confirm Job Order" />
             </xpath>
 
 
