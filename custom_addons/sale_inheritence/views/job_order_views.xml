@@ -8,7 +8,7 @@
             <field name="model">job.order</field>
 
             <field name="arch" type="xml">
-                <tree export_xlsx="0">
+                <tree>
 
                     <field name="customer_name"/>
                     <field name="sale_order_line_ids"/>
@@ -17,7 +17,7 @@
             </field>
         </record>
 
-        <!-- Define the form view for your custom model -->
+        <!-- Define the form view for your custom model -->-
         <record model="ir.ui.view" id="view_job_order_form">
             <field name="name">job.order.form</field>
             <field name="model">job.order</field>
@@ -25,21 +25,42 @@
             <field name="arch" type="xml">
                 <form>
 
-                    <group>
+                    <sheet>
                         <group>
+                            <group>
+                                <field name="customer_name"/>
 
-                            <field name="customer_name"/>
 
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <fiels name="job_no"/>
+                            </group>
                         </group>
-                    </group>
+
+
+                    </sheet>
+
                     <sheet>
                         <notebook>
-                            <page string="Job Order Lines" name="job_order_lines">
-                                <field name="sale_order_line_ids">
-                                    <tree editable="bottom">
-                                        <field name="job_no"/>
+<!--                                <page string="Sale Order Lines">-->
+<!--                                <field name="sale_order_line_ids" widget="one2many_list">-->
+<!--                                    <tree>-->
+<!--                                        <field name="product_id"/>-->
+<!--                                        &lt;!&ndash; Add other fields from sale.order.line as needed &ndash;&gt;-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
 
+                            <page string="Job Order Lines">
+                                <field name="sale_order_line_ids">
+                                    <tree>
+                                        <field name="job_no"/>
+                                          <field name="product_id"/>
                                         <field name="quantity"/>
+                                        <field name="colour_name"/>
+                                        <field name="price_total"/>
+
 
                                     </tree>
                                 </field>
@@ -63,7 +84,7 @@
             </field>
         </record>
 
-        <!-- Define the menu item for your custom model -->
+
         <menuitem id="menu_job_order"
                   action="action_job_order"
                   parent="sale.sale_menu_root"
@@ -72,69 +93,34 @@
 </odoo>
 
 
+        <!--<odoo>-->
+        <!--    &lt;!&ndash; Define the view for the job.order model &ndash;&gt;-->
+        <!--    <record id="view_job_order_form" model="ir.ui.view">-->
+        <!--        <field name="name">job.order.form</field>-->
+        <!--        <field name="model">job.order</field>-->
+        <!--        <field name="arch" type="xml">-->
+        <!--            <form>-->
 
+        <!--                <sheet>-->
+        <!--                    <group>-->
+        <!--                        <group>-->
+        <!--                            <field name="job_no"/>-->
+        <!--                            <field name="customer_name"/>-->
+        <!--                        </group>-->
+        <!--                    </group>-->
+        <!--                    <notebook>-->
+        <!--                        <page string="Job Order Line">-->
+        <!--                            <field name="job_order_lines">-->
+        <!--                                <tree>-->
+        <!--                                    &lt;!&ndash; Define your tree view fields here &ndash;&gt;-->
+        <!--                                    <field name="product_id"/>-->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<odoo>-->
-<!--    &lt;!&ndash; Define the view for the job.order model &ndash;&gt;-->
-<!--    <record id="view_job_order_form" model="ir.ui.view">-->
-<!--        <field name="name">job.order.form</field>-->
-<!--        <field name="model">job.order</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <form>-->
-
-<!--                <sheet>-->
-<!--                    <group>-->
-<!--                        <group>-->
-<!--                            <field name="job_no"/>-->
-<!--                            <field name="customer_name"/>-->
-<!--                        </group>-->
-<!--                    </group>-->
-<!--                    <notebook>-->
-<!--                        <page string="Job Order Line">-->
-<!--                            <field name="job_order_lines">-->
-<!--                                <tree>-->
-<!--                                    &lt;!&ndash; Define your tree view fields here &ndash;&gt;-->
-<!--                                    <field name="product_id"/>-->
-
-<!--                                </tree>-->
-<!--                            </field>-->
-<!--                        </page>-->
-<!--                    </notebook>-->
-<!--                </sheet>-->
-<!--            </form>-->
-<!--        </field>-->
-<!--    </record>-->
-<!--</odoo>-->
+        <!--                                </tree>-->
+        <!--                            </field>-->
+        <!--                        </page>-->
+        <!--                    </notebook>-->
+        <!--                </sheet>-->
+        <!--            </form>-->
+        <!--        </field>-->
+        <!--    </record>-->
+        <!--</odoo>-->
