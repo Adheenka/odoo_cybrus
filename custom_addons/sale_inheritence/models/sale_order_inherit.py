@@ -23,6 +23,21 @@ class SaleOrder(models.Model):
 
         }
 
+    # @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity')
+    # def _amount_all(self):
+    #     for order in self:
+    #         # Call the original _amount_all method using super
+    #         super(SaleOrder, order)._amount_all()
+    #
+    #         # Calculate the total amount including the quantity and product_uom_qty fields
+    #         total_with_quantity = order.amount_total
+    #
+    #         for line in order.order_line:
+    #             total_with_quantity += (line.product_uom_qty + line.quantity) * line.price_unit
+    #
+    #         order.update({
+    #             'amount_total': total_with_quantity,
+    #         })
 
 class JobOrder(models.Model):
     _name = 'job.order'
@@ -61,20 +76,60 @@ class SaleOrderLine(models.Model):
     seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
     colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
     colour_name = fields.Char(string='Colour Name', store=True)
-    subtotal = fields.Float(compute='compute_amount', string='Subtotal',
-                            readonly=True, store=True)
-    @api.depends('quantity','price_unit','tax_id')
-    def compute_amount(self):
-        # total = 0
-        # for obj in self:
-        #     total += obj.price_unit * obj.quantity + obj.tax_id
-        # obj.subtotal = total
-        for obj in self:
-            price_before_tax = obj.price_unit * obj.quantity
-            taxes = obj.tax_id.compute_all(price_before_tax, obj.order_id.currency_id, obj.quantity,
-                                           product=obj.product_id)
-            obj.subtotal = taxes['total_included']
 
+    @api.depends('price_total', 'product_uom_qty', 'quantity')
+    def _amount_all(self):
+
+        for order in self:
+            # Call the original _amount_all method using super
+            super(SaleOrder, order)._amount_all()
+
+            # Calculate the total amount including the quantity and free_item_qty fields
+            total_with_quantity = order.amount_total
+
+            for line in order.order_line:
+                total_with_quantity += (line.product_uom_qty + line.quantity) * line.price_unit
+
+            order.update({
+                'amount_total': total_with_quantity,
+            })
+    # @api.depends('price_total', 'product_uom_qty', 'quantity')
+    # def _compute_amount(self):
+    #     for order_line in self:
+    #         if order_line.product_uom_qty == 0.0:
+    #             order_line.price_total = order_line.price_unit * order_line.quantity
+    #         else:
+    #             order_line.price_total = order_line.price_unit * order_line.product_uom_qty
+    # @api.depends('price_total', 'product_uom_qty', 'quantity')
+    # def _compute_amount(self):
+    #     for order_line in self:
+    #         if order_line.product_uom_qty == 0.0:
+    #
+    #             order_line.price_total = order_line.price_unit * order_line.quantity
+    #         else:
+    #
+    #             order_line.price_total = order_line.price_unit * order_line.product_uom_qty
+
+
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        if self.product_id:
+            self.product_uom_qty = 0.0
+
+    # @api.depends('quantity','price_unit','tax_id')
+    # def compute_amount(self):
+    #
+    #     for obj in self:
+    #         price_before_tax = obj.price_unit * obj.quantity
+    #         taxes = obj.tax_id.compute_all(price_before_tax, obj.order_id.currency_id, obj.quantity,
+    #                                        product=obj.product_id)
+    #         obj.subtotal = taxes['total_included']
+
+    # total = 0
+    # for obj in self:
+    #     total += obj.price_unit * obj.quantity + obj.tax_id
+    # obj.subtotal = total
     def _compute_serial_number(self):
         for line in self:
             no = 0
