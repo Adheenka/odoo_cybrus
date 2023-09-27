@@ -16,7 +16,10 @@
 <!--     task 8 code Quantity string name change-->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
                     <attribute name="string">sqmt</attribute>
+
+
                 </xpath>
+
                  <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
                     <field name="quantity"/>
                 </xpath>

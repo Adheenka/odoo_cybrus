@@ -10,7 +10,21 @@ class SaleOrder(models.Model):
 
     estimation_line_ids = fields.One2many('estimation','estimation_i', string='Estimations')
 
+    @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity')
+    def _amount_all(self):
+        for order in self:
+            # Call the original _amount_all method using super
+            super(SaleOrder, order)._amount_all()
 
+            # Calculate the total amount including the quantity and product_uom_qty fields
+            total_with_quantity = order.amount_total
+
+            for line in order.order_line:
+                total_with_quantity += line.price_total
+
+            order.update({
+                'amount_total': total_with_quantity,
+            })
     def action_open_job_order(self):
         return {
            'type': 'ir.actions.act_window',
@@ -23,21 +37,9 @@ class SaleOrder(models.Model):
 
         }
 
-    # @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity')
-    # def _amount_all(self):
-    #     for order in self:
-    #         # Call the original _amount_all method using super
-    #         super(SaleOrder, order)._amount_all()
-    #
-    #         # Calculate the total amount including the quantity and product_uom_qty fields
-    #         total_with_quantity = order.amount_total
-    #
-    #         for line in order.order_line:
-    #             total_with_quantity += (line.product_uom_qty + line.quantity) * line.price_unit
-    #
-    #         order.update({
-    #             'amount_total': total_with_quantity,
-    #         })
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        self.product_uom_qty = 0
 
 class JobOrder(models.Model):
     _name = 'job.order'
@@ -50,6 +52,7 @@ class JobOrder(models.Model):
     product_id = fields.Many2one('product.product', string="Product_id")
     # job_order_id = fields.Many2one('sale.order.line', string='estimation')
     colour_name = fields.Char(string='Colour Name', store=True)
+
 
     # @api.depends('sale_order_line_ids.job_no.colour_widget.name')
     # def _compute_colour_name(self):
@@ -77,59 +80,43 @@ class SaleOrderLine(models.Model):
     colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
     colour_name = fields.Char(string='Colour Name', store=True)
 
-    @api.depends('price_total', 'product_uom_qty', 'quantity')
-    def _amount_all(self):
 
-        for order in self:
-            # Call the original _amount_all method using super
-            super(SaleOrder, order)._amount_all()
-
-            # Calculate the total amount including the quantity and free_item_qty fields
-            total_with_quantity = order.amount_total
-
-            for line in order.order_line:
-                total_with_quantity += (line.product_uom_qty + line.quantity) * line.price_unit
-
-            order.update({
-                'amount_total': total_with_quantity,
-            })
     # @api.depends('price_total', 'product_uom_qty', 'quantity')
-    # def _compute_amount(self):
-    #     for order_line in self:
-    #         if order_line.product_uom_qty == 0.0:
-    #             order_line.price_total = order_line.price_unit * order_line.quantity
-    #         else:
-    #             order_line.price_total = order_line.price_unit * order_line.product_uom_qty
-    # @api.depends('price_total', 'product_uom_qty', 'quantity')
-    # def _compute_amount(self):
-    #     for order_line in self:
-    #         if order_line.product_uom_qty == 0.0:
+    # def _amount_all(self):
     #
-    #             order_line.price_total = order_line.price_unit * order_line.quantity
-    #         else:
+    #     for order in self:
+    #         # Call the original _amount_all method using super
+    #         super(SaleOrder, order)._amount_all()
     #
-    #             order_line.price_total = order_line.price_unit * order_line.product_uom_qty
+    #         # Calculate the total amount including the quantity and free_item_qty fields
+    #         total_with_quantity = order.amount_total
+    #
+    #         for line in order.order_line:
+    #             total_with_quantity += (line.product_uom_qty + line.quantity) * line.price_unit
+    #
+    #         order.update({
+    #             'amount_total': total_with_quantity,
+    #         })
+
+
+    @api.depends('price_total', 'product_uom_qty', 'quantity','tax_id')
+    def _compute_amount(self):
+        for order_line in self:
+            if order_line.product_uom_qty == 0.0:
+                order_line.price_total = order_line.price_unit * order_line.quantity
+            else:
+                order_line.price_total = order_line.price_unit * order_line.product_uom_qty
+    #
 
 
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
-        if self.product_id:
-            self.product_uom_qty = 0.0
+        self.product_uom_qty = 0
 
-    # @api.depends('quantity','price_unit','tax_id')
-    # def compute_amount(self):
-    #
-    #     for obj in self:
-    #         price_before_tax = obj.price_unit * obj.quantity
-    #         taxes = obj.tax_id.compute_all(price_before_tax, obj.order_id.currency_id, obj.quantity,
-    #                                        product=obj.product_id)
-    #         obj.subtotal = taxes['total_included']
 
-    # total = 0
-    # for obj in self:
-    #     total += obj.price_unit * obj.quantity + obj.tax_id
-    # obj.subtotal = total
+
+
     def _compute_serial_number(self):
         for line in self:
             no = 0
