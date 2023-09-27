@@ -55,10 +55,11 @@
                             <page string="Job Order Lines">
                                 <field name="sale_order_line_ids">
                                     <tree>
+                                        <field name="colour_name"/>
                                         <field name="job_no"/>
                                           <field name="product_id"/>
                                         <field name="quantity"/>
-                                        <field name="colour_name"/>
+
                                         <field name="price_total"/>
 
 

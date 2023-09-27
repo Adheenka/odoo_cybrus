@@ -43,6 +43,7 @@ class SaleOrder(models.Model):
                 'product_id': order_line.product_id.id,
                 'quantity': order_line.product_uom_qty,
                 'price_total': order_line.price_total,
+                'colour_name': order_line.seq,
                 'job_no': order_line.seq,
             }))
 
@@ -106,12 +107,12 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
 
-    job_no = fields.Many2one('colour',string="Job_No")
+    job_no = fields.Many2one('colour',string="Colour Name")
     job_order_id = fields.Many2one('job.order', string='Job Order')
     quantity = fields.Float(string="Quantity")
     seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
     colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
-    colour_name = fields.Char(string='Colour Name', store=True)
+    colour_name = fields.Char(string='job_no', store=True)
 
 
 
