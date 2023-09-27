@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
 <!--       button code-->
-              <xpath expr="//header/button[@name='action_confirm'][1]" position="replace">
+              <xpath expr="//header/button[@name='action_confirm'][2]" position="replace">
                 <button name="action_open_job_order" type="object" string="Confirm Job Order" />
             </xpath>
 
