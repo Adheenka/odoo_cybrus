@@ -42,7 +42,8 @@ class SaleOrder(models.Model):
                 'order_id': self.id,  # Set the reference to the sale order
                 'product_id': order_line.product_id.id,
                 'quantity': order_line.product_uom_qty,
-                'price_unit': order_line.price_unit,
+                'price_total': order_line.price_total,
+                'job_no': order_line.seq,
             }))
 
         job_order_values['sale_order_line_ids'] = job_order_lines
