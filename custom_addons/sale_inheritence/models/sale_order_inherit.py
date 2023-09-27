@@ -37,9 +37,13 @@ class SaleOrder(models.Model):
 
         }
 
+    # @api.onchange('product_id')
+    # def _onchange_product_id(self):
+    #     self.product_uom_qty = 0
     @api.onchange('product_id')
     def _onchange_product_id(self):
-        self.product_uom_qty = 0
+        if self.product_id:
+            self.product_uom_qty = 0
 
 class JobOrder(models.Model):
     _name = 'job.order'
@@ -81,33 +85,52 @@ class SaleOrderLine(models.Model):
     colour_name = fields.Char(string='Colour Name', store=True)
 
 
-    # @api.depends('price_total', 'product_uom_qty', 'quantity')
-    # def _amount_all(self):
-    #
-    #     for order in self:
-    #         # Call the original _amount_all method using super
-    #         super(SaleOrder, order)._amount_all()
-    #
-    #         # Calculate the total amount including the quantity and free_item_qty fields
-    #         total_with_quantity = order.amount_total
-    #
-    #         for line in order.order_line:
-    #             total_with_quantity += (line.product_uom_qty + line.quantity) * line.price_unit
-    #
-    #         order.update({
-    #             'amount_total': total_with_quantity,
-    #         })
 
 
-    @api.depends('price_total', 'product_uom_qty', 'quantity','tax_id')
+    # @api.depends('price_total', 'product_uom_qty', 'quantity','tax_id')
+    # def _compute_amount(self):
+    #     for order_line in self:
+    #         if order_line.product_uom_qty == 0.0:
+    #             order_line.price_total = order_line.price_unit * order_line.quantity
+    #         else:
+    #             order_line.price_total = order_line.price_unit * order_line.product_uom_qty
+    #             taxes = order_line.tax_id.compute_all(
+    #                 order_line.price_unit * (1 - (order_line.discount or 0.0) / 100.0),
+    #                 order_line.order_id.currency_id,
+    #                 order_line.product_uom_qty,
+    #                 order_line.product_id,
+    #                 order_line.order_id.partner_shipping_id
+    #             )
+    #
+    #             # Update price_total with tax included
+    #             order_line.price_total = taxes['total_included']
+    @api.depends('price_unit', 'product_uom_qty', 'quantity', 'tax_id')
     def _compute_amount(self):
         for order_line in self:
-            if order_line.product_uom_qty == 0.0:
-                order_line.price_total = order_line.price_unit * order_line.quantity
-            else:
-                order_line.price_total = order_line.price_unit * order_line.product_uom_qty
-    #
+            # Calculate taxes for quantity
+            quantity_taxes = order_line.tax_id.compute_all(
+                order_line.price_unit * (1 - (order_line.discount or 0.0) / 100.0),
+                order_line.order_id.currency_id,
+                order_line.quantity,
+                order_line.product_id,
+                order_line.order_id.partner_shipping_id
+            )
+            # Calculate taxes for product_uom_qty
+            uom_quantity_taxes = order_line.tax_id.compute_all(
+                order_line.price_unit * (1 - (order_line.discount or 0.0) / 100.0),
+                order_line.order_id.currency_id,
+                order_line.product_uom_qty,
+                order_line.product_id,
+                order_line.order_id.partner_shipping_id
+            )
 
+            # Calculate the total amount including taxes for both quantity and product_uom_qty
+            total_with_quantity_and_tax = (
+                quantity_taxes['total_included'] if order_line.product_uom_qty == 0.0 else uom_quantity_taxes[
+                    'total_included'])
+
+            # Update price_total with tax included
+            order_line.price_total = total_with_quantity_and_tax
 
 
     @api.onchange('product_id')
