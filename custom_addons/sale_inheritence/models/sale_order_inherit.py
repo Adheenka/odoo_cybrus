@@ -57,14 +57,23 @@ class SaleOrderLine(models.Model):
     #
     job_no = fields.Many2one('colour',string="Job_No")
     job_order_id = fields.Many2one('job.order', string='Job Order')
-    quantity = fields.Float(string="Quantity",compute='_compute_remaining_qty')
+    quantity = fields.Float(string="Quantity")
     seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
     colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
     colour_name = fields.Char(string='Colour Name', store=True)
-    @api.depends('product_uom_qty','price_unit')
-    def _compute_remaining_qty(self):
-        for line in self:
-            line.quantity = line.product_uom_qty * line.price_unit
+    subtotal = fields.Float(compute='compute_amount', string='Subtotal',
+                            readonly=True, store=True)
+    @api.depends('quantity','price_unit','tax_id')
+    def compute_amount(self):
+        # total = 0
+        # for obj in self:
+        #     total += obj.price_unit * obj.quantity + obj.tax_id
+        # obj.subtotal = total
+        for obj in self:
+            price_before_tax = obj.price_unit * obj.quantity
+            taxes = obj.tax_id.compute_all(price_before_tax, obj.order_id.currency_id, obj.quantity,
+                                           product=obj.product_id)
+            obj.subtotal = taxes['total_included']
 
     def _compute_serial_number(self):
         for line in self:
