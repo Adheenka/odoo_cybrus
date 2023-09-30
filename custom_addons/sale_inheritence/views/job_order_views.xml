@@ -60,7 +60,7 @@
                                         <field name="product_id"/>
                                         <field name="quantity"/>
                                         <field name="price_total"/>
-<!--                                        <field name="total_all" readonly="1"/>-->
+                                        <field name="tax_amount" readonly="1"/>
 
 
                                     </tree>
