@@ -57,16 +57,23 @@
                                     <tree>
                                         <field name="colour_name"/>
                                         <field name="job_no"/>
-                                          <field name="product_id"/>
+                                        <field name="product_id"/>
                                         <field name="quantity"/>
-
                                         <field name="price_total"/>
+<!--                                        <field name="total_all" readonly="1"/>-->
 
 
                                     </tree>
                                 </field>
                             </page>
                         </notebook>
+                        <div>
+
+                            <div style="text-align: right; color: #ff5733; font-weight: bold;">
+                                Total all
+
+                            </div>
+                        </div>
                     </sheet>
                 </form>
             </field>
