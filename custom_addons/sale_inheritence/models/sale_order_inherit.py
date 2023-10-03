@@ -7,7 +7,7 @@ class SaleOrder(models.Model):
 
 
     related_estimation = fields.Many2one('sale', string='Estimation_id',ondelete='cascade')
-
+    opportunity_id= fields.Char(string="opportunity_id")
     estimation_line_ids = fields.One2many('estimation','estimation_i', string='Estimations')
 
     sale_order_line_ids = fields.One2many('sale.order.line', 'sale_order_id', string='sale_job_order')
@@ -137,15 +137,36 @@ class ColourMaster(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    job_order_ids = fields.One2many('job.order', 'job_order_id', string='sale_job_order')
-    job_no = fields.Many2one('colour',string="Colour Name")
-    sale_order_id = fields.Many2one('sale.order', string='Job Order')
+    job_no = fields.Many2one('colour', string="Colour Name")
     job_order_id = fields.Many2one('job.order', string='Job Order')
     quantity = fields.Float(string="Quantity")
-    seq = fields.Integer(string='Serial No', compute='_compute'
-                                                     '_serial_number', readonly=True)
+    seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
     colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
     colour_name = fields.Char(string='job_no', store=True)
+
+
+    sale_order_id = fields.Many2one('sale.order', string='Job Order')
+
+
+
+
+
+
+
+
+
+
+
+
+    # job_order_ids = fields.One2many('job.order', 'job_order_id', string='sale_job_order')
+    # job_no = fields.Many2one('colour',string="Colour Name")
+    # sale_order_id = fields.Many2one('sale.order', string='Job Order')
+    # job_order_id = fields.Many2one('job.order', string='Job Order')
+    # quantity = fields.Float(string="Quantity")
+    # seq = fields.Integer(string='Serial No', compute='_compute'
+    #                                                  '_serial_number', readonly=True)
+    # colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
+    # colour_name = fields.Char(string='job_no', store=True)
     price_total = fields.Float(string="Product Price")
     tax_amount = fields.Float(string="Total")
 

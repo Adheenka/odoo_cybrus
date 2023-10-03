@@ -60,7 +60,7 @@ class EstimationModel(models.Model):
     area = fields.Float(string='Area', compute='_compute_area', store=True)
     quantity = fields.Float(string='Quantity')
     total = fields.Float(string='Total', compute='_compute_total', store=True)
-    seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
+    seq = fields.Integer(string='Serial No', compute='_compute_serial_number', store=True)
 
     @api.depends('estimation_id', 'estimation_id.estimation_ids')
     def _compute_serial_number(self):
@@ -69,7 +69,8 @@ class EstimationModel(models.Model):
             for l in line.estimation_id.estimation_ids:
                 l.seq = no
                 no += 1
-
+            else:
+                line.seq = 1
 
 
 
