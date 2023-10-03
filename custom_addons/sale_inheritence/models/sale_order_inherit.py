@@ -68,35 +68,7 @@ class SaleOrder(models.Model):
             'res_id': job_order.id,
             'view_id': self.env.ref('sale_inheritence.view_job_order_form').id,
         }
-    # def action_open_job_order(self):
-    #     job_order_values = {
-    #         'sale_id': self.id,
-    #         'job_no': self.name,
-    #         'customer_name': self.partner_id.id,
-    #         'date': self.date_order,
-    #     }
-    #
-    #     # Use list comprehension to build the 'job_order_lines' list
-    #     job_order_lines = [(0, 0, {
-    #         'order_id': self.id,
-    #         'product_id': order_line.product_id.id,
-    #         'quantity': order_line.product_uom_qty,
-    #         'price_total': order_line.price_total,
-    #         'colour_name': order_line.seq,
-    #         'job_no': order_line.seq,
-    #     }) for order_line in self.order_line]
-    #
-    #     job_order_values['sale_order_line_ids'] = job_order_lines
-    #
-    #     job_order = self.env['job.order'].create(job_order_values)
-    #
-    #     return {
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'job.order',
-    #         'view_mode': 'form',
-    #         'res_id': job_order.id,
-    #         'view_id': self.env.ref('sale_inheritence.view_job_order_form').id,
-    #     }
+
     @api.onchange('product_id')
     def _onchange_product_id(self):
         if self.product_id:
@@ -111,7 +83,7 @@ class JobOrder(models.Model):
     related_estimation = fields.Many2one('sale', string='Estimation_id', ondelete='cascade')
 
     estimation_line_ids = fields.One2many('estimation', 'esti_i', string='Estimations')
-    # sale_order_line_ids = fields.One2many('sale.order.line', 'sale_order_id', string='sale_job_order')
+
     sale_order_id = fields.Many2one('sale.order.line', ondelete='cascade')
     sale_id =fields.Char(string="sale_id")
     job_no = fields.Char(string='Job No')

@@ -82,6 +82,8 @@
                                     <field name="quantity"/>
                                     <field name="area"/>
                                     <field name="total"/>
+                                    <field name="job_number"/>
+                                    <field name="color"/>
 
 
                                     </tree>
