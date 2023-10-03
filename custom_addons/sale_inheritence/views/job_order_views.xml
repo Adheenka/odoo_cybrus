@@ -66,6 +66,22 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="Estimation Lines">
+                                <field name="estimation_line_ids">
+                                <tree editable="bottom">
+                                    <field name="seq"/>
+                                    <field name="description"/>
+                                    <field name="width"/>
+                                    <field name="length"/>
+
+                                    <field name="quantity"/>
+                                    <field name="area"/>
+                                    <field name="total"/>
+
+
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                         <div>
 
