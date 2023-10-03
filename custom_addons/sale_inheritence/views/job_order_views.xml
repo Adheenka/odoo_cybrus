@@ -93,8 +93,8 @@
                         <div>
 
                             <div style="text-align: right; color: #ff5733; font-weight: bold;">
-                                Total all
-
+                                Total (all):
+                                <field name="total" readonly="1"/>
                             </div>
                         </div>
                     </sheet>

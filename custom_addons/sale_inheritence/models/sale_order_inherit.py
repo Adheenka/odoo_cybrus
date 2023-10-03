@@ -94,6 +94,18 @@ class JobOrder(models.Model):
     product_id = fields.Many2one('product.product', string="Product_id")
     job_order_id = fields.Many2one('sale.order.line', string='job order')
 
+
+    @api.depends('sale_order_line_ids.price_total')
+    def _compute_total(self):
+        for job_order in self:
+            total = sum(job_order.sale_order_line_ids.mapped('price_total'))
+            job_order.total = total
+
+    total = fields.Float(
+        string='Total',
+        compute='_compute_total',
+        store=True,
+    )
     def print_pdf_report(self):
         return self.env.ref('sale_inheritence.report_job_order_card').report_action(self)
 
@@ -130,15 +142,8 @@ class SaleOrderLine(models.Model):
 
 
 
-    # job_order_ids = fields.One2many('job.order', 'job_order_id', string='sale_job_order')
-    # job_no = fields.Many2one('colour',string="Colour Name")
-    # sale_order_id = fields.Many2one('sale.order', string='Job Order')
-    # job_order_id = fields.Many2one('job.order', string='Job Order')
-    # quantity = fields.Float(string="Quantity")
-    # seq = fields.Integer(string='Serial No', compute='_compute'
-    #                                                  '_serial_number', readonly=True)
-    # colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
-    # colour_name = fields.Char(string='job_no', store=True)
+    job_order_ids = fields.One2many('job.order', 'job_order_id', string='sale_job_order')
+
     price_total = fields.Float(string="Product Price")
     tax_amount = fields.Float(string="Total")
 

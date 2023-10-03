@@ -70,6 +70,12 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                 <div class="total-marks">
+                                <p style="text-align: right; color: #ff5733; font-weight: bold;">
+                                    <strong>Total (All):</strong>
+                                    <t t-esc="o.total"/>
+                                </p>
+                            </div>
                             </div>
                             <div class="estimation-lines">
                                 <h2>Estimation Lines</h2>
