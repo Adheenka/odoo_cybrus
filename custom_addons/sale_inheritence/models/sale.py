@@ -12,8 +12,11 @@ class SaleOrderInherit(models.Model):
     creation_date = fields.Date(string='Creation Date')
     estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
-    # related_estimation_id = fields.Many2one('estimation', string='Related Estimation')
 
+    #job order
+    job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
+
+    # code for  report printing
 
     @api.model
     def create(self, vals):
@@ -29,6 +32,11 @@ class SaleOrderInherit(models.Model):
 
         }
         self.env['sale.order'].create(val)
+        job_order_vals = {
+            'estimation_line_ids': self.estimation_ids,
+
+        }
+        self.env['job.order'].create(job_order_vals)
 class EstimationModel(models.Model):
     _name = 'estimation'
     _description = 'Your Estimation Model'
@@ -38,6 +46,7 @@ class EstimationModel(models.Model):
 
     estimation_id = fields.Many2one('sale', string='estimation')
     estimation_i = fields.Many2one('sale.order', string='estimation')
+    esti_i = fields.Many2one('job.order', string='estimation')
     # seq = fields.Char(string='Serialno' ,required=True, copy=False, readonly=True,
     #                        index=True, default=lambda self: _('New'))
     amount = fields.Float(string='Estimation Amount')

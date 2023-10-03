@@ -24,7 +24,12 @@
 
             <field name="arch" type="xml">
                 <form>
+                 <header>
 
+
+                        <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
+
+                    </header>
                     <sheet>
                         <group>
                             <group>

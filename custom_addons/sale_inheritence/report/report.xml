@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <report
+            id="report_job_order_card"
+            model="job.order"
+            string="Job order"
+            report_type="qweb-pdf"
+            name="sale_inheritence.report_job_order"
+            file="sale_inheritence.report_job_order"/>
+
+
+
+
+
+</odoo>
+<!--    <report-->
+<!--        id="action_report_student"-->
+<!--        model="sale_inheritence.report.wizard"-->
+<!--        string="Classroom Details"-->
+<!--        report_type="qweb-pdf"-->
+<!--        name="sale_inheritence.report_student_detail"-->
+<!--        file="sale_inheritence.report_student_detail"-->
+<!--    />-->

@@ -19,6 +19,8 @@
         'views/sale_view.xml',
         'views/colour_view.xml',
         'views/job_order_views.xml',
+         'report/report.xml',
+        'report/job_order_card.xml',
 
 
 

@@ -108,7 +108,9 @@ class JobOrder(models.Model):
 
     sale_order_line_ids = fields.One2many('sale.order.line', 'sale_order_id', string='sale_job_order')
 
+    related_estimation = fields.Many2one('sale', string='Estimation_id', ondelete='cascade')
 
+    estimation_line_ids = fields.One2many('estimation', 'esti_i', string='Estimations')
     # sale_order_line_ids = fields.One2many('sale.order.line', 'sale_order_id', string='sale_job_order')
     sale_order_id = fields.Many2one('sale.order.line', ondelete='cascade')
     sale_id =fields.Char(string="sale_id")
@@ -120,7 +122,8 @@ class JobOrder(models.Model):
     product_id = fields.Many2one('product.product', string="Product_id")
     job_order_id = fields.Many2one('sale.order.line', string='job order')
 
-
+    def print_pdf_report(self):
+        return self.env.ref('sale_inheritence.report_job_order_card').report_action(self)
 
 
 class ColourMaster(models.Model):
@@ -139,7 +142,8 @@ class SaleOrderLine(models.Model):
     sale_order_id = fields.Many2one('sale.order', string='Job Order')
     job_order_id = fields.Many2one('job.order', string='Job Order')
     quantity = fields.Float(string="Quantity")
-    seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
+    seq = fields.Integer(string='Serial No', compute='_compute'
+                                                     '_serial_number', readonly=True)
     colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')
     colour_name = fields.Char(string='job_no', store=True)
     price_total = fields.Float(string="Product Price")
