@@ -37,42 +37,68 @@ class SaleOrder(models.Model):
 
     # tax included code  without any single error
 
+
     def action_open_job_order(self):
-        job_order_values = {
-            'sale_id': self.id,
-            'job_no': self.name,
+        # Call the super method to confirm the sale order
+        super(SaleOrder, self).action_confirm()
+
+        # Create a new job order record
+        job_order = self.env['job.order'].create({
             'customer_name': self.partner_id.id,
+
             'date': self.date_order,
-            'estimation_line_ids': self.estimation_line_ids,
-        }
+            'job_no': self.name,  # You can set the sequence_number as needed
+            'sale_order_line_ids': [(4, line.id) for line in self.order_line],  # Assuming job order has a Many2many field for sale order lines
+            'estimation_line_ids': [(4, estimation.id) for estimation in self.estimation_line_ids],  # Assuming job order has a Many2many field for estimations
+        })
 
-        # Use list comprehension to build the 'job_order_lines' list
-        job_order_lines = [(0, 0, {
-            'order_id': self.id,
-            'product_id': line.product_id.id,
-            'quantity': line.product_uom_qty,
-            'price_total': line.price_total,
-            'colour_name': line.seq,
-            'job_no': line.seq,
-            'tax_amount': line.tax_id.compute_all(
-                line.price_unit * (1 - (line.discount or 0.0) / 100.0),
-                self.currency_id,
-                line.product_uom_qty,
-                line.product_id,
-                self.partner_shipping_id)['total_included'],
-        }) for line in self.order_line]
-
-        job_order_values['sale_order_line_ids'] = job_order_lines
-
-        job_order = self.env['job.order'].create(job_order_values)
-
+        # Return an action to open the job order form
         return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'job.order',
+            'name': 'Job Order',
+            'view_type': 'form',
             'view_mode': 'form',
+            'res_model': 'job.order',  # Replace with the actual model name
             'res_id': job_order.id,
-            'view_id': self.env.ref('sale_inheritence.view_job_order_form').id,
+            'type': 'ir.actions.act_window',
+            'target': 'self',
         }
+
+    # def action_open_job_order(self):
+    #     job_order_values = {
+    #         'sale_id': self.id,
+    #         'job_no': self.name,
+    # #         'customer_name': self.partner_id.id,
+    #         'date': self.date_order,
+    #         'estimation_line_ids': self.estimation_line_ids,
+    #     }
+    #
+    #     # Use list comprehension to build the 'job_order_lines' list
+    #     job_order_lines = [(0, 0, {
+    #         'order_id': self.id,
+    #         'product_id': line.product_id.id,
+    #         'quantity': line.product_uom_qty,
+    #         'price_total': line.price_total,
+    #         'colour_name': line.seq,
+    #         'job_no': line.seq,
+    #         'tax_amount': line.tax_id.compute_all(
+    #             line.price_unit * (1 - (line.discount or 0.0) / 100.0),
+    #             self.currency_id,
+    #             line.product_uom_qty,
+    #             line.product_id,
+    #             self.partner_shipping_id)['total_included'],
+    #     }) for line in self.order_line]
+    #
+    #     job_order_values['sale_order_line_ids'] = job_order_lines
+    #
+    #     job_order = self.env['job.order'].create(job_order_values)
+    #
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'job.order',
+    #         'view_mode': 'form',
+    #         'res_id': job_order.id,
+    #         'view_id': self.env.ref('sale_inheritence.view_job_order_form').id,
+    #     }
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
