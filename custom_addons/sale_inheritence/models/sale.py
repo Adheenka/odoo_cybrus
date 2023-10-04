@@ -1,4 +1,5 @@
 from odoo import fields, models, api ,_
+from odoo.exceptions import ValidationError
 
 
 class SaleOrderInherit(models.Model):
@@ -12,9 +13,10 @@ class SaleOrderInherit(models.Model):
     creation_date = fields.Date(string='Creation Date')
     estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
+    estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
 
     #job order
-    job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
+    # job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
 
     # code for  report printing
 
@@ -32,11 +34,9 @@ class SaleOrderInherit(models.Model):
 
         }
         self.env['sale.order'].create(val)
-        job_order_vals = {
-            'estimation_line_ids': self.estimation_ids,
 
-        }
-        self.env['job.order'].create(job_order_vals)
+        # job_order_vals = {
+
 class EstimationModel(models.Model):
     _name = 'estimation'
     _description = 'Your Estimation Model'
@@ -47,8 +47,11 @@ class EstimationModel(models.Model):
     estimation_id = fields.Many2one('sale', string='estimation')
     estimation_i = fields.Many2one('sale.order', string='estimation')
     esti_i = fields.Many2one('job.order', string='estimation')
-    # seq = fields.Char(string='Serialno' ,required=True, copy=False, readonly=True,
-    #                        index=True, default=lambda self: _('New'))
+
+
+    estimation_id = fields.Many2one('sale.order', string='estimation')
+
+
     amount = fields.Float(string='Estimation Amount')
 
 
@@ -64,7 +67,7 @@ class EstimationModel(models.Model):
 
 
 
-
+    cus_ref =fields.Float(string='CUS REF' )
     job_number = fields.Char(string='Job Number')
     color = fields.Char(string='Color')
     job_number_id = fields.Many2one('colour', string='Job Number (Reference)')
@@ -76,16 +79,23 @@ class EstimationModel(models.Model):
             if colour:
                 self.job_number_id = colour
                 self.color = colour.name
-    @api.depends('estimation_id', 'estimation_id.estimation_ids')
+    # @api.depends('estimation_id', 'estimation_id.estimation_ids')
+    # def _compute_serial_number(self):
+    #     for line in self:
+    #         no = 1
+    #         for l in line.estimation_id.estimation_ids:
+    #             l.seq = no
+    #             no += 1
+    #         else:
+    #             line.seq = 1
+
     def _compute_serial_number(self):
         for line in self:
-            no = 1  # Initialize the serial number to 1
-            for l in line.estimation_id.estimation_ids:
-                l.seq = no
+            no = 0
+            line.seq = no
+            for i in line.order_id.order_line:
                 no += 1
-            else:
-                line.seq = 1
-
+                i.seq = no
 
 
     @api.depends('width', 'length',)

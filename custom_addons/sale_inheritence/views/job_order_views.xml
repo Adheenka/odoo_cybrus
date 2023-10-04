@@ -70,11 +70,19 @@
 
                                     </tree>
                                 </field>
+                                   <div>
+
+                            <div style="text-align: right; color: #ff5733; font-weight: bold;">
+                                Total (all):
+                                <field name="total" readonly="1"/>
+                            </div>
+                        </div>
                             </page>
                             <page string="Estimation Lines">
                                 <field name="estimation_line_ids">
                                 <tree editable="bottom">
                                     <field name="seq"/>
+                                    <field name="cus_ref"/>
                                     <field name="description"/>
                                     <field name="width"/>
                                     <field name="length"/>
@@ -90,13 +98,7 @@
                                 </field>
                             </page>
                         </notebook>
-                        <div>
 
-                            <div style="text-align: right; color: #ff5733; font-weight: bold;">
-                                Total (all):
-                                <field name="total" readonly="1"/>
-                            </div>
-                        </div>
                     </sheet>
                 </form>
             </field>

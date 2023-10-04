@@ -14,6 +14,10 @@ class SaleOrder(models.Model):
     sale_order_id = fields.Many2one('sale.order.line', ondelete='cascade')
     job_order_ids = fields.One2many('job.order', 'job_order_id', string='sale_job_order')
 
+    estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
+    estimation_id = fields.Many2one('estimation', string='Estimations')
+    # job order
+    job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
     @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity')
     def _amount_all(self):
         for order in self:
@@ -39,6 +43,7 @@ class SaleOrder(models.Model):
             'job_no': self.name,
             'customer_name': self.partner_id.id,
             'date': self.date_order,
+            'estimation_line_ids': self.estimation_line_ids,
         }
 
         # Use list comprehension to build the 'job_order_lines' list
@@ -78,11 +83,19 @@ class JobOrder(models.Model):
     _name = 'job.order'
     _description = 'Job Order'
 
+
+    #print paf task code
+    related_estimation = fields.Many2one('sale.order', string='Estimation_id', ondelete='cascade')
+
+    estimation_line_ids = fields.One2many('estimation', 'esti_i', string='Estimations')
+
+
+
+
     sale_order_line_ids = fields.One2many('sale.order.line', 'sale_order_id', string='sale_job_order')
 
     related_estimation = fields.Many2one('sale', string='Estimation_id', ondelete='cascade')
 
-    estimation_line_ids = fields.One2many('estimation', 'esti_i', string='Estimations')
 
     sale_order_id = fields.Many2one('sale.order.line', ondelete='cascade')
     sale_id =fields.Char(string="sale_id")
@@ -93,12 +106,23 @@ class JobOrder(models.Model):
     date = fields.Date(string='Date')
     product_id = fields.Many2one('product.product', string="Product_id")
     job_order_id = fields.Many2one('sale.order.line', string='job order')
+    total = fields.Float(
+        string='Total',
+        compute='_compute_total',
+        store=True,
+    )
+    total_quantity =fields.Float(string="Total QTY",compute='_compute_qty',store=True)
 
+    @api.depends('sale_order_line_ids.quantity')
+    def _compute_qty(self):
+        for job_order in self:
+            total_quantity = sum(job_order.sale_order_line_ids.mapped('quantity'))
+            job_order.total_quantity = total_quantity
 
-    @api.depends('sale_order_line_ids.price_total')
+    @api.depends('sale_order_line_ids.tax_amount')
     def _compute_total(self):
         for job_order in self:
-            total = sum(job_order.sale_order_line_ids.mapped('price_total'))
+            total = sum(job_order.sale_order_line_ids.mapped('tax_amount'))
             job_order.total = total
 
     total = fields.Float(
