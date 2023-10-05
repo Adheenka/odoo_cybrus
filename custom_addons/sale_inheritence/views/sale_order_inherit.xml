@@ -47,8 +47,8 @@
                 <notebook position="inside">
                     <page string="Estimation Details">
                         <field name="estimation_line_ids">
-                            <field name="estimation_line_ids">
-                                <tree editable="bottom">
+
+                                <tree>
                                     <field name="seq"/>
                                     <field name="description"/>
                                     <field name="width"/>
@@ -72,7 +72,7 @@
                                     </group>
 
                                 </form>
-                            </field>
+
 
                         </field>
 

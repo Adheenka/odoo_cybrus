@@ -11,9 +11,9 @@ class SaleOrderInherit(models.Model):
     description = fields.Char(string='description')
     customer_name = fields.Many2one('res.partner', string='Customer Name')
     creation_date = fields.Date(string='Creation Date')
-    estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
+    estimation_ids = fields.One2many('estimation', 'estimations_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
-    estimation_ids = fields.One2many('estimation', 'estimation_id', string='Estimations')
+    estimation_ids = fields.One2many('estimation', 'estimations_id', string='Estimations')
 
     #job order
     # job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
@@ -44,7 +44,7 @@ class EstimationModel(models.Model):
 
 
 
-    estimation_id = fields.Many2one('sale', string='estimation')
+    estimations_id = fields.Many2one('sale', string='estimation')
     estimation_i = fields.Many2one('sale.order', string='estimation')
     esti_i = fields.Many2one('job.order', string='estimation')
 
@@ -80,8 +80,7 @@ class EstimationModel(models.Model):
             for l in line.estimation_id.estimation_ids:
                 l.seq = no
                 no += 1
-            else:
-                line.seq = 1
+
 
     # def _compute_serial_number(self):
     #     for line in self:
