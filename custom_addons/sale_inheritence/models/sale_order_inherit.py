@@ -91,7 +91,7 @@ class SaleOrder(models.Model):
 
 
             'sale_order_line_ids':  self.order_line,
-            'estimation_line_ids': [(4, estimation.id) for estimation in self.estimation_line_ids],
+            'estimation_line_ids':self.estimation_line_ids,
         })
 
 

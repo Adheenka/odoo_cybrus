@@ -63,10 +63,10 @@
                                                 <span t-field="line.quantity"/>
                                             </td>
                                             <td>
-                                                <span t-field="line.price_total"/>
+                                                <span t-field="line.price_unit"/>
                                             </td>
                                             <td>
-                                                <span t-field="line.tax_amount"/>
+                                                <span t-field="line.price_total"/>
                                             </td>
                                         </tr>
                                         <tfoot>
