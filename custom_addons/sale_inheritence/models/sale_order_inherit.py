@@ -36,64 +36,37 @@ class SaleOrder(models.Model):
 
 
     # tax included code  without any single error
-    def action_open_job_order(self):
-        # Ensure the sale order is confirmed
-        super(SaleOrder, self).action_confirm()
-
-        # Create a new job order record
-        job_order = self.env['job.order'].create({
-            'customer_name': self.partner_id.id,
-            'date': self.date_order,
-            'job_no': self.name,
-        })
-
-        job_order_lines = [(0, 0, {
-            'order_id': self.id,
-            'product_id': line.product_id.id,
-            'quantity': line.product_uom_qty,
-            'price_total': line.price_total,
-            'colour_name': line.seq,
-            'job_no': line.seq,
-            'tax_amount': line.tax_id.compute_all(
-                line.price_unit * (1 - (line.discount or 0.0) / 100.0),
-                self.currency_id,
-                line.product_uom_qty,
-                line.product_id,
-                self.partner_shipping_id)['total_included'],
-        }) for line in self.order_line]
-
-        # Set the job_order_lines on the job_order record
-        job_order.sale_order_line_ids = job_order_lines
-
-
-        job_order.estimation_line_ids = [(4, estimation.id) for estimation in self.estimation_line_ids]
-
-        return {
-            'name': 'Job Order',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'job.order',
-            'res_id': job_order.id,
-            'type': 'ir.actions.act_window',
-            'target': 'self',
-        }
-
     # def action_open_job_order(self):
-    #
+    #     # Ensure the sale order is confirmed
     #     super(SaleOrder, self).action_confirm()
     #
     #     # Create a new job order record
     #     job_order = self.env['job.order'].create({
     #         'customer_name': self.partner_id.id,
-    #
     #         'date': self.date_order,
     #         'job_no': self.name,
-    #
-    #
-    #         'sale_order_line_ids': [(4, line.id) for line in self.order_line],
-    #         'estimation_line_ids': [(4, estimation.id) for estimation in self.estimation_line_ids],
     #     })
     #
+    #     job_order_lines = [(0, 0, {
+    #         'order_id': self.id,
+    #         'product_id': line.product_id.id,
+    #         'quantity': line.product_uom_qty,
+    #         'price_total': line.price_total,
+    #         'colour_name': line.seq,
+    #         'job_no': line.seq,
+    #         'tax_amount': line.tax_id.compute_all(
+    #             line.price_unit * (1 - (line.discount or 0.0) / 100.0),
+    #             self.currency_id,
+    #             line.product_uom_qty,
+    #             line.product_id,
+    #             self.partner_shipping_id)['total_included'],
+    #     }) for line in self.order_line]
+    #
+    #     # Set the job_order_lines on the job_order record
+    #     job_order.sale_order_line_ids = job_order_lines
+    #
+    #
+    #     job_order.estimation_line_ids = [(4, estimation.id) for estimation in self.estimation_line_ids]
     #
     #     return {
     #         'name': 'Job Order',
@@ -104,6 +77,33 @@ class SaleOrder(models.Model):
     #         'type': 'ir.actions.act_window',
     #         'target': 'self',
     #     }
+
+    def action_open_job_order(self):
+
+        super(SaleOrder, self).action_confirm()
+
+        # Create a new job order record
+        job_order = self.env['job.order'].create({
+            'customer_name': self.partner_id.id,
+
+            'date': self.date_order,
+            'job_no': self.name,
+
+
+            'sale_order_line_ids':  self.order_line,
+            'estimation_line_ids': [(4, estimation.id) for estimation in self.estimation_line_ids],
+        })
+
+
+        return {
+            'name': 'Job Order',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'job.order',
+            'res_id': job_order.id,
+            'type': 'ir.actions.act_window',
+            'target': 'self',
+        }
 
 
     #
@@ -167,9 +167,9 @@ class JobOrder(models.Model):
     related_estimation = fields.Many2one('sale', string='Estimation_id', ondelete='cascade')
 
 
-    sale_order_id = fields.Many2one('sale.order.line', ondelete='cascade')
+    sale_order_id = fields.Many2one('sale.order', ondelete='cascade')
     sale_id =fields.Char(string="sale_id")
-    job_no = fields.Char(string='Job No')
+    job_no = fields.Char(string='Quatation_id')
 
     customer_name = fields.Many2one('res.partner', string='Customer Name')
     sale_order_line_ids = fields.One2many('sale.order.line', 'job_order_id', string='Job Order Lines')
@@ -189,10 +189,10 @@ class JobOrder(models.Model):
             total_quantity = sum(job_order.sale_order_line_ids.mapped('quantity'))
             job_order.total_quantity = total_quantity
 
-    @api.depends('sale_order_line_ids.tax_amount')
+    @api.depends('sale_order_line_ids.price_total')
     def _compute_total(self):
         for job_order in self:
-            total = sum(job_order.sale_order_line_ids.mapped('tax_amount'))
+            total = sum(job_order.sale_order_line_ids.mapped('price_total'))
             job_order.total = total
 
     total = fields.Float(
