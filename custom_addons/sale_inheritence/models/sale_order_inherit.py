@@ -94,7 +94,6 @@ class SaleOrder(models.Model):
             'estimation_line_ids':self.estimation_line_ids,
         })
 
-
         return {
             'name': 'Job Order',
             'view_type': 'form',
@@ -107,42 +106,6 @@ class SaleOrder(models.Model):
 
 
     #
-    # def action_open_job_order(self):
-    #     job_order_values = {
-    #         'sale_id': self.id,
-    #         'job_no': self.name,
-    # #         'customer_name': self.partner_id.id,
-    #         'date': self.date_order,
-    #         'estimation_line_ids': self.estimation_line_ids,
-    #     }
-    #
-        # # Use list comprehension to build the 'job_order_lines' list
-        # job_order_lines = [(0, 0, {
-        #     'order_id': self.id,
-        #     'product_id': line.product_id.id,
-        #     'quantity': line.product_uom_qty,
-        #     'price_total': line.price_total,
-        #     'colour_name': line.seq,
-        #     'job_no': line.seq,
-        #     'tax_amount': line.tax_id.compute_all(
-        #         line.price_unit * (1 - (line.discount or 0.0) / 100.0),
-        #         self.currency_id,
-        #         line.product_uom_qty,
-        #         line.product_id,
-        #         self.partner_shipping_id)['total_included'],
-        # }) for line in self.order_line]
-        #
-        # job_order_values['sale_order_line_ids'] = job_order_lines
-        #
-        # job_order = self.env['job.order'].create(job_order_values)
-    #
-    #     return {
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'job.order',
-    #         'view_mode': 'form',
-    #         'res_id': job_order.id,
-    #         'view_id': self.env.ref('sale_inheritence.view_job_order_form').id,
-    #     }
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
@@ -153,6 +116,10 @@ class JobOrder(models.Model):
     _name = 'job.order'
     _description = 'Job Order'
 
+
+
+
+    #for colour feching
 
     #print paf task code
     related_estimation = fields.Many2one('sale.order', string='Estimation_id', ondelete='cascade')

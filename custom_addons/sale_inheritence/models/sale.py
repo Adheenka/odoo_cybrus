@@ -35,7 +35,7 @@ class SaleOrderInherit(models.Model):
         }
         self.env['sale.order'].create(val)
 
-        # job_order_vals = {
+
 
 class EstimationModel(models.Model):
     _name = 'estimation'
@@ -72,30 +72,24 @@ class EstimationModel(models.Model):
     color = fields.Char(string='Color')
     job_number_id = fields.Many2one('colour', string='Job Number (Reference)')
 
-    @api.onchange('job_number')
-    def _onchange_job_number(self):
-        if self.job_number:
-            colour = self.env['colour'].search([('job_number', '=', self.job_number)], limit=1)
-            if colour:
-                self.job_number_id = colour
-                self.color = colour.name
-    # @api.depends('estimation_id', 'estimation_id.estimation_ids')
-    # def _compute_serial_number(self):
-    #     for line in self:
-    #         no = 1
-    #         for l in line.estimation_id.estimation_ids:
-    #             l.seq = no
-    #             no += 1
-    #         else:
-    #             line.seq = 1
 
+    @api.depends('estimation_id', 'estimation_id.estimation_ids')
     def _compute_serial_number(self):
         for line in self:
-            no = 0
-            line.seq = no
-            for i in line.order_id.order_line:
+            no = 1
+            for l in line.estimation_id.estimation_ids:
+                l.seq = no
                 no += 1
-                i.seq = no
+            else:
+                line.seq = 1
+
+    # def _compute_serial_number(self):
+    #     for line in self:
+    #         no = 0
+    #         line.seq = no
+    #         for i in line.order_id.order_line:
+    #             no += 1
+    #             i.seq = no
 
 
     @api.depends('width', 'length',)
