@@ -89,7 +89,7 @@ class SaleOrder(models.Model):
             'customer_name': self.partner_id.id,
             'date': self.date_order,
             'job_no': self.name,
-            'sale_order_line_ids':self.order_line,  # Assign the existing order lines
+            'sale_order_line_ids':self.order_line,
             'estimation_line_ids': [(4, estimation.id) for estimation in self.estimation_line_ids],
         })
 
@@ -102,35 +102,6 @@ class SaleOrder(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'self',
         }
-
-    # def action_open_job_order(self):
-    #
-    #     super(SaleOrder, self).action_confirm()
-    #
-    #     # Create a new job order record
-    #     job_order = self.env['job.order'].create({
-    #         'customer_name': self.partner_id.id,
-    #
-    #         'date': self.date_order,
-    #         'job_no': self.name,
-    #
-    #
-    #         'sale_order_line_ids':  self.order_line,
-    #         'estimation_line_ids':self.estimation_line_ids,
-    #     })
-    #
-    #     return {
-    #         'name': 'Job Order',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'res_model': 'job.order',
-    #         'res_id': job_order.id,
-    #         'type': 'ir.actions.act_window',
-    #         'target': 'self',
-    #     }
-
-
-    #
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

@@ -73,24 +73,23 @@ class EstimationModel(models.Model):
     color = fields.Char(string='Color')
     job_number_id = fields.Many2one('colour', string='Job Number (Reference)')
 
-
-
-
-    @api.depends('estimation_id', 'estimation_id.estimation_ids')
+    @api.depends('estimations_id')
     def _compute_serial_number(self):
-        for line in self:
-            no = 1  # Initialize the serial number to 1
-            for l in line.estimation_id.estimation_ids:
-                l.seq = no
+        for estimation in self:
+            no = 0
+            estimation.seq = no
+            for line in estimation.estimations_id.estimation_ids:
                 no += 1
+                line.seq = no
 
-    # @api.depends('estimation_id', 'estimation_id.estimation_ids')
+    # @api.depends('estimations_id')
     # def _compute_serial_number(self):
-    #     for line in self:
-    #         no = 1  # Initialize the serial number to 1
-    #         for l in line.estimation_id.estimation_ids:
-    #             l.seq = no
-    #             no += 1
+    #     max_seq = max(self.mapped('seq')) if self else 0  # Find the maximum seq value
+    #     for estimation in self:
+    #         if not estimation.seq:  # If seq is not already set, increment it
+    #             max_seq += 1
+    #             estimation.seq = max_seq
+
 
 
 
