@@ -79,19 +79,18 @@ class SaleOrder(models.Model):
     #     }
 
     def action_open_job_order(self):
-
         super(SaleOrder, self).action_confirm()
 
-        # Create a new job order record
+        for line in self.order_line:
+            line.colour_name = line.seq
+            line.job_no = line.seq
+
         job_order = self.env['job.order'].create({
             'customer_name': self.partner_id.id,
-
             'date': self.date_order,
             'job_no': self.name,
-
-
-            'sale_order_line_ids':  self.order_line,
-            'estimation_line_ids':self.estimation_line_ids,
+            'sale_order_line_ids':self.order_line,  # Assign the existing order lines
+            'estimation_line_ids': [(4, estimation.id) for estimation in self.estimation_line_ids],
         })
 
         return {
@@ -103,6 +102,32 @@ class SaleOrder(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'self',
         }
+
+    # def action_open_job_order(self):
+    #
+    #     super(SaleOrder, self).action_confirm()
+    #
+    #     # Create a new job order record
+    #     job_order = self.env['job.order'].create({
+    #         'customer_name': self.partner_id.id,
+    #
+    #         'date': self.date_order,
+    #         'job_no': self.name,
+    #
+    #
+    #         'sale_order_line_ids':  self.order_line,
+    #         'estimation_line_ids':self.estimation_line_ids,
+    #     })
+    #
+    #     return {
+    #         'name': 'Job Order',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'job.order',
+    #         'res_id': job_order.id,
+    #         'type': 'ir.actions.act_window',
+    #         'target': 'self',
+    #     }
 
 
     #
@@ -184,6 +209,7 @@ class SaleOrderLine(models.Model):
 
     job_no = fields.Many2one('colour', string="Colour Name")
     job_order_id = fields.Many2one('job.order', string='Job Order')
+
     quantity = fields.Float(string="Quantity")
     seq = fields.Integer(string='Serial No', compute='_compute_serial_number', readonly=True)
     colour_ids = fields.One2many('colour', 'colour_id', string='Estimations')

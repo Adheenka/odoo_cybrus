@@ -13,7 +13,7 @@ class SaleOrderInherit(models.Model):
     creation_date = fields.Date(string='Creation Date')
     estimation_ids = fields.One2many('estimation', 'estimations_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
-    estimation_ids = fields.One2many('estimation', 'estimations_id', string='Estimations')
+    # estimation_ids = fields.One2many('estimation', 'estimations_id', string='Estimations')
 
     #job order
     # job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
@@ -63,6 +63,7 @@ class EstimationModel(models.Model):
     area = fields.Float(string='Area', compute='_compute_area', store=True)
     quantity = fields.Float(string='Quantity')
     total = fields.Float(string='Total', compute='_compute_total', store=True)
+
     seq = fields.Integer(string='Serial No', compute='_compute_serial_number', store=True)
 
 
@@ -73,22 +74,25 @@ class EstimationModel(models.Model):
     job_number_id = fields.Many2one('colour', string='Job Number (Reference)')
 
 
+
+
     @api.depends('estimation_id', 'estimation_id.estimation_ids')
     def _compute_serial_number(self):
         for line in self:
-            no = 1
+            no = 1  # Initialize the serial number to 1
             for l in line.estimation_id.estimation_ids:
                 l.seq = no
                 no += 1
 
-
+    # @api.depends('estimation_id', 'estimation_id.estimation_ids')
     # def _compute_serial_number(self):
     #     for line in self:
-    #         no = 0
-    #         line.seq = no
-    #         for i in line.order_id.order_line:
+    #         no = 1  # Initialize the serial number to 1
+    #         for l in line.estimation_id.estimation_ids:
+    #             l.seq = no
     #             no += 1
-    #             i.seq = no
+
+
 
 
     @api.depends('width', 'length',)

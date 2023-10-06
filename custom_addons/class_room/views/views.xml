@@ -186,26 +186,26 @@
         </record>
 
 
-        <record model="ir.ui.view" id="view_marklist_tree">
-            <field name="name">marklist.tree</field>
-            <field name="model">marklist</field>
-            <field name="arch" type="xml">
-                <group>
-                    <tree>
-                        <field name="exam_name"/>
-                        <field name="subject1"/>
-                        <field name="subject2"/>
-                        <field name="subject3"/>
-                        <field name="subject4"/>
-                        <field name="total"/>
-                        <field name="average"/>
+<!--        <record model="ir.ui.view" id="view_marklist_tree">-->
+<!--            <field name="name">marklist.tree</field>-->
+<!--            <field name="model">marklist</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <group>-->
+<!--                    <tree>-->
+<!--                        <field name="exam_name"/>-->
+<!--                        <field name="subject1"/>-->
+<!--                        <field name="subject2"/>-->
+<!--                        <field name="subject3"/>-->
+<!--                        <field name="subject4"/>-->
+<!--                        <field name="total"/>-->
+<!--                        <field name="average"/>-->
 
-                    </tree>
-                </group>
+<!--                    </tree>-->
+<!--                </group>-->
 
 
-            </field>
-        </record>
+<!--            </field>-->
+<!--        </record>-->
 
 
         <record id="action_school_management_classroom" model="ir.actions.act_window">
