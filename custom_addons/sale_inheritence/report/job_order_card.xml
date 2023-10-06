@@ -74,7 +74,7 @@
                                                 <td colspan="3" style="text-align: right;">
                                                     <strong>Quantity and Total:</strong>
                                                     <td>
-                                                      <span t-esc="o.total_quantity"/>
+                                                        <span t-esc="o.total_quantity"/>
                                                     </td>
                                                     <td>
                                                         <strong>Total:</strong>
@@ -86,20 +86,7 @@
                                                 </td>
                                             </tr>
                                         </tfoot>
-                                        <!--                                        <tr>-->
-                                        <!--                                            <td colspan="3" style="text-align:left">-->
-                                        <!--                                                <strong>Total and Qty:</strong>-->
-                                        <!--                                            </td>-->
-                                        <!--                                            <td colspan="3">-->
-                                        <!--                                                <span t-esc="o.total_quantity"/>-->
 
-                                        <!--                                            </td>-->
-
-                                        <!--                                            <td colspan="1">-->
-                                        <!--                                                <span t-esc="o.total"/>-->
-                                        <!--                                            </td>-->
-
-                                        <!--                                        </tr>-->
 
                                     </tbody>
                                 </table>
@@ -154,7 +141,11 @@
                                                 <span t-field="estimation.job_number"/>
                                             </td>
                                             <td>
-                                                <span t-field="estimation.color"/>
+                                                <t t-if="estimation.color">
+                                                    <div t-attf-style="background-color: #{estimation.color}; padding: 2px; width: 100%;">
+                                                        <t t-esc="estimation.color"/>
+                                                    </div>
+                                                </t>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -219,126 +210,4 @@
     </template>
 </odoo>
 
-        <!--<odoo>-->
-        <!--    <template id="report_job_order">-->
-        <!--        <t t-call="web.html_container">-->
-        <!--            <t t-foreach="docs" t-as="o">-->
-        <!--                <t t-call="web.external_layout">-->
-        <!--                    <div class="page">-->
-        <!--                        <h1 style="text-align: center; color: #ff5733; font-weight: bold;">Job Order Report</h1>-->
 
-        <!--                        <div class="job-order-details">-->
-        <!--                            &lt;!&ndash; Add your job order fields here using t-field &ndash;&gt;-->
-        <!--                            <p>-->
-        <!--                                <strong>Customer Name:</strong>-->
-        <!--                                <span t-field="o.customer_name"/>-->
-        <!--                            </p>-->
-        <!--                            <p>-->
-        <!--                                <strong>Job No:</strong>-->
-        <!--                                <span t-field="o.job_no"/>-->
-        <!--                            </p>-->
-        <!--                            <p>-->
-        <!--                                <strong>Date:</strong>-->
-        <!--                                <span t-field="o.date"/>-->
-        <!--                            </p>-->
-        <!--                            &lt;!&ndash; Add more fields as needed &ndash;&gt;-->
-
-        <!--                            &lt;!&ndash; Job Order Lines Table &ndash;&gt;-->
-        <!--                            <table class="table table-bordered">-->
-        <!--                                <thead>-->
-        <!--                                    <tr>-->
-        <!--                                        <th>Colour Name</th>-->
-        <!--                                        <th>Job No</th>-->
-        <!--                                        <th>Product</th>-->
-        <!--                                        <th>Quantity</th>-->
-        <!--                                        <th>Price Total</th>-->
-        <!--                                        <th>Tax Amount</th>-->
-        <!--                                    </tr>-->
-        <!--                                </thead>-->
-        <!--                                <tbody>-->
-        <!--                                    <tr t-foreach="o.sale_order_line_ids" t-as="line">-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="line.colour_name"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="line.job_no"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="line.product_id"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="line.quantity"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="line.price_total"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="line.tax_amount"/>-->
-        <!--                                        </td>-->
-        <!--                                    </tr>-->
-        <!--                                </tbody>-->
-        <!--                            </table>-->
-
-        <!--                            &lt;!&ndash; Estimation Lines Table &ndash;&gt;-->
-        <!--                            <h2>Estimation Lines</h2>-->
-        <!--                            <table class="table table-bordered">-->
-        <!--                                <thead>-->
-        <!--                                    <tr>-->
-        <!--                                        <th>Seq</th>-->
-        <!--                                        <th>Description</th>-->
-        <!--                                        <th>Width</th>-->
-        <!--                                        <th>Length</th>-->
-        <!--                                        <th>Quantity</th>-->
-        <!--                                        <th>Area</th>-->
-        <!--                                        <th>Total</th>-->
-        <!--                                    </tr>-->
-        <!--                                </thead>-->
-        <!--                                <tbody>-->
-        <!--                                    <tr t-foreach="o.estimation_line_ids" t-as="estimation">-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="estimation.seq"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="estimation.description"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="estimation.width"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="estimation.length"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="estimation.quantity"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="estimation.area"/>-->
-        <!--                                        </td>-->
-        <!--                                        <td>-->
-        <!--                                            <span t-field="estimation.total"/>-->
-        <!--                                        </td>-->
-        <!--                                    </tr>-->
-        <!--                                </tbody>-->
-        <!--                            </table>-->
-
-        <!--                            &lt;!&ndash; Add more sections as needed &ndash;&gt;-->
-
-        <!--                            &lt;!&ndash;                            <div class="total-all">&ndash;&gt;-->
-        <!--                            &lt;!&ndash;                                <p style="text-align: right; color: #ff5733; font-weight: bold;">&ndash;&gt;-->
-        <!--                            &lt;!&ndash;                                    <strong>Total All: </strong><span t-field="o.total_all"/>&ndash;&gt;-->
-        <!--                            &lt;!&ndash;                                </p>&ndash;&gt;-->
-        <!--                            &lt;!&ndash;                            </div>&ndash;&gt;-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </t>-->
-        <!--            </t>-->
-        <!--        </t>-->
-        <!--        <style>-->
-        <!--            .page {-->
-        <!--            font-family: Arial, sans-serif;-->
-        <!--            border: 1px solid #ccc;-->
-        <!--            padding: 15px;-->
-        <!--            }-->
-        <!--            /* Define your CSS styles here */-->
-        <!--        </style>-->
-        <!--    </template>-->
-        <!--</odoo>-->

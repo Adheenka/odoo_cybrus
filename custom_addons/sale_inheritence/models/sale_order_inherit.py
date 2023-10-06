@@ -35,49 +35,6 @@ class SaleOrder(models.Model):
             })
 
 
-    # tax included code  without any single error
-    # def action_open_job_order(self):
-    #     # Ensure the sale order is confirmed
-    #     super(SaleOrder, self).action_confirm()
-    #
-    #     # Create a new job order record
-    #     job_order = self.env['job.order'].create({
-    #         'customer_name': self.partner_id.id,
-    #         'date': self.date_order,
-    #         'job_no': self.name,
-    #     })
-    #
-    #     job_order_lines = [(0, 0, {
-    #         'order_id': self.id,
-    #         'product_id': line.product_id.id,
-    #         'quantity': line.product_uom_qty,
-    #         'price_total': line.price_total,
-    #         'colour_name': line.seq,
-    #         'job_no': line.seq,
-    #         'tax_amount': line.tax_id.compute_all(
-    #             line.price_unit * (1 - (line.discount or 0.0) / 100.0),
-    #             self.currency_id,
-    #             line.product_uom_qty,
-    #             line.product_id,
-    #             self.partner_shipping_id)['total_included'],
-    #     }) for line in self.order_line]
-    #
-    #     # Set the job_order_lines on the job_order record
-    #     job_order.sale_order_line_ids = job_order_lines
-    #
-    #
-    #     job_order.estimation_line_ids = [(4, estimation.id) for estimation in self.estimation_line_ids]
-    #
-    #     return {
-    #         'name': 'Job Order',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'res_model': 'job.order',
-    #         'res_id': job_order.id,
-    #         'type': 'ir.actions.act_window',
-    #         'target': 'self',
-    #     }
-
     def action_open_job_order(self):
         super(SaleOrder, self).action_confirm()
 
@@ -188,15 +145,6 @@ class SaleOrderLine(models.Model):
 
 
     sale_order_id = fields.Many2one('sale.order', string='Job Order')
-
-
-
-
-
-
-
-
-
 
 
 

@@ -97,13 +97,6 @@ class EstimationModel(models.Model):
                 no += 1
                 line.seq = no
 
-    # @api.depends('estimations_id')
-    # def _compute_serial_number(self):
-    #     max_seq = max(self.mapped('seq')) if self else 0  # Find the maximum seq value
-    #     for estimation in self:
-    #         if not estimation.seq:  # If seq is not already set, increment it
-    #             max_seq += 1
-    #             estimation.seq = max_seq
 
 
 
