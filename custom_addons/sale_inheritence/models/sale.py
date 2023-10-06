@@ -69,10 +69,25 @@ class EstimationModel(models.Model):
 
 
     cus_ref =fields.Float(string='CUS REF' )
+
+
     job_number = fields.Char(string='Job Number')
+
     color = fields.Char(string='Color')
+
     job_number_id = fields.Many2one('colour', string='Job Number (Reference)')
 
+    @api.onchange('job_number')
+    def _onchange_job_number(self):
+
+        if self.job_number:
+
+            colour = self.env['colour'].search([('job_number', '=', self.job_number)], limit=1)
+
+            if colour:
+                self.job_number_id = colour
+
+                self.color = colour.name
     @api.depends('estimations_id')
     def _compute_serial_number(self):
         for estimation in self:
