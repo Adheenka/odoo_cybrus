@@ -24,7 +24,7 @@
 
             <field name="arch" type="xml">
                 <form>
-                 <header>
+                    <header>
 
 
                         <button name="print_pdf_report" string="Print PDF" type="object" class="btn-secondary"/>
@@ -48,14 +48,7 @@
 
                     <sheet>
                         <notebook>
-<!--                                <page string="Sale Order Lines">-->
-<!--                                <field name="sale_order_line_ids" widget="one2many_list">-->
-<!--                                    <tree>-->
-<!--                                        <field name="product_id"/>-->
-<!--                                        &lt;!&ndash; Add other fields from sale.order.line as needed &ndash;&gt;-->
-<!--                                    </tree>-->
-<!--                                </field>-->
-<!--                            </page>-->
+
 
                             <page string="Job Order Lines">
                                 <field name="sale_order_line_ids">
@@ -66,38 +59,39 @@
                                         <field name="product_uom_qty"/>
                                         <field name="quantity"/>
                                         <field name="price_unit"/>
-                                         <field name="price_total"/>
-
+                                        <field name="price_total"/>
 
 
                                     </tree>
                                 </field>
-                                   <div>
+                                <div>
 
-                            <div style="text-align: right; color: #ff5733; font-weight: bold;">
-                                Total (all):
-                                <field name="total" readonly="1"/>
-                            </div>
-                        </div>
+                                    <div style="text-align: right; color: #ff5733; font-weight: bold;">
+                                        Total (all):
+                                        <field name="total" readonly="1"/>
+                                    </div>
+                                </div>
                             </page>
                             <page string="Estimation Lines">
                                 <field name="estimation_line_ids">
-                                <tree editable="bottom">
-                                    <field name="seq"/>
-                                    <field name="cus_ref"/>
-                                    <field name="description"/>
-                                    <field name="width"/>
-                                    <field name="length"/>
+                                    <tree editable="bottom">
+                                        <field name="seq"/>
+                                        <field name="cus_ref"/>
+                                        <field name="description"/>
+                                        <field name="width"/>
+                                        <field name="length"/>
 
-                                    <field name="quantity"/>
-                                    <field name="area"/>
-                                    <field name="total"/>
-                                    <field name="job_number"/>
-                                    <field name="color"/>
+                                        <field name="quantity"/>
+                                        <field name="area"/>
+                                        <field name="total"/>
+                                        <field name="job_number"/>
+                                        <field name="color"/>
 
 
                                     </tree>
+
                                 </field>
+
                             </page>
                         </notebook>
 

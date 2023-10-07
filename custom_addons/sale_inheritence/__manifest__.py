@@ -31,12 +31,7 @@
 
 
     ],
-    # 'assets':{
-    #     'web.assets_qweb': ['pos_inheritence/static/src/xml/*',
-    #                         ],
-    #     'web.assets_backend': ['pos_inheritence/static/src/js/*',
-    #                            ],
-    # },
+
 
     'auto_install': False,
     'application': True,
