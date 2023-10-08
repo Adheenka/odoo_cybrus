@@ -14,6 +14,8 @@ class SaleOrderInherit(models.Model):
     estimation_ids = fields.One2many('estimation', 'estimations_id', string='Estimations')
     estimation_id = fields.Many2one('estimation', ondelete='cascade')
     estimation_ids = fields.One2many('estimation', 'estimations_id', string='Estimations')
+
+
     total_area_less_than_0_5 = fields.Float(
         string='Total Area Less Than 0.5',
         compute='_compute_total_area_less_than_0_5',
@@ -114,6 +116,15 @@ class SaleOrderInherit(models.Model):
              'state':'sale',
              'date_order':self.creation_date,
              'estimation_line_ids':self.estimation_ids,
+              # Assuming estimation_ids is a One2many field
+            'total_area_less_than_0_5': self.total_area_less_than_0_5,
+            'total_quantity_less_than_0_5': self.total_quantity_less_than_0_5,
+            'total_area_between_0_3_and_0_5': self.total_area_between_0_3_and_0_5,
+            'total_quantity_between_0_3_and_0_5': self.total_quantity_between_0_3_and_0_5,
+            'total_area_more_than_0_5': self.total_area_more_than_0_5,
+            'total_quantity_more_than_0_5': self.total_quantity_more_than_0_5,
+            'total_area_overall': self.total_area_overall,
+            'total_quantity_overall': self.total_quantity_overall,
 
         }
         self.env['sale.order'].create(val)
@@ -161,69 +172,7 @@ class EstimationModel(models.Model):
     job_number_id = fields.Many2one('colour', string='Job Number (Reference)')
 
 
-    # Add these fields to Estimation model
 
-    # total_area_less_than_0_5 = fields.Float(
-    #     string='Total Area Less Than 0.5',
-    #     compute='_compute_total_area_less_than_0_5',
-    #     store=True
-    # )
-    #
-    # total_quantity_less_than_0_5 = fields.Float(
-    #     string='Total Quantity for Total Area Less Than 0.5',
-    #     compute='_compute_total_area_less_than_0_5',
-    #     store=True
-    # )
-    #
-    # total_area_between_0_3_and_0_5 = fields.Float(
-    #     string='Total Area Between 0.3 and 0.5',
-    #     compute='_compute_total_area_between_0_3_and_0_5',
-    #     store=True
-    # )
-    #
-    # total_quantity_between_0_3_and_0_5 = fields.Float(
-    #     string='Total Quantity for Total Area Between 0.3 and 0.5',
-    #     compute='_compute_total_area_between_0_3_and_0_5',
-    #     store=True
-    # )
-    #
-    # total_area_more_than_0_5 = fields.Float(
-    #     string='Total Area More Than 0.5',
-    #     compute='_compute_total_area_more_than_0_5',
-    #     store=True
-    # )
-    #
-    # total_quantity_more_than_0_5 = fields.Float(
-    #     string='Total Quantity for Total Area More Than 0.5',
-    #     compute='_compute_total_area_more_than_0_5',
-    #     store=True
-    # )
-    #
-    # # ... other fields ...
-    #
-    # @api.depends('width', 'length', 'area', 'quantity')
-    # def _compute_total_area_less_than_0_5(self):
-    #     for estimation in self:
-    #         total_area = sum(est.area for est in estimation if est.area < 0.5)
-    #         total_quantity = sum(est.quantity for est in estimation if est.area < 0.5)
-    #         estimation.total_area_less_than_0_5 = total_area
-    #         estimation.total_quantity_less_than_0_5 = total_quantity
-    #
-    # @api.depends('width', 'length', 'area', 'quantity')
-    # def _compute_total_area_between_0_3_and_0_5(self):
-    #     for estimation in self:
-    #         total_area = sum(est.area for est in estimation if 0.3 <= est.area <= 0.5)
-    #         total_quantity = sum(est.quantity for est in estimation if 0.3 <= est.area <= 0.5)
-    #         estimation.total_area_between_0_3_and_0_5 = total_area
-    #         estimation.total_quantity_between_0_3_and_0_5 = total_quantity
-    #
-    # @api.depends('width', 'length', 'area', 'quantity')
-    # def _compute_total_area_more_than_0_5(self):
-    #     for estimation in self:
-    #         total_area = sum(est.area for est in estimation if est.area > 0.5)
-    #         total_quantity = sum(est.quantity for est in estimation if est.area > 0.5)
-    #         estimation.total_area_more_than_0_5 = total_area
-    #         estimation.total_quantity_more_than_0_5 = total_quantity
     @api.onchange('job_number')
     def _onchange_job_number(self):
 

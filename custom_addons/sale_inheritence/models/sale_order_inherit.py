@@ -18,6 +18,26 @@ class SaleOrder(models.Model):
     estimation_id = fields.Many2one('estimation', string='Estimations')
     # job order
     job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
+
+#estimation footer calculation code
+    total_area_less_than_0_5 = fields.Float(string='Total Area Less Than 0.5',store=True)
+
+    total_quantity_less_than_0_5 = fields.Float(string='Total Quantity for Total Area Less Than 0.5',store=True)
+
+    total_area_between_0_3_and_0_5 = fields.Float(string='Total Area Between 0.3 and 0.5',store=True)
+
+    total_quantity_between_0_3_and_0_5 = fields.Float( string='Total Quantity for Total Area Between 0.3 and 0.5',store=True)
+
+    total_area_more_than_0_5 = fields.Float(string='Total Area More Than 0.5',store=True)
+
+    total_quantity_more_than_0_5 = fields.Float(string='Total Quantity for Total Area More Than 0.5',store=True)
+
+    total_area_overall = fields.Float(string='Total Area (Overall)',store=True)
+
+    total_quantity_overall = fields.Float(string='Total Quantity (Overall)',store=True)
+
+
+
     @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity')
     def _amount_all(self):
         for order in self:
@@ -47,6 +67,14 @@ class SaleOrder(models.Model):
             'date': self.date_order,
             'job_no': self.name,
             'sale_order_line_ids':self.order_line,
+            'total_area_less_than_0_5': self.total_area_less_than_0_5,
+            'total_quantity_less_than_0_5': self.total_quantity_less_than_0_5,
+            'total_area_between_0_3_and_0_5': self.total_area_between_0_3_and_0_5,
+            'total_quantity_between_0_3_and_0_5': self.total_quantity_between_0_3_and_0_5,
+            'total_area_more_than_0_5': self.total_area_more_than_0_5,
+            'total_quantity_more_than_0_5': self.total_quantity_more_than_0_5,
+            'total_area_overall': self.total_area_overall,
+            'total_quantity_overall': self.total_quantity_overall,
             'estimation_line_ids': [(4, estimation.id) for estimation in self.estimation_line_ids],
         })
 
@@ -96,12 +124,24 @@ class JobOrder(models.Model):
     date = fields.Date(string='Date')
     product_id = fields.Many2one('product.product', string="Product_id")
     job_order_id = fields.Many2one('sale.order.line', string='job order')
-    total = fields.Float(
-        string='Total',
-        compute='_compute_total',
-        store=True,
-    )
+    total = fields.Float(string='Total',compute='_compute_total',store=True,)
     total_quantity =fields.Float(string="Total QTY",compute='_compute_qty',store=True)
+
+    total_area_less_than_0_5 = fields.Float(string='Total Area Less Than 0.5',store=True)
+
+    total_quantity_less_than_0_5 = fields.Float(string='Total Quantity for Total Area Less Than 0.5',store=True)
+
+    total_area_between_0_3_and_0_5 = fields.Float(string='Total Area Between 0.3 and 0.5',store=True)
+
+    total_quantity_between_0_3_and_0_5 = fields.Float( string='Total Quantity for Total Area Between 0.3 and 0.5',store=True)
+
+    total_area_more_than_0_5 = fields.Float(string='Total Area More Than 0.5',store=True)
+
+    total_quantity_more_than_0_5 = fields.Float(string='Total Quantity for Total Area More Than 0.5',store=True)
+
+    total_area_overall = fields.Float(string='Total Area (Overall)',store=True)
+
+    total_quantity_overall = fields.Float(string='Total Quantity (Overall)',store=True)
 
     @api.depends('sale_order_line_ids.quantity')
     def _compute_qty(self):

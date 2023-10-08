@@ -64,6 +64,7 @@
 
                                     </tree>
                                 </field>
+
                                 <div>
 
                                     <div style="text-align: right; color: #ff5733; font-weight: bold;">
@@ -88,10 +89,47 @@
                                         <field name="color"/>
 
 
+
                                     </tree>
 
                                 </field>
+                                <div class="o_statusbar_status">
+                                    <div style="text-align: right;  font-weight: bold;" class="o_statusbar_status_start">
+                                        Total Area Less Than 0.5: &#160;
+                                        <field name="total_area_less_than_0_5"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                        Total Quantity:&#160;
+                                        <field name="total_quantity_less_than_0_5"/>
+                                    </div>
 
+                                </div>
+                                <div class="o_statusbar_status">
+                                    <div style="text-align: right;  font-weight: bold;" class="o_statusbar_status_start">
+                                        Total Area Between 0.3 and 0.5:&#160;
+                                        <field name="total_area_between_0_3_and_0_5"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                        Total Quantity:&#160;
+                                        <field name="total_quantity_between_0_3_and_0_5"/>
+                                    </div>
+
+                                </div>
+                                <div class="o_statusbar_status">
+                                    <div style="text-align: right;  font-weight: bold;" class="o_statusbar_status_start">
+                                        Total Area More Than 0.5:&#160;
+                                        <field name="total_area_more_than_0_5"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                        Total Quantity:&#160;
+                                        <field name="total_quantity_more_than_0_5"/>
+                                    </div>
+
+                                </div>
+                                <div class="o_statusbar_status">
+                                    <hr style="border: 1px solid #ccc;  font-weight: bold;"/>
+                                    <div style="text-align: right;  font-weight: bold; font-size: 16px;"  class="o_statusbar_status_start">
+                                        Total Area: &#160;
+                                        <field name="total_area_overall"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                        Total Qty:&#160;
+                                        <field name="total_quantity_overall"/>
+                                    </div>
+
+                                </div>
                             </page>
                         </notebook>
 
