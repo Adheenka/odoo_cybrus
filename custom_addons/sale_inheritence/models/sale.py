@@ -116,7 +116,9 @@ class SaleOrderInherit(models.Model):
              'state':'sale',
              'date_order':self.creation_date,
              'estimation_line_ids':self.estimation_ids,
-              # Assuming estimation_ids is a One2many field
+
+              # Aestimation calculation code
+
             'total_area_less_than_0_5': self.total_area_less_than_0_5,
             'total_quantity_less_than_0_5': self.total_quantity_less_than_0_5,
             'total_area_between_0_3_and_0_5': self.total_area_between_0_3_and_0_5,

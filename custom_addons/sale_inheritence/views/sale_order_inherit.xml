@@ -7,6 +7,19 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+
+
+                <xpath expr="//field[@name='tax_totals_json']" position="before">
+                        <field name="applied_discount" widget="monetary"/>
+
+
+
+                    </xpath>
+
+
+
+
+
 <!--       button code-->
               <xpath expr="//header/button[@name='action_confirm'][2]" position="replace">
                 <button name="action_open_job_order" type="object" string="Confirm Job Order" />

@@ -18,6 +18,9 @@ class SaleOrder(models.Model):
     estimation_id = fields.Many2one('estimation', string='Estimations')
     # job order
     job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
+    # discount code
+    applied_discount = fields.Float(string='Applied Discount', digits='Discount', readonly=False)
+
 
 #estimation footer calculation code
     total_area_less_than_0_5 = fields.Float(string='Total Area Less Than 0.5',store=True)
@@ -38,19 +41,43 @@ class SaleOrder(models.Model):
 
 
 
-    @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity')
+    # @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity', 'applied_discount')
+    # def _amount_all(self):
+    #     for order in self:
+    #         # Call the original _amount_all method using super
+    #         super(SaleOrder, order)._amount_all()
+    #
+    #         # Calculate the total without tax and with quantity
+    #         total_with_quantity = sum(order.order_line.mapped('price_total'))
+    #
+    #         # Subtract the applied discount from the total without tax and quantity
+    #         total_with_discount = total_with_quantity - order.applied_discount
+    #
+    #         order.amount_untaxed = total_with_discount
+    #
+    #         # Calculate amount_total including tax and discount
+    #         order.amount_total = total_with_discount + order.amount_tax
+
+    # def apply_discount(self, discount_amount):
+    #     # You can set the applied discount directly
+    #     self.applied_discount = discount_amount
+    #     return True
+
+    # old code with out discount calculation
+
+    @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity', 'applied_discount')
     def _amount_all(self):
         for order in self:
             # Call the original _amount_all method using super
             super(SaleOrder, order)._amount_all()
 
-
             total_with_quantity = order.amount_total
-
+            total_with_quantit = sum(order.order_line.mapped('price_total'))
             for line in order.order_line:
                 total_with_quantity += line.price_total
 
             order.update({
+                'amount_untaxed': total_with_quantit,
                 'amount_total': total_with_quantity,
             })
 
