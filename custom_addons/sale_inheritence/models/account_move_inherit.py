@@ -29,6 +29,7 @@ class AccountMoveForm(models.Model):
             # Populate invoice lines from Sale Order lines
             for line in sale_order.order_line:
                 invoice_line = self.env['account.move.line'].new({
+                    'line_number':line.seq,
                     'product_id': line.product_id.id,
                     'name': line.name,
                     'quantity': line.product_uom_qty,
@@ -36,7 +37,7 @@ class AccountMoveForm(models.Model):
                     'price_unit': line.price_unit,
 
                     'tax_ids': [(6, 0, line.tax_id.ids)],
-                    'price_subtotal': line.price_subtotal,
+                    'price_subtotal': line.price_total,
                 })
 
 
