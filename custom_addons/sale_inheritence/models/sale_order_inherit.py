@@ -39,7 +39,84 @@ class SaleOrder(models.Model):
 
     total_quantity_overall = fields.Float(string='Total Quantity (Overall)',store=True)
 
+    # @api.depends('order_line.price_total','order_line.product_uom_qty','order_line.quantity','order_line.price_unit', 'applied_discount')
+    # def _amount_all(self):
+    #     for order in self:
+    #         cur_obj = self.env['res.currency']
+    #         amount_untaxed = 0
+    #         amount_tax = 0
+    #         for line in order.order_line:
+    #             amount_untaxed += line.price_total
+    #             amount_tax += line.price_tax
+    #
+    #         # Subtract the applied discount from the total amount with tax and discount
+    #
+    #         quantity = line.product_uom_qty or line.quantity
+    #         amount_with_tax_and_discount = quantity * line.price_unit
+    #         amount_with_tax_and_discount -= order.applied_discount
+    #
+    #
+    #         amount_without_tax_and_discount = sum(order.order_line.mapped('price_unit'))
+    #         order.update({
+    #             'amount_untaxed': amount_without_tax_and_discount ,
+    #
+    #             'amount_total': amount_with_tax_and_discount,
+    #         })
 
+    @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity', 'order_line.price_unit',
+                 'applied_discount')
+    def _amount_all(self):
+        for order in self:
+            cur_obj = self.env['res.currency']
+            amount_untaxed = 0
+            amount_tax = 0
+            amount_with_tax_and_discount = 0  # Initialize the variable
+
+            for line in order.order_line:
+                amount_untaxed += line.price_total
+                amount_tax += line.price_tax
+
+                # Calculate the amount with tax and discount for each line
+                quantity = line.product_uom_qty or line.quantity
+                line_amount_with_tax_and_discount = quantity * line.price_unit
+                line_amount_with_tax_and_discount -= order.applied_discount
+
+                # Add the line's amount to the total
+                amount_with_tax_and_discount += line_amount_with_tax_and_discount
+
+            # Calculate the total amount without tax and discount
+            amount_without_tax_and_discount = amount_untaxed
+
+            order.update({
+                'amount_untaxed': amount_without_tax_and_discount,
+                'amount_total': amount_with_tax_and_discount,
+            })
+    # @api.depends('order_line.price_total', 'order_line.price_tax', 'applied_discount')
+    # def _amount_all(self):
+    #     for order in self:
+    #
+    #
+    #         super(SaleOrder, order)._amount_all()
+    #
+    #         total_with_tax_and_discount = sum(order.order_line.mapped('price_total'))
+    #         total_tax = sum(order.order_line.mapped('tax_id'))
+    #
+    #         # Subtract the applied discount from the total with tax and discount
+    #         total_with_tax_and_discount -= order.applied_discount
+    #
+    #
+    #
+    #         total_without_tax_and_discount = total_with_tax_and_discount - total_tax
+    #
+    #         order.update({
+    #             'amount_untaxed': total_without_tax_and_discount,
+    #             'amount_total': total_with_tax_and_discount,
+    #         })
+    # #
+
+
+
+    # old code with out discount calculation
 
     # @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity', 'applied_discount')
     # def _amount_all(self):
@@ -47,39 +124,15 @@ class SaleOrder(models.Model):
     #         # Call the original _amount_all method using super
     #         super(SaleOrder, order)._amount_all()
     #
-    #         # Calculate the total without tax and with quantity
-    #         total_with_quantity = sum(order.order_line.mapped('price_total'))
+    #         total_with_quantity = order.amount_total
     #
-    #         # Subtract the applied discount from the total without tax and quantity
-    #         total_with_discount = total_with_quantity - order.applied_discount
+    #         for line in order.order_line:
+    #             total_with_quantity += line.price_total
     #
-    #         order.amount_untaxed = total_with_discount
-    #
-    #         # Calculate amount_total including tax and discount
-    #         order.amount_total = total_with_discount + order.amount_tax
-
-    # def apply_discount(self, discount_amount):
-    #     # You can set the applied discount directly
-    #     self.applied_discount = discount_amount
-    #     return True
-
-    # old code with out discount calculation
-
-    @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity', 'applied_discount')
-    def _amount_all(self):
-        for order in self:
-            # Call the original _amount_all method using super
-            super(SaleOrder, order)._amount_all()
-
-            total_with_quantity = order.amount_total
-            total_with_quantit = sum(order.order_line.mapped('price_total'))
-            for line in order.order_line:
-                total_with_quantity += line.price_total
-
-            order.update({
-                'amount_untaxed': total_with_quantit,
-                'amount_total': total_with_quantity,
-            })
+    #         order.update({
+    #             'amount_untaxed': total_with_quantity,
+    #             'amount_total': total_with_quantity,
+    #         })
 
 
     def action_open_job_order(self):

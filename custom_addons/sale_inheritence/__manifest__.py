@@ -16,6 +16,7 @@
         'views/estimation_view.xml',
         'views/description_view.xml',
         'views/sale_order_inherit.xml',
+        'views/account_move_inherit.xml',
         'views/sale_view.xml',
         'views/colour_view.xml',
         'views/job_order_views.xml',
