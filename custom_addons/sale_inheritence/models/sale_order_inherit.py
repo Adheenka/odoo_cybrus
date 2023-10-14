@@ -103,20 +103,20 @@ class SaleOrder(models.Model):
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True,
                                  compute='_compute_total', track_visibility='always')
 
-    @api.depends('order_line.product_uom_qty', 'order_line.quantity', 'order_line.tax_id')
-    def _compute_total(self):
-        for order in self:
-            amount_tax = 0.0
-            for line in order.order_line:
-                tax = 0.0
-                for tax_id in line.tax_id:
-                    # Calculate the tax based on the quantity and price
-                    tax_amount = (line.product_uom_qty * line.price_unit * tax_id.amount) / 100
-                    tax += tax_amount
-
-                amount_tax += tax
-
-            order.amount_tax = amount_tax
+    # @api.depends('order_line.product_uom_qty', 'order_line.quantity', 'order_line.tax_id')
+    # def _compute_total(self):
+    #     for order in self:
+    #         amount_tax = 0.0
+    #         for line in order.order_line:
+    #             tax = 0.0
+    #             for tax_id in line.tax_id:
+    #                 # Calculate the tax based on the quantity and price
+    #                 tax_amount = (line.product_uom_qty * line.price_unit * tax_id.amount) / 100
+    #                 tax += tax_amount
+    #
+    #             amount_tax += tax
+    #
+    #         order.amount_tax = amount_tax
 
     @api.depends('amount_untaxed', 'applied_discount')
     def _compute_gross_amount(self):
@@ -131,12 +131,15 @@ class SaleOrder(models.Model):
 
             total_with_quantity = order.amount_total
             total_with_quantity -= order.applied_discount
-            untaxed = 0
+            amount_untaxed = 0
             amount_tax = 0.0
             for line in order.order_line:
                 total_with_quantity += line.price_total
                 quantity = line.product_uom_qty or line.quantity
                 untaxed = quantity * line.price_unit
+                amount_untaxed += untaxed
+
+
                 tax = 0.0
 
                 for tax_id in line.tax_id:
@@ -147,7 +150,7 @@ class SaleOrder(models.Model):
                 amount_tax += tax
 
             order.update({
-                'amount_untaxed': untaxed,
+                'amount_untaxed': amount_untaxed,
                 'amount_tax': amount_tax,
                 'amount_total': total_with_quantity,
             })
