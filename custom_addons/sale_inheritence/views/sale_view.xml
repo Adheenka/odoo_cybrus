@@ -26,10 +26,12 @@
 
             <field name="arch" type="xml">
                 <form>
-                    <header>
+                      <header>
                         <button name="convert_to_quotation" string="Convert to Quotation" type="object"
                                 class="btn-primary"/>
                     </header>
+                    <sheet>
+
                     <group>
                         <group>
                             <field name="sequence"/>
@@ -41,7 +43,7 @@
 
                         </group>
                     </group>
-                    <sheet>
+
 
                         <notebook>
 

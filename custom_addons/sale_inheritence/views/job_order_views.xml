@@ -23,7 +23,8 @@
             <field name="model">job.order</field>
 
             <field name="arch" type="xml">
-                <form>
+
+                <form string="Job Order" class="o_sale_order" js_class="sale_discount_form">
                     <header>
 
 
@@ -31,6 +32,8 @@
 
                     </header>
                     <sheet>
+
+
                         <group>
                             <group>
                                 <field name="customer_name"/>
@@ -44,9 +47,6 @@
                         </group>
 
 
-                    </sheet>
-
-                    <sheet>
                         <notebook>
 
 
@@ -89,12 +89,12 @@
                                         <field name="color"/>
 
 
-
                                     </tree>
 
                                 </field>
                                 <div class="o_statusbar_status">
-                                    <div style="text-align: right;  font-weight: bold;" class="o_statusbar_status_start">
+                                    <div style="text-align: right;  font-weight: bold;"
+                                         class="o_statusbar_status_start">
                                         Total Area Less Than 0.5: &#160;
                                         <field name="total_area_less_than_0_5"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                         Total Quantity:&#160;
@@ -103,7 +103,8 @@
 
                                 </div>
                                 <div class="o_statusbar_status">
-                                    <div style="text-align: right;  font-weight: bold;" class="o_statusbar_status_start">
+                                    <div style="text-align: right;  font-weight: bold;"
+                                         class="o_statusbar_status_start">
                                         Total Area Between 0.3 and 0.5:&#160;
                                         <field name="total_area_between_0_3_and_0_5"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                         Total Quantity:&#160;
@@ -112,7 +113,8 @@
 
                                 </div>
                                 <div class="o_statusbar_status">
-                                    <div style="text-align: right;  font-weight: bold;" class="o_statusbar_status_start">
+                                    <div style="text-align: right;  font-weight: bold;"
+                                         class="o_statusbar_status_start">
                                         Total Area More Than 0.5:&#160;
                                         <field name="total_area_more_than_0_5"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                         Total Quantity:&#160;
@@ -122,7 +124,8 @@
                                 </div>
                                 <div class="o_statusbar_status">
                                     <hr style="border: 1px solid #ccc;  font-weight: bold;"/>
-                                    <div style="text-align: right;  font-weight: bold; font-size: 16px;"  class="o_statusbar_status_start">
+                                    <div style="text-align: right;  font-weight: bold; font-size: 16px;"
+                                         class="o_statusbar_status_start">
                                         Total Area: &#160;
                                         <field name="total_area_overall"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                         Total Qty:&#160;

@@ -113,7 +113,7 @@ class SaleOrderInherit(models.Model):
         val={
             'related_estimation':self.id,
              'partner_id':self.customer_name.id,
-             'state':'sale',
+             # 'state':'sale',
              'date_order':self.creation_date,
              'estimation_line_ids':self.estimation_ids,
 
@@ -129,8 +129,17 @@ class SaleOrderInherit(models.Model):
             'total_quantity_overall': self.total_quantity_overall,
 
         }
-        self.env['sale.order'].create(val)
-
+        new_quotation = self.env['sale.order'].create(val)
+        # self.env['sale.order'].create(val)
+        return {
+            'name': 'quatation Order',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'sale.order',
+            'res_id': new_quotation.id,
+            'type': 'ir.actions.act_window',
+            'target': 'self',
+        }
 
 
 class EstimationModel(models.Model):

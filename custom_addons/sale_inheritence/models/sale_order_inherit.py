@@ -18,8 +18,8 @@ class SaleOrder(models.Model):
     estimation_id = fields.Many2one('estimation', string='Estimations')
     # job order
     job_order_ids = fields.One2many('job.order', 'job_order_id', string='job_order')
-    # discount code
-    applied_discount = fields.Float(string='Applied Discount', digits='Discount', readonly=False)
+
+
 
 
 #estimation footer calculation code
@@ -39,84 +39,14 @@ class SaleOrder(models.Model):
 
     total_quantity_overall = fields.Float(string='Total Quantity (Overall)',store=True)
 
-    # @api.depends('order_line.price_total','order_line.product_uom_qty','order_line.quantity','order_line.price_unit', 'applied_discount')
-    # def _amount_all(self):
-    #     for order in self:
-    #         cur_obj = self.env['res.currency']
-    #         amount_untaxed = 0
-    #         amount_tax = 0
-    #         for line in order.order_line:
-    #             amount_untaxed += line.price_total
-    #             amount_tax += line.price_tax
-    #
-    #         # Subtract the applied discount from the total amount with tax and discount
-    #
-    #         quantity = line.product_uom_qty or line.quantity
-    #         amount_with_tax_and_discount = quantity * line.price_unit
-    #         amount_with_tax_and_discount -= order.applied_discount
-    #
-    #
-    #         amount_without_tax_and_discount = sum(order.order_line.mapped('price_unit'))
-    #         order.update({
-    #             'amount_untaxed': amount_without_tax_and_discount ,
-    #
-    #             'amount_total': amount_with_tax_and_discount,
-    #         })
-
-    # @api.depends('order_line.price_total', 'order_line.product_uom_qty', 'order_line.quantity', 'order_line.price_unit',
-    #              'applied_discount')
-    # def _amount_all(self):
-    #     for order in self:
-    #         cur_obj = self.env['res.currency']
-    #         amount_untaxed = 0
-    #         amount_tax = 0
-    #         amount_with_tax_and_discount = 0  # Initialize the variable
-    #
-    #         total_with_quantity = order.amount_total
-    #         for line in order.order_line:
-    #
-    #
-    #
-    #             quantity = line.product_uom_qty or line.quantity
-    #             line_amount_with_tax_and_discount = quantity * line.price_unit
-    #             total_with_quantity += line.price_total
-    #             total_with_quantity -= order.applied_discount
-    #
-    #
-    #             # Add the line's amount to the total
-    #             amount_with_tax_and_discount += line_amount_with_tax_and_discount
-    #
-    #
-    #
-    #         order.update({
-    #             'amount_untaxed': line_amount_with_tax_and_discount,
-    #             'amount_tax': amount_tax,
-    #             'amount_total': total_with_quantity,
-    #         })
 
 
 
-
-
-    # old code with out discount calculation
     gross_amount = fields.Monetary(string='Gross Amount', compute='_compute_gross_amount', store=True)
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True,
                                  compute='_compute_total', track_visibility='always')
+    applied_discount = fields.Float(string='Applied Discount', digits='Discount', readonly=False)
 
-    # @api.depends('order_line.product_uom_qty', 'order_line.quantity', 'order_line.tax_id')
-    # def _compute_total(self):
-    #     for order in self:
-    #         amount_tax = 0.0
-    #         for line in order.order_line:
-    #             tax = 0.0
-    #             for tax_id in line.tax_id:
-    #                 # Calculate the tax based on the quantity and price
-    #                 tax_amount = (line.product_uom_qty * line.price_unit * tax_id.amount) / 100
-    #                 tax += tax_amount
-    #
-    #             amount_tax += tax
-    #
-    #         order.amount_tax = amount_tax
 
     @api.depends('amount_untaxed', 'applied_discount')
     def _compute_gross_amount(self):
@@ -194,11 +124,50 @@ class SaleOrder(models.Model):
         if self.product_id:
             self.product_uom_qty = 0
 
+    # @api.depends('order_line.price_total','order_line.product_uom_qty','order_line.quantity','order_line.price_unit', 'applied_discount')
+    # def _amount_all(self):
+    #     for order in self:
+    #         cur_obj = self.env['res.currency']
+    #         amount_untaxed = 0
+    #         amount_tax = 0
+    #         for line in order.order_line:
+    #             amount_untaxed += line.price_total
+    #             amount_tax += line.price_tax
+    #
+    #         # Subtract the applied discount from the total amount with tax and discount
+    #
+    #         quantity = line.product_uom_qty or line.quantity
+    #         amount_with_tax_and_discount = quantity * line.price_unit
+    #         amount_with_tax_and_discount -= order.applied_discount
+    #
+    #
+    #         amount_without_tax_and_discount = sum(order.order_line.mapped('price_unit'))
+    #         order.update({
+    #             'amount_untaxed': amount_without_tax_and_discount ,
+    #
+    #             'amount_total': amount_with_tax_and_discount,
+    #         })
+
+
+# old code with out discount calculation
+    # @api.depends('order_line.product_uom_qty', 'order_line.quantity', 'order_line.tax_id')
+    # def _compute_total(self):
+    #     for order in self:
+    #         amount_tax = 0.0
+    #         for line in order.order_line:
+    #             tax = 0.0
+    #             for tax_id in line.tax_id:
+    #                 # Calculate the tax based on the quantity and price
+    #                 tax_amount = (line.product_uom_qty * line.price_unit * tax_id.amount) / 100
+    #                 tax += tax_amount
+    #
+    #             amount_tax += tax
+    #
+    #         order.amount_tax = amount_tax
+
 class JobOrder(models.Model):
     _name = 'job.order'
     _description = 'Job Order'
-
-
 
 
     #for colour feching

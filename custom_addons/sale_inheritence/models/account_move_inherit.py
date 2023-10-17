@@ -9,7 +9,10 @@ class AccountMoveForm(models.Model):
 
     sale_order_id = fields.Many2one('sale.order', string="Sale Order ID",
                                   tracking=True)
-
+    amount_untaxed = fields.Monetary(string='amount_untaxes',  store=True)
+    gross_amount = fields.Monetary(string='Gross Amount',  store=True)
+    amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True,track_visibility='always')
+    applied_discount = fields.Float(string='Applied Discount', digits='Discount', readonly=False)
     @api.onchange('sale_order_id')
     def _onchange_sale_order_id(self):
         if self.sale_order_id:
@@ -18,6 +21,10 @@ class AccountMoveForm(models.Model):
             # Populate partner_id
             self.partner_id = sale_order.partner_id
             self.amount_total =sale_order.amount_total
+            self.amount_untaxed =sale_order.amount_untaxed
+            self.gross_amount = sale_order.gross_amount
+            self.amount_tax = sale_order.amount_tax
+            self.applied_discount = sale_order.applied_discount
             invoice_date = sale_order.date_order.strftime('%Y-%m-%d')
 
             # Assign the formatted date to invoice_date
