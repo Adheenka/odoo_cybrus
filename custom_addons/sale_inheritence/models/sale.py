@@ -7,7 +7,7 @@ class SaleOrderInherit(models.Model):
     _description = 'Your Estimation Model'
     _rec_name = 'sequence'
 
-    sequence = fields.Char(string='Sequence')
+    sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
     description = fields.Char(string='description')
     customer_name = fields.Many2one('res.partner', string='Customer Name')
     creation_date = fields.Date(string='Creation Date')
@@ -107,13 +107,14 @@ class SaleOrderInherit(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['sequence'] = self.env['ir.sequence'].next_by_code('sale')
+        if vals.get('sequence', 'New') == 'New':
+            vals['sequence'] = self.env['ir.sequence'].next_by_code('sale.sequence') or 'New'
         return super(SaleOrderInherit, self).create(vals)
     def convert_to_quotation(self):
         val={
             'related_estimation':self.id,
              'partner_id':self.customer_name.id,
-             # 'state':'sale',
+             'state':'draft',
              'date_order':self.creation_date,
              'estimation_line_ids':self.estimation_ids,
 

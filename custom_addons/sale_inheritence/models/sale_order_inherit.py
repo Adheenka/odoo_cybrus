@@ -180,7 +180,7 @@ class JobOrder(models.Model):
 
 
 
-    sale_order_line_ids = fields.One2many('sale.order.line', 'sale_order_id', string='sale_job_order')
+    sale_order_line_ids = fields.One2many('sale.order.line', 'sale_order_id', string='sale_job_order',ondelete='cascade')
 
     related_estimation = fields.Many2one('sale', string='Estimation_id', ondelete='cascade')
 
@@ -245,7 +245,7 @@ class ColourMaster(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    job_no = fields.Many2one('colour', string="Colour Name")
+    job_no = fields.Many2one('colour', string="Colour Name",ondelete='cascade')
     job_order_id = fields.Many2one('job.order', string='Job Order')
 
     quantity = fields.Float(string="Quantity")
