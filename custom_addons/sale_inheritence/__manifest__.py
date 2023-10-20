@@ -18,6 +18,7 @@
         'views/sale_order_inherit.xml',
         'views/account_move_inherit.xml',
         'views/sale_view.xml',
+        'views/account_expence.xml',
         'views/colour_view.xml',
         'views/job_order_views.xml',
          'report/report.xml',
