@@ -51,3 +51,5 @@ class AccountMoveForm(models.Model):
 
 
                 self.invoice_line_ids += invoice_line
+    #for expence code
+    is_expense = fields.Boolean(string="Is Expense", default=False)
