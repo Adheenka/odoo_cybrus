@@ -1,34 +1,10 @@
-<?xml version="1.0" encoding="utf-8" ?>
-
-
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_move_expense_form" model="ir.ui.view">
-            <field name="name">account.move.expense.form</field>
-            <field name="model">account.move</field>
-            <field name="arch" type="xml">
-                <form string=" Expense Form">
-                    <header>
-                        <button name="print_pdf_report" string="Print PDF" class="btn-secondary"/>
-                    </header>
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="partner_id"
-                                   domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"/>
-                            <field name="invoice_date"/>
-                            <field name="invoice_date_due"/>
-                            <field name="amount_untaxed"/>
-                            <field name="amount_total"/>
-                            <field name="state"/>
-                            <!-- Add other fields you need here -->
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        <record id="view_in_invoice_tree" model="ir.ui.view">
-            <field name="name">account.move.expense.tree</field>
+
+        <!-- Define the tree view for your custom model -->
+        <record model="ir.ui.view" id="view_in_invoice_tree">
+            <field name="name">account.invoice.tree</field>
             <field name="model">account.move</field>
             <field name="arch" type="xml">
                 <tree string="Expenses">
@@ -39,21 +15,88 @@
                     <field name="amount_untaxed" string="Tax Excluded"/>
                     <field name="amount_total" string="Total"/>
                     <field name="state" string="Status"/>
-                    <!-- Add other fields you need here -->
                 </tree>
             </field>
         </record>
-        <!-- Define the action for Expenses -->
-        <record id="action_account_expense" model="ir.actions.act_window">
+
+        <!-- Define the form view for your custom model -->
+        <record model="ir.ui.view" id="view_account_move_expense_form">
+            <field name="name">account.move.expense.form</field>
+            <field name="model">account.move</field>
+
+            <field name="arch" type="xml">
+
+
+ <xpath expr="//field[@name='partner_id']/" position="after">
+
+ </xpath>
+<!--                    <attribute name="attrs">{'invisible': True}</attribute>-->
+
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                   <field name="move_type" invisible="1"/>-->
+<!--                <field name="expense_sequence" readonly="1"/>-->
+<!--                                 <field name="partner_id"-->
+<!--                                       domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"/>-->
+<!--                                <field name="ref" string="Reference"/>-->
+<!--                                <field name="state" invisible="1"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+
+
+<!--                                <field name="invoice_date"/>-->
+<!--                                <field name="invoice_date_due"/>-->
+<!--                                <field name="journal_id"-->
+<!--       domain="[('suitable_journal_ids', '=', True)]"-->
+<!--       options="{'no_create': True}"-->
+<!--       context="{'default_move_type': 'in_invoice', 'default_is_expense': True}"-->
+<!--       groups="account.group_account_readonly"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+                   	<notebook position="inside">
+				<page string="Expense">
+					<group>
+
+<!--                                    <field name="product_id"/>-->
+<!--                                    <field name="name" widget="section_and_note_text" optional="hide"/>-->
+<!--                                    <field name="quantity"/>-->
+<!--                                    <field name="price_unit"/>-->
+<!--                                    <field name="price_total"/>-->
+					</group>
+				</page>
+			</notebook>
+
+<!--                    <notebook>-->
+<!--                        <page id="invoice_tab" name="invoice_tab" string="Expense Lines">-->
+<!--                            <field name="invoice_line_ids" widget="section_and_note_one2many">-->
+<!--                                <tree editable="bottom" string="Journal Items" >-->
+<!--                                    &lt;!&ndash; Displayed fields &ndash;&gt;-->
+<!--                                    <field name="sequence" widget="handle"/>-->
+<!--                                    <field name="product_id"/>-->
+<!--                                    <field name="name" widget="section_and_note_text" optional="hide"/>-->
+<!--                                    <field name="quantity"/>-->
+<!--                                    <field name="price_unit"/>-->
+<!--                                    <field name="price_total"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+
+
+            </field>
+        </record>
+
+        <!-- Define the action for your custom model -->
+        <record model="ir.actions.act_window" id="action_expense">
             <field name="name">Expenses</field>
             <field name="res_model">account.move</field>
             <field name="view_mode">tree,form</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'tree', 'view_id': ref('account.view_move_tree')}),
-                (0, 0, {'view_mode': 'form', 'view_id': ref('account.view_move_form')})]"/>
-            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_in_invoice_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_move_expense_form')})]"/>
             <field name="domain">[('move_type', '=', 'in_invoice'), ('is_expense', '=', True)]</field>
             <field name="context">{'default_move_type': 'in_invoice', 'default_is_expense': True}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Register a new expense
@@ -61,9 +104,8 @@
             </field>
         </record>
 
-        <!-- Define the menu item for Expenses -->
-        <menuitem id="menu_account_expense" action="action_account_expense"
-                  parent="account.menu_finance" sequence="7"/>
+        <!-- Define the menu item for your Expenses view -->
+        <menuitem id="menu_expense" action="action_expense" parent="account.menu_finance" sequence="7"/>
+
     </data>
 </odoo>
-
