@@ -27,10 +27,10 @@ class AccountMoveForm(models.Model):
             self.applied_discount = sale_order.applied_discount
             invoice_date = sale_order.date_order.strftime('%Y-%m-%d')
 
-            # Assign the formatted date to invoice_date
+
             self.invoice_date = invoice_date
 
-            # Clear existing invoice lines
+
             self.invoice_line_ids = [(5, 0, 0)]
 
             # Populate invoice lines from Sale Order lines
@@ -46,9 +46,6 @@ class AccountMoveForm(models.Model):
                     'tax_ids': [(6, 0, line.tax_id.ids)],
                     'price_subtotal': line.price_total,
                 })
-
-
-
 
                 self.invoice_line_ids += invoice_line
     #for expence code
