@@ -9,9 +9,11 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='move_type']" position="after">
-                    <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}"/>
+                    <h1 class="mt0">
+                    <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}" />
+                    </h1>
                 </xpath>
-                 <field name="name" position="attributes">
+                <field name="name" position="attributes">
                     <attribute name="attrs">
                         {'invisible': [('is_expense', '!=', False)]}
                     </attribute>
@@ -23,6 +25,16 @@
                 <field name="partner_bank_id" position="attributes">
                     <attribute name="attrs">
                         {'invisible': [('is_expense', '!=', False)]}
+                    </attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible': [('is_expense', '!=', False)]}
+                    </attribute>
+                </field>
+                <field name="invoice_payment_term_id" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible': [('is_expense', '=', False)]}
                     </attribute>
                 </field>
                 <field name="payment_reference" position="attributes">
@@ -64,10 +76,10 @@
                         <field name="invoice_line_ids"
                                widget="section_and_note_one2many"
                                mode="tree,kanban">
-<!--                        <field name="invoice_line_ids"-->
-<!--                               widget="section_and_note_one2many"-->
-<!--                               mode="tree,kanban"-->
-<!--                               context="{'default_move_type': context.get('default_move_type'),'journal_id': journal_id,'default_partner_id': commercial_partner_id,'default_currency_id': currency_id or company_currency_id,}">-->
+                            <!--                        <field name="invoice_line_ids"-->
+                            <!--                               widget="section_and_note_one2many"-->
+                            <!--                               mode="tree,kanban"-->
+                            <!--                               context="{'default_move_type': context.get('default_move_type'),'journal_id': journal_id,'default_partner_id': commercial_partner_id,'default_currency_id': currency_id or company_currency_id,}">-->
                             <tree editable="bottom">
                                 <field name="product_id"/>
                                 <!--                                <field name="product_id"-->
@@ -95,6 +107,21 @@
 
             <field name="arch" type="xml">
                 <tree>
+                    <field name="is_expense" invisible="1"/>
+
+                    <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}" class="mt0"/>
+            <field name="name" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_expense', '!=', False)]}</attribute>
+            </field>
+<!--                    <xpath expr="//field[@name='name']" position="after">-->
+<!--                        <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}" class="mt0"/>-->
+
+<!--                    </xpath>-->
+<!--                    <field name="name" position="attributes">-->
+<!--                        <attribute name="attrs">-->
+<!--                            {'invisible': [('is_expense', '!=', False)]}-->
+<!--                        </attribute>-->
+<!--                    </field>-->
                 </tree>
 
 
@@ -121,7 +148,7 @@
 
         <record id="action_account_expense" model="ir.actions.act_window">
             <field name="name">Expenses</field>
-            <field name="res_model">account.move</field>
+
             <field name="view_mode">tree,form</field>
             <field name="view_ids" eval="[(5, 0, 0),
         (0, 0, {'view_mode': 'tree', 'view_id': ref('view_in_invoice_expense_tree')}),

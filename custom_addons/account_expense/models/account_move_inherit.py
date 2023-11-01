@@ -15,6 +15,35 @@ class AccountMove(models.Model):
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
     expense_line_ids = fields.One2many('account.move.line', 'move_id', string='Expense Lines')
 
+    # def name_get(self):
+    #     names = []
+    #     for record in self:
+    #         name = '%s-%s' % (record.create_date.date(), record.name)
+    #         names.append((record.id, name))
+    #     return names
+
+    def name_get(self):
+        names = []
+        for record in self:
+            if record.is_expense:
+                name_expense = 'EXP/%s/%s/%04d' % (
+                record.create_date.year, str(record.create_date.month).zfill(2), record.id)
+                names.append((record.id, name_expense))
+            else:
+                names.append((record.id, record.name))
+        return names
+    # def name_get(self):
+    #     names = []
+    #     for record in self:
+    #         if record.is_expense:
+    #             sequence = self.env['ir.sequence'].next_by_code('account.move.sequence') or 'New'
+    #             sequence_number = sequence.split('/')[-1]  # Extracts the last part after splitting by '/'
+    #             name = '%s/%04d/%02d/%04d-%s' % (
+    #             'EXP', record.create_date.year, record.create_date.month, int(sequence_number), record.name)
+    #         else:
+    #             name = record.name
+    #         names.append((record.id, name))
+    #     return names
     @api.model
     def create(self, vals):
         if vals.get('sequence', 'New') == 'New':
