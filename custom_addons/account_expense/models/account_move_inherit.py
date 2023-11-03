@@ -1,5 +1,6 @@
 from odoo import fields, models, api ,_
 from odoo.exceptions import ValidationError
+from odoo.tools import format_date
 
 
 # from odoo.addons.sale.models.sale_order import SaleOrder
@@ -15,23 +16,37 @@ class AccountMove(models.Model):
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
     expense_line_ids = fields.One2many('account.move.line', 'move_id', string='Expense Lines')
 
+
+    @api.depends('name', 'state', 'is_expense')
+    def name_get(self):
+        result = []
+        for move in self:
+            if move.is_expense:
+                name = f'EXP/{move.create_date.year}/{move.create_date.month:02d}/{move.id:04d}'
+            else:
+                if self._context.get('name_groupby'):
+                    name = '**%s**, %s' % (format_date(self.env, move.date), move._get_move_display_name())
+                    if move.ref:
+                        name += '     (%s)' % move.ref
+                    if move.partner_id.name:
+                        name += ' - %s' % move.partner_id.name
+                else:
+                    name = move._get_move_display_name(show_ref=True)
+            result.append((move.id, name))
+        return result
     # def name_get(self):
     #     names = []
     #     for record in self:
-    #         name = '%s-%s' % (record.create_date.date(), record.name)
-    #         names.append((record.id, name))
+    #         if record.is_expense:
+    #             name_expense = 'EXP/%s/%s/%04d' % (
+    #             record.create_date.year, str(record.create_date.month).zfill(2), record.id)
+    #             names.append((record.id, name_expense))
+    #         else:
+    #             names.append((record.id, record.name))
     #     return names
 
-    def name_get(self):
-        names = []
-        for record in self:
-            if record.is_expense:
-                name_expense = 'EXP/%s/%s/%04d' % (
-                record.create_date.year, str(record.create_date.month).zfill(2), record.id)
-                names.append((record.id, name_expense))
-            else:
-                names.append((record.id, record.name))
-        return names
+
+
     # def name_get(self):
     #     names = []
     #     for record in self:

@@ -10,7 +10,7 @@
 
                 <xpath expr="//field[@name='move_type']" position="after">
                     <h1 class="mt0">
-                    <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}" />
+                        <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}"/>
                     </h1>
                 </xpath>
                 <field name="name" position="attributes">
@@ -57,12 +57,21 @@
                 <field name="ref" invisible="1"/>
                 <xpath expr="//field[@name='ref']" position="attributes">
 
-                    <attribute name="option">1</attribute>
+                    <attribute name="attrs">
+                        {'invisible': [('is_expense', '!=', False)]}
+                    </attribute>
 
 
                 </xpath>
+                <xpath expr="//field[@name='invoice_date']" position="attributes">
 
+                    <attribute name="string">Reference</attribute>
 
+                </xpath>
+
+                <!--                <xpath expr='/form/notebook/page[@string="Journal Items"]' position="replace">-->
+                <!--                    <attribute name="string">Matična številka</attribute>-->
+                <!--                </xpath>-->
                 <!--             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">-->
                 <!--                <attribute name="force_save">1</attribute>-->
                 <!--            </xpath>-->
@@ -72,10 +81,10 @@
                     <!--                              string="Expense Lines"-->
                     <!--                              attrs="{'invisible': [('move_type', '=', 'entry')]}">-->
                     <page string="Expense Line" attrs="{'invisible': [('is_expense', '=', False)]}">
-                        <!--                        <field name="expense_line_ids" widget="one2many_list">-->
-                        <field name="invoice_line_ids"
-                               widget="section_and_note_one2many"
-                               mode="tree,kanban">
+                        <field name="expense_line_ids" widget="one2many_list">
+                            <!--                        <field name="invoice_line_ids"-->
+                            <!--                               widget="section_and_note_one2many"-->
+                            <!--                               mode="tree,kanban">-->
                             <!--                        <field name="invoice_line_ids"-->
                             <!--                               widget="section_and_note_one2many"-->
                             <!--                               mode="tree,kanban"-->
@@ -103,25 +112,19 @@
         <record id="view_in_invoice_expense_tree" model="ir.ui.view">
             <field name="name">account.move.expense.tree</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.view_in_invoice_bill_tree"></field>
 
+            <field name="inherit_id" ref="account.view_in_invoice_bill_tree"></field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="is_expense" invisible="1"/>
+                    <field name="is_expense"/>
 
-                    <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}" class="mt0"/>
-            <field name="name" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_expense', '!=', False)]}</attribute>
-            </field>
-<!--                    <xpath expr="//field[@name='name']" position="after">-->
-<!--                        <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}" class="mt0"/>-->
+                    <field name="sequence"
+                           attrs="{'invisible': [('is_expense', '!=', False),('move_type', '==', 'entry')]}"/>
+                    <!--                    <xpath expr="//field[@name='name']" position="after">-->
+                    <!--    <field name="sequence" attrs="{'invisible': [('is_expense', '=', False),('move_type', '==', 'entry')]}"/>-->
+                    <!--</xpath>-->
 
-<!--                    </xpath>-->
-<!--                    <field name="name" position="attributes">-->
-<!--                        <attribute name="attrs">-->
-<!--                            {'invisible': [('is_expense', '!=', False)]}-->
-<!--                        </attribute>-->
-<!--                    </field>-->
+
                 </tree>
 
 
