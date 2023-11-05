@@ -5,6 +5,11 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
+             <xpath expr="//button[@name='preview_invoice']" position="after">
+                <button  class="oe_stat_button" style="background-color: #25D366;color: white;"
+                        name="action_send_whatsapp" icon="fa-envelope" string="Send by email"/>
+            </xpath>
+
             <field name="invoice_date" position="after">
                 <field name="sale_order_id"/>
 

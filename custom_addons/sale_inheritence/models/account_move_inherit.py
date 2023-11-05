@@ -4,7 +4,7 @@ from odoo import fields, models, api ,_
 # from odoo.addons.sale.models.sale_order import SaleOrder
 
 
-class AccountMoveForm(models.Model):
+class AccountMove(models.Model):
     _inherit = 'account.move'
 
     sale_order_id = fields.Many2one('sale.order', string="Sale Order ID",
@@ -48,6 +48,57 @@ class AccountMoveForm(models.Model):
                 })
 
                 self.invoice_line_ids += invoice_line
+
+    #for email send code
+    def action_post(self):
+        # Invoke the original action_post method
+        super(AccountMove, self).action_post()
+
+        # Add your custom logic to send email here
+        # Example code to send an email to the customer after confirming the invoice
+        for move in self:
+            if move.move_type == 'out_invoice' and move.state == 'posted':
+                # Check if it's an outgoing invoice (customer invoice) and in 'posted' state
+
+                # Get the customer's email address
+                customer = move.partner_id
+                customer_email = customer.email
+
+                # Check if customer has an email address
+                if customer_email:
+                    mail_template = self.env.ref('account.email_template_edi_invoice')
+                    if mail_template:
+                        # Replace with actual email sending logic, including recipients, email content, etc.
+                        mail_template.write({
+                            'email_to': customer_email  # Set the email recipient to the customer's email
+                        })
+                        mail_template.send_mail(move.id, force_send=True)
+        # End of example email sending logic
+        return True
+    # def action_post(self):
+    #     # Invoke the original action_post method
+    #     super(AccountMove, self).action_post()
+    #
+    #     # Add your custom logic to send email here
+    #     # Example code to send an email after invoice confirmation
+    #     for move in self:
+    #         if move.move_type in ('out_invoice', 'in_invoice') and move.state == 'posted':
+    #             # Check if it's an outgoing or incoming invoice and in 'posted' state
+    #             mail_template = self.env.ref('account.email_template_edi_invoice')
+    #             if mail_template:
+    #                 # Replace with actual email sending logic, including recipients, email content, etc.
+    #                 mail_template.send_mail(move.id, force_send=True)
+    #     # End of example email sending logic
+    #     return True
+
+    # for msg send code
+    # def action_post(self):
+    #         result = super(AccountMove, self).action_post()
+    #         for res in self:
+    #             send_message_sms(res, res.partner_id, 'invoice_vaildate')
+    #         return result
+
+
     #for expence code
     # is_expense = fields.Boolean(string="Is Expense", default=False)
     # expense_sequence = fields.Char(string="Expense Sequence")
