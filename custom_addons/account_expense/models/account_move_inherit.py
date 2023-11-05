@@ -16,62 +16,74 @@ class AccountMove(models.Model):
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
     expense_line_ids = fields.One2many('account.move.line', 'move_id', string='Expense Lines')
 
+    # def name_get(self):
+    #     res = super(AccountMove, self).name_get()
+    #     for rec in self:
+    #         if rec.is_expense:
+    #             new_name = f"EXP/{rec.date.year}/{rec.date.month:02d}/{rec.id:04d}"
+    #         else:
+    #             new_name = f"BILL/{rec.date.year}/{rec.date.month:02d}/{rec.id:04d}"
+    #         res.append((rec.id, new_name))
+    #     return res
 
-    @api.depends('name', 'state', 'is_expense')
     def name_get(self):
-        result = []
+        result = super(AccountMove, self).name_get()
         for move in self:
-            if move.is_expense:
-                name = f'EXP/{move.create_date.year}/{move.create_date.month:02d}/{move.id:04d}'
+            if self._context.get('name_groupby'):
+                name = '**%s**, %s' % (format_date(self.env, move.date), move._get_move_display_name())
+                if move.ref:
+                    name += '     (%s)' % move.ref
+                if move.partner_id.name:
+                    name += ' - %s' % move.partner_id.name
             else:
-                if self._context.get('name_groupby'):
-                    name = '**%s**, %s' % (format_date(self.env, move.date), move._get_move_display_name())
-                    if move.ref:
-                        name += '     (%s)' % move.ref
-                    if move.partner_id.name:
-                        name += ' - %s' % move.partner_id.name
-                else:
-                    name = move._get_move_display_name(show_ref=True)
+                name = move._get_move_display_name(show_ref=True)
+
+            if move.is_expense:  # Checking if move is an expense
+                name = f"EXP/{format_date(self.env, move.date)}"  # Set name to EXP/YYYY/MM/XXXX
+
             result.append((move.id, name))
         return result
+    # @api.depends('name', 'state')
     # def name_get(self):
-    #     names = []
-    #     for record in self:
-    #         if record.is_expense:
-    #             name_expense = 'EXP/%s/%s/%04d' % (
-    #             record.create_date.year, str(record.create_date.month).zfill(2), record.id)
-    #             names.append((record.id, name_expense))
+    #     result = []
+    #     for move in self:
+    #         if self._context.get('name_groupby'):
+    #             name = '**%s**, %s' % (format_date(self.env, move.date), move._get_move_display_name())
+    #             if move.ref:
+    #                 name += '     (%s)' % move.ref
+    #             if move.partner_id.name:
+    #                 name += ' - %s' % move.partner_id.name
     #         else:
-    #             names.append((record.id, record.name))
-    #     return names
+    #             name = move._get_move_display_name(show_ref=True)
+    #         result.append((move.id, name))
+    #     return result
 
-
-
+    # @api.depends('name', 'state')
     # def name_get(self):
-    #     names = []
-    #     for record in self:
-    #         if record.is_expense:
-    #             sequence = self.env['ir.sequence'].next_by_code('account.move.sequence') or 'New'
-    #             sequence_number = sequence.split('/')[-1]  # Extracts the last part after splitting by '/'
-    #             name = '%s/%04d/%02d/%04d-%s' % (
-    #             'EXP', record.create_date.year, record.create_date.month, int(sequence_number), record.name)
-    #         else:
-    #             name = record.name
-    #         names.append((record.id, name))
-    #     return names
+    #     result = []
+    #     for move in self:
+    #         date_string = move.date.strftime('%Y/%m/%d')
+    #         name = 'EXP/%s/%s' % (date_string, move.ref)
+    #         result.append((move.id, name))
+    #     return result
+
+    @api.depends('sequence','is_expense')
+        # def name_get(self):
+        #     result = []
+        #     for move in self:
+        #         name = f"{move.sequence}"
+        #         result.append((move.id, name))
+        #     return result
+
     @api.model
     def create(self, vals):
         if vals.get('sequence', 'New') == 'New':
             sequence = self.env['ir.sequence'].next_by_code('account.move.sequence') or 'New'
 
-            # Get current date
             current_date = fields.Date.today()
-
-            # Extract year and month from the current date
             year = fields.Date.from_string(current_date).year
             month = fields.Date.from_string(current_date).month
 
-            # Format the sequence as required
             vals['sequence'] = f"EXP/{year}/{month:02d}/{sequence[-4:]}"
 
         return super(AccountMove, self).create(vals)

@@ -10,14 +10,14 @@
         <field name="company_id" eval="False"/>
     </record>
 
-             <record id="sequence_account_move_expense_sequence" model="ir.sequence">
-    <field name="name">Expense Sequence</field>
-    <field name="code">account.move.expense.sequence</field>
-    <field name="prefix">EXP</field>
-    <field name="padding">4</field>
-    <field name="number_increment">1</field>
-    <field name="use_date_range" eval="False" />
-</record>
+<!--             <record id="sequence_account_move_expense_sequence" model="ir.sequence">-->
+<!--    <field name="name">Expense Sequence</field>-->
+<!--    <field name="code">account.move.expense.sequence</field>-->
+<!--    <field name="prefix">EXP</field>-->
+<!--    <field name="padding">4</field>-->
+<!--    <field name="number_increment">1</field>-->
+<!--    <field name="use_date_range" eval="False" />-->
+<!--</record>-->
 
     </data>
 </odoo>

@@ -116,6 +116,7 @@
             <field name="inherit_id" ref="account.view_in_invoice_bill_tree"></field>
             <field name="arch" type="xml">
                 <tree>
+                      <field name="name" string="Name" />
                     <field name="is_expense"/>
 
                     <field name="sequence"
