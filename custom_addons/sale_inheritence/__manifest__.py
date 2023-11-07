@@ -14,6 +14,7 @@
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
         'data/mail_template_date.xml',
+        'data/invoice_sms_template.xml',
         'views/estimation_view.xml',
         'views/description_view.xml',
         'views/sale_order_inherit.xml',

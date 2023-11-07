@@ -50,28 +50,42 @@ class AccountMove(models.Model):
                 self.invoice_line_ids += invoice_line
 
     #for email send code
+    # def action_post(self):
+    #
+    #     super(AccountMove, self).action_post()
+    #
+    #
+    #     for move in self:
+    #         if move.move_type == 'out_invoice' and move.state == 'posted':
+    #
+    #             customer = move.partner_id
+    #             customer_email = customer.email
+    #
+    #
+    #             if customer_email:
+    #                 mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
+    #                 if mail_template:
+    #
+    #                     mail_template.write({
+    #                         'email_to': customer_email
+    #                     })
+    #                     mail_template.send_mail(move.id, force_send=True)
+    #
+    #     return True
+
     def action_post(self):
-
-        super(AccountMove, self).action_post()
-
+        res = super(AccountMove, self).action_post()
 
         for move in self:
             if move.move_type == 'out_invoice' and move.state == 'posted':
-
                 customer = move.partner_id
                 customer_email = customer.email
 
-
                 if customer_email:
-                    mail_template = self.env.ref('sale_inheritence.model_account_move')
+                    mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
                     if mail_template:
-
-                        mail_template.write({
-                            'email_to': customer_email
-                        })
-                        mail_template.send_mail(move.id, force_send=True)
-
-        return True
+                        mail_template.send_mail(move.id, force_send=True, email_values={'email_to': customer_email})
+        return res
     # def action_post(self):
     #     # Invoke the original action_post method
     #     super(AccountMove, self).action_post()
