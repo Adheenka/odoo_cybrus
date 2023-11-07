@@ -73,19 +73,65 @@ class AccountMove(models.Model):
     #
     #     return True
 
+    # def action_post(self):
+    #     res = super(AccountMove, self).action_post()
+    #
+    #     for move in self:
+    #         if move.move_type == 'out_invoice' and move.state == 'posted':
+    #             customer = move.partner_id
+    #             customer_email = customer.email
+    #
+    #             if customer_email:
+    #                 mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
+    #                 if mail_template:
+    #                     mail_template.send_mail(move.id, force_send=True, email_values={'email_to': customer_email})
+    #     return res
+    #
+    #    !!!!!!  for email and sms send code
+
     def action_post(self):
-        res = super(AccountMove, self).action_post()
+        rec = super(AccountMove, self).action_post()
 
-        for move in self:
-            if move.move_type == 'out_invoice' and move.state == 'posted':
-                customer = move.partner_id
-                customer_email = customer.email
+        mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
+        mail_template.send_mail(self.id, force_send=True)
 
-                if customer_email:
-                    mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
-                    if mail_template:
-                        mail_template.send_mail(move.id, force_send=True, email_values={'email_to': customer_email})
-        return res
+        sms_template = self.env.ref('sale_inheritence.sms_template_invoice_sms')
+        for sms in self:
+            phone_number = sms.partner_id.mobile or sms.partner_id.phone
+            if phone_number:
+                sms_content = sms_template.body % {'partner_name': sms.partner_id.name,
+
+                                                   'invoice_name': sms.name}
+                self.env['sms.sms'].create({
+                    'number': phone_number,
+                    'body': sms_content,
+                    'partner_id': sms.partner_id.id,
+
+                })
+
+        return rec
+
+
+    # def action_post(self):
+    #     res = super(AccountMove, self).action_post()
+    #
+    #     for move in self:
+    #         if move.move_type == 'out_invoice' and move.state == 'posted':
+    #             customer = move.partner_id
+    #             customer_email = customer.email
+    #
+    #             if customer_email:
+    #                 mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
+    #                 if mail_template:
+    #                     mail_template.send_mail(move.id, force_send=True, email_values={'email_to': customer_email})
+    #
+    #                 # SMS sending logic
+    #                 customer_mobile = customer.mobile
+    #                 if customer_mobile:
+    #                     sms_template = self.env.ref('sale_inheritence.sms_template_invoice_sms')
+    #                     if sms_template:
+    #                         sms_template.send_sms(move.id, sms_values={'partner_to': customer_mobile})
+    #     return res
     # def action_post(self):
     #     # Invoke the original action_post method
     #     super(AccountMove, self).action_post()

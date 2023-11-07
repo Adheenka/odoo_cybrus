@@ -1,41 +1,48 @@
-<?xml version="1.0" ?>
-
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
-        <record id="sms_template_invoice_sms" model="sms.template">
-            <field name="name">Delivery: Send by Invoice</field>
-            <field name="model_id" ref="sale_inheritence.model_account_move"/>
-            <field name="sms_from">${user.phone_number}</field>
-            <field name="partner_to">${object.partner_id.mobile}</field>
-            <field name="sms_content">Dear
-                <t t-if="object.partner_id.parent_id">
-                    <t t-out="object.partner_id.name or ''">Brandon Freeman</t>
-                    (<t t-out="object.partner_id.parent_id.name or ''">Azure Interior</t>),
-                </t>
-                <t t-else="">
-                    <t t-out="object.partner_id.name or ''">Brandon Freeman</t>,
-                </t>
-                Here is your
-                <t t-if="object.name">
-                    invoice
-                    <t t-out="object.name or ''">INV/2021/05/0005</t>
-                </t>
-                <t t-else="">
-                    invoice
-                </t>
-                amounting in
-                <t t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 143,750.00
-                </t>
-                from <t t-out="object.company_id.name or ''">YourCompany</t>.
-                Do not hesitate to contact us if you have any questions.
-                <t t-if="object.invoice_user_id.signature">
-                    <t t-out="object.invoice_user_id.signature or ''">-- Mitchell Admin
-                    </t>
-                </t>
-            </field>
-        </record>
-    </data>
+    <record id="sms_template_invoice_sms" model="sms.template">
+    <field name="name">Invoice SMS Template</field>
+    <field name="model_id" ref="sale_inheritence.model_account_move"/>
+    <field name="body">Dear %(partner_name)s, your invoice %(invoice_name) has been successfully posted. Thank you for your business.</field>
+</record>
+
 </odoo>
+<!--<odoo>-->
+<!--    <data noupdate="1">-->
+<!--        <record id="sms_template_invoice_sms" model="sms.template">-->
+<!--            <field name="name">Delivery: Send by Invoice</field>-->
+<!--            <field name="model_id" ref="sale_inheritence.model_account_move"/>-->
+<!--            <field name="sms_from">${user.mobile_phone}</field>-->
+<!--            <field name="partner_to">${{object.partner_id.phone}}</field>-->
+<!--            <field name="sms_content">Dear-->
+<!--                <t t-if="object.partner_id.parent_id">-->
+<!--                    <t t-out="object.partner_id.name or ''">Brandon Freeman</t>-->
+<!--                    (<t t-out="object.partner_id.parent_id.name or ''">Azure Interior</t>),-->
+<!--                </t>-->
+<!--                <t t-else="">-->
+<!--                    <t t-out="object.partner_id.name or ''">Brandon Freeman</t>,-->
+<!--                </t>-->
+<!--                Here is your-->
+<!--                <t t-if="object.name">-->
+<!--                    invoice-->
+<!--                    <t t-out="object.name or ''">INV/2021/05/0005</t>-->
+<!--                </t>-->
+<!--                <t t-else="">-->
+<!--                    invoice-->
+<!--                </t>-->
+<!--                amounting in-->
+<!--                <t t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 143,750.00-->
+<!--                </t>-->
+<!--                from <t t-out="object.company_id.name or ''">YourCompany</t>.-->
+<!--                Do not hesitate to contact us if you have any questions.-->
+<!--                <t t-if="object.invoice_user_id.signature">-->
+<!--                    <t t-out="object.invoice_user_id.signature or ''">&#45;&#45; Mitchell Admin-->
+<!--                    </t>-->
+<!--                </t>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </data>-->
+<!--</odoo>-->
 
 <!--<odoo>-->
 <!--    <data noupdate="1">-->
