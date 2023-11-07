@@ -13,6 +13,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
+        'data/mail_template_date.xml',
         'views/estimation_view.xml',
         'views/description_view.xml',
         'views/sale_order_inherit.xml',
@@ -21,7 +22,7 @@
 
         'views/colour_view.xml',
         'views/job_order_views.xml',
-         'report/report.xml',
+        'report/report.xml',
         'report/job_order_card.xml',
 
 

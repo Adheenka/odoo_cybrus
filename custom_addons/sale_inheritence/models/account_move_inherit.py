@@ -51,29 +51,26 @@ class AccountMove(models.Model):
 
     #for email send code
     def action_post(self):
-        # Invoke the original action_post method
+
         super(AccountMove, self).action_post()
 
-        # Add your custom logic to send email here
-        # Example code to send an email to the customer after confirming the invoice
+
         for move in self:
             if move.move_type == 'out_invoice' and move.state == 'posted':
-                # Check if it's an outgoing invoice (customer invoice) and in 'posted' state
 
-                # Get the customer's email address
                 customer = move.partner_id
                 customer_email = customer.email
 
-                # Check if customer has an email address
+
                 if customer_email:
-                    mail_template = self.env.ref('account.email_template_edi_invoice')
+                    mail_template = self.env.ref('sale_inheritence.model_account_move')
                     if mail_template:
-                        # Replace with actual email sending logic, including recipients, email content, etc.
+
                         mail_template.write({
-                            'email_to': customer_email  # Set the email recipient to the customer's email
+                            'email_to': customer_email
                         })
                         mail_template.send_mail(move.id, force_send=True)
-        # End of example email sending logic
+
         return True
     # def action_post(self):
     #     # Invoke the original action_post method

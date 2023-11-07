@@ -54,15 +54,17 @@
                 <!--              <xpath expr="//field[@name='invoice_line_ids']" position="attributes">-->
                 <!--                <attribute name="name">expense_line</attribute>-->
                 <!--            </xpath>-->
-                <field name="ref" invisible="1"/>
-                <xpath expr="//field[@name='ref']" position="attributes">
 
-                    <attribute name="attrs">
-                        {'invisible': [('is_expense', '!=', False)]}
+<!--                <field name="ref" position="attributes"/>-->
+<!--                <attribute name="invisible">0</attribute>-->
+<!--                <attribute name="attrs">{'invisible': [('is_expense', '!=', False)]}-->
+<!--                </attribute>-->
+                <xpath expr="//label[@for='ref']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_expense', '!=', False)]}
                     </attribute>
 
-
                 </xpath>
+
                 <xpath expr="//field[@name='invoice_date']" position="attributes">
 
                     <attribute name="string">Reference</attribute>
@@ -116,7 +118,7 @@
             <field name="inherit_id" ref="account.view_in_invoice_bill_tree"></field>
             <field name="arch" type="xml">
                 <tree>
-                      <field name="name" string="Name" />
+                    <field name="name" string="Name"/>
                     <field name="is_expense"/>
 
                     <field name="sequence"
