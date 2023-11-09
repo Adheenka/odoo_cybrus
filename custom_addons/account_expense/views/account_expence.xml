@@ -95,15 +95,20 @@
                                 <field name="product_id"/>
                                 <!--                                <field name="product_id"-->
                                 <!--                                            domain="[('expense_ok', '=', True)]"/>-->
-                                <field name="account_id"/>
-                                <field name="quantity"/>
-                                <field name="price_unit"/>
-                                <field name="tax_ids" widget="many2many_tags"
-                                       domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id), ('country_id', '=', parent.tax_country_id)]"
-                                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
-                                       options="{'no_create': True}"
-                                       optional="show"/>
-                                <field name="price_subtotal"/>
+<!--                                <field name="account_id"/>-->
+                                        <field name="quantity"/>
+                    <field name="unit_price"/>
+                    <field name="tax"/>
+                    <field name="total"/>
+                    <field name="account_move_id" options="{'no_create_edit': True}"/>
+<!--                                <field name="quantity"/>-->
+<!--                                <field name="price_unit"/>-->
+<!--                                <field name="tax_ids" widget="many2many_tags"-->
+<!--                                       domain="[ ('company_id', '=', parent.company_id)]"-->
+<!--                                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"-->
+<!--                                       options="{'no_create': True}"-->
+<!--                                       optional="show"/>-->
+<!--                                <field name="price_subtotal"/>-->
                             </tree>
                         </field>
                     </page>

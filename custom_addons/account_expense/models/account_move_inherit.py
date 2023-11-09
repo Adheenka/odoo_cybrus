@@ -14,7 +14,7 @@ class AccountMove(models.Model):
     is_expense = fields.Boolean(string="Is Expense")
 
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
-    expense_line_ids = fields.One2many('account.move.line', 'move_id', string='Expense Lines')
+    expense_line_ids = fields.One2many('expense', 'account_move_id', string='Expense Lines')
 
     # def name_get(self):
     #     res = super(AccountMove, self).name_get()
@@ -134,3 +134,19 @@ class ProductError(models.Model):
     _inherit = 'product.template'
 
     expense_ok = fields.Boolean(string="product", default=False)
+
+class Expense(models.Model):
+    _name = 'expense'
+    _description = 'Expense'
+
+    product_id = fields.Many2one('product.product', string='Product')
+    quantity = fields.Float(string='Quantity', default=1.0)
+    unit_price = fields.Float(string='Unit Price')
+    total = fields.Float(string='Total', compute='_compute_total', store=True)
+    tax = fields.Float(string='Tax')
+    account_move_id = fields.Many2one('account.move', string='Account Move')
+
+    @api.depends('quantity', 'unit_price', 'tax')
+    def _compute_total(self):
+        for expense in self:
+            expense.total = (expense.quantity * expense.unit_price) * (1 + expense.tax / 100)
