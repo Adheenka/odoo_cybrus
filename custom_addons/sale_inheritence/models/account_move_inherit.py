@@ -49,45 +49,9 @@ class AccountMove(models.Model):
 
                 self.invoice_line_ids += invoice_line
 
-    #for email send code
-    # def action_post(self):
-    #
-    #     super(AccountMove, self).action_post()
-    #
-    #
-    #     for move in self:
-    #         if move.move_type == 'out_invoice' and move.state == 'posted':
-    #
-    #             customer = move.partner_id
-    #             customer_email = customer.email
-    #
-    #
-    #             if customer_email:
-    #                 mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
-    #                 if mail_template:
-    #
-    #                     mail_template.write({
-    #                         'email_to': customer_email
-    #                     })
-    #                     mail_template.send_mail(move.id, force_send=True)
-    #
-    #     return True
 
-    # def action_post(self):
-    #     res = super(AccountMove, self).action_post()
-    #
-    #     for move in self:
-    #         if move.move_type == 'out_invoice' and move.state == 'posted':
-    #             customer = move.partner_id
-    #             customer_email = customer.email
-    #
-    #             if customer_email:
-    #                 mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
-    #                 if mail_template:
-    #                     mail_template.send_mail(move.id, force_send=True, email_values={'email_to': customer_email})
-    #     return res
-    #
-    #    !!!!!!  for email and sms send code
+
+
 
     def action_post(self):
         rec = super(AccountMove, self).action_post()
@@ -109,9 +73,41 @@ class AccountMove(models.Model):
 
                 })
 
-        return rec
+    #     return rec
 
+    # def action_post(self):
+    #     for move in self:
+    #         # Save the fetched invoice line details before performing the super action_post
+    #         invoice_lines = []
+    #         for line in move.sale_order_id.order_line:
+    #             invoice_line = self.env['account.move.line'].new({
+    #                 'product_id': line.product_id.id,
+    #                 'name': line.name,
+    #                 'quantity': line.product_uom_qty,
+    #                 'price_unit': line.price_unit,
+    #                 'tax_ids': [(6, 0, line.tax_id.ids)],
+    #                 'price_subtotal': line.price_total,
+    #             })
+    #             invoice_lines.append((0, 0, invoice_line._to_write))
+    #
+    #         move.invoice_line_ids = invoice_lines
+    #
+    #     # Call the actual action_post method
+    #     res = super(AccountMove, self).action_post()
+    #
+    #     # Your existing code for sending emails and SMS
+    #     mail_template = self.env.ref('sale_inheritence.email_template_post_invoice')
+    #     mail_template.send_mail(move.id, force_send=True)
+    #
+    #     sms_template = self.env.ref('sale_inheritence.sms_template_invoice_sms')
+    #     phone_number = move.partner_id.mobile or move.partner_id.phone
+    #     if phone_number:
+    #         sms_content = sms_template.body % {'partner_name': move.partner_id.name, 'invoice_name': move.name}
+    #         self.env['sms.sms'].create({'number': phone_number, 'body': sms_content, 'partner_id': move.partner_id.id})
+    #
+    #     return res
 
+    
     # def action_post(self):
     #     res = super(AccountMove, self).action_post()
     #
@@ -132,28 +128,8 @@ class AccountMove(models.Model):
     #                     if sms_template:
     #                         sms_template.send_sms(move.id, sms_values={'partner_to': customer_mobile})
     #     return res
-    # def action_post(self):
-    #     # Invoke the original action_post method
-    #     super(AccountMove, self).action_post()
-    #
-    #     # Add your custom logic to send email here
-    #     # Example code to send an email after invoice confirmation
-    #     for move in self:
-    #         if move.move_type in ('out_invoice', 'in_invoice') and move.state == 'posted':
-    #             # Check if it's an outgoing or incoming invoice and in 'posted' state
-    #             mail_template = self.env.ref('account.email_template_edi_invoice')
-    #             if mail_template:
-    #                 # Replace with actual email sending logic, including recipients, email content, etc.
-    #                 mail_template.send_mail(move.id, force_send=True)
-    #     # End of example email sending logic
-    #     return True
 
-    # for msg send code
-    # def action_post(self):
-    #         result = super(AccountMove, self).action_post()
-    #         for res in self:
-    #             send_message_sms(res, res.partner_id, 'invoice_vaildate')
-    #         return result
+
 
 
     #for expence code

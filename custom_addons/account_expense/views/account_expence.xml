@@ -8,12 +8,12 @@
 
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='move_type']" position="after">
-                    <h1 class="mt0">
-                        <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}"/>
-                    </h1>
-                </xpath>
-                <field name="name" position="attributes">
+<!--                <xpath expr="//field[@name='move_type']" position="after">-->
+<!--                    <h1 class="mt0">-->
+<!--                        <field name="sequence" attrs="{'invisible': [('is_expense', '=', False)]}"/>-->
+<!--                    </h1>-->
+<!--                </xpath>-->
+                <field name="move_type" position="attributes">
                     <attribute name="attrs">
                         {'invisible': [('is_expense', '!=', False)]}
                     </attribute>
