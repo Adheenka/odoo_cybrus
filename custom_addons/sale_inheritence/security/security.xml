@@ -1,25 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- Access Control Groups -->
+<!--<odoo>-->
+<!--    &lt;!&ndash; Access Control Groups &ndash;&gt;-->
 
-    <!-- Define Support User Group -->
+<!--    &lt;!&ndash; Define Support User Group &ndash;&gt;-->
+<!--    <record id="group_support_user" model="res.groups">-->
+<!--        <field name="name">Support user</field>-->
+<!--    </record>-->
+
+
+<!--    <record id="access_sale" model="ir.rule">-->
+<!--        <field name="name">Support User Access Estimation</field>-->
+<!--        <field name="model_id" ref="model_sale"/>-->
+<!--        <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--        <field name="groups" eval="[(4,ref('sale_inheritence.group_support_user'))]"/>-->
+
+<!--        <field name="perm_read" eval="True"/>-->
+<!--                <field name="perm_write" eval="False"/>-->
+<!--                <field name="perm_create" eval="False"/>-->
+<!--                <field name="perm_unlink" eval="False"/>-->
+<!--    </record>-->
+
+<!--</odoo>-->
+
+<odoo>
+
     <record id="group_support_user" model="res.groups">
         <field name="name">Support user</field>
     </record>
 
-    <!-- Define Access Rule for Estimation Model -->
-    <record id="access_sale" model="ir.rule">
-        <field name="name">Support User Access Estimation</field>
-        <field name="model_id" ref="model_sale"/>
-        <field name="domain_force">[('create_uid','=',user.id)]</field>
-<!--         <field name="domain_force">[('user_id.groups_id', 'in', [ref('sale_inheritence.group_support_user')])]</field>-->
-<!--        <field name="domain_force">[('current_user.id', '=', user.id)]</field>-->
-        <field name="groups" eval="[(4,ref('sale_inheritence.group_support_user'))]"/>
+    <!-- Define Group User Group -->
+    <record id="group_user" model="res.groups">
+        <field name="name">Group user</field>
+    </record>
 
+    <!-- Grant 'group_support_user' read-only access to 'sale' model -->
+    <record id="access_sale" model="ir.rule">
+        <field name="name">Support User Access Sale (Read)</field>
+        <field name="model_id" ref="model_sale"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_support_user'))]"/>
         <field name="perm_read" eval="True"/>
-<!--        <field name="perm_write" eval="False"/>-->
-<!--        <field name="perm_create" eval="False"/>-->
-<!--        <field name="perm_unlink" eval="False"/>-->
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Grant 'base.group_user' full access to 'sale' model -->
+    <record id="access_group" model="ir.rule">
+        <field name="name">Group User Access Sale (Read, Write, Create, Unlink)</field>
+        <field name="model_id" ref="model_sale"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
     </record>
 
 </odoo>

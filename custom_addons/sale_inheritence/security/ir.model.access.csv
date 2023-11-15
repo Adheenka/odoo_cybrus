@@ -6,3 +6,5 @@ access.colour,access_colour,sale_inheritence.model_colour,base.group_user,1,1,1,
 access.job.order,access_job_order,sale_inheritence.model_job_order,base.group_user,1,1,1,1
 
 access.sale,access_sale,sale_inheritence.model_sale,group_support_user,1,0,0,0
+access.group,access_group,sale_inheritence.model_sale,group_user,1,1,1,1
+
