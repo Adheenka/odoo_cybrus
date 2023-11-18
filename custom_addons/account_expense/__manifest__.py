@@ -15,7 +15,7 @@
         'data/sequence_data.xml',
 
 
-        'views/account_expence.xml',
+        'views/material_requisition.xml',
 
 
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Structure -->
+    <menuitem id="menu_material_requisition_root"
+              name="Material Requisition" sequence="0"/>
+
+</odoo>
