@@ -11,7 +11,7 @@
        This module enhances Odoo by adding features for managing material requisitions and expenses in an organized manner.
        It includes functionalities such as creating and tracking material requisitions, managing expenses, and more.
    """,
-    'depends': ['base','stock'],
+    'depends': ['base','stock','sale'],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
