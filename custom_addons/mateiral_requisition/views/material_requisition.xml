@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Menu Structure -->
 
     <data>
 
@@ -31,10 +30,25 @@
                     <!-- Define the fields you want to display in the form view -->
 
                     <header>
+                        <button class="oe_stat_button" type="object" icon="fa-check"
+                                name="send_request" string="Send Request"
+                                groups="hr.group_hr_user"
+                                attrs="{'invisible': [('stage', 'in', ['request', 'inventory_confirmed'])]}"/>
+
+                        <button class="oe_stat_button" type="object" icon="fa-thumbs-up"
+                                name="approve_request" string="Approve Request"
+                                groups="base.group_erp_manager"
+                                attrs="{'invisible': [('stage', '=', 'inventory_confirmed')]}"/>
+
+                        <button class="oe_stat_button" type="object" icon="fa-check-circle"
+                                name="requisition_confirm" string="Requisition Confirm"
+                                groups="base.group_system"
+                                attrs="{'invisible': [('stage', 'not in', ['request', 'inventory_confirmed'])]}"/>
+
                         <field name="stage" widget="statusbar" nolabel="1"
-                               statusbar_visible="new,Request,inventory_confirmed"/>
+                               statusbar_visible="new,request,inventory_confirmed"/>
                     </header>
-                      <!-- Smart Button -->
+                    <!-- Smart Button -->
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" type="object" icon="fa-truck"
@@ -46,26 +60,33 @@
                                 <!-- Add other fields as needed -->
                                 <field name="sequence"/>
                                 <field name="employee_id"/>
+                                <field name="department_id"/>
+
+
                             </group>
                             <group>
                                 <field name="department_id"/>
                                 <field name="requisition_date"/>
                                 <field name="project_id"/>
+                                <field name="task_id"/>
+
 
                             </group>
                         </group>
 
 
-                     <!-- Notebook for materials_line_ids -->
+                        <!-- Notebook for materials_line_ids -->
                         <notebook>
                             <page string="Materials Lines" groups="base.group_user">
                                 <field name="materials_line_ids" widget="one2many_list">
                                     <!-- Define the fields you want to display in the notebook page -->
                                     <tree editable="bottom">
                                         <field name="product_id"/>
+                                        <field name="description"/>
+
                                         <field name="quantity"/>
                                         <field name="unit_price"/>
-                                        <field name="tax"/>
+
                                         <field name="total"/>
                                         <!-- Add other fields as needed -->
                                     </tree>
