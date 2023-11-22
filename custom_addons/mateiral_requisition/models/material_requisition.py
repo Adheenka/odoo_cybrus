@@ -3,7 +3,6 @@ from odoo.exceptions import ValidationError
 from odoo.tools import format_date
 
 
-# from odoo.addons.sale.models.sale_order import SaleOrder
 
 
 class MaterialRequisition(models.Model):
@@ -21,7 +20,7 @@ class MaterialRequisition(models.Model):
     stage = fields.Selection([('new', 'New'),('request','Request'),('inventory_confirmed', 'Inventory Confirmed')],
                              string='Stage', default='new')
     materials_line_ids = fields.One2many('materials','material_requisition_id',string='Requisition Lines')
-
+    location = fields.Many2one('stock.location', string='Stock Location')
 
 
     @api.model
@@ -38,9 +37,7 @@ class MaterialRequisition(models.Model):
         return super(MaterialRequisition, self).create(vals)
 
     def show_picking(self):
-        # Implement the logic for the 'show_picking' function
-        # For example, you can open a wizard or perform any other actions
-        # This is a placeholder, replace it with your actual implementation
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Internal Picking'),
@@ -56,61 +53,99 @@ class MaterialRequisition(models.Model):
     #         res['domain'] = str([('custom_requisition_id', '=', rec.id)])
     #     return res
 
+
     def send_request(self):
 
         self.send_email_notification()
-
-        # Update the stage to 'Request'
-
+    # #
+    # #
         for rec in self:
             rec.write({'stage': 'request'})
 
     def send_email_notification(self):
+        mail_template = self.env.ref('mateiral_requisition.email_template_material_requisition')
+        mail_template.send_mail(self.id, force_send=True)
+    # def approve_request(self):
+    #     # Update the stage to 'Inventory Confirmed'
+    #     for rec in self:
+    #         rec.write({'stage': 'inventory_confirmed'})
+    #
+    #     stock_picking_vals = {
+    #         'partner_id': self.employee_id.id,
+    #         'name': self.sequence,
+    #         'scheduled_date': self.requisition_date,
+    #         'location_id': self.env.ref('stock.stock_location_stock').id,  # Default Stock Location
+    #         'location_dest_id': self.env.ref('stock.stock_location_customers').id,  # Default Customers Location
+    #         'picking_type_id': self.env.ref('stock.picking_type_out').id,
+    #
+    #
+    #
+    #     }
+    #     stock_moves = []
+    #     for line in rec.materials_line_ids:
+    #         stock_move_vals = {
+    #             'name': line.description,
+    #             'product_id': line.product_id.id,
+    #             'product_uom_qty': line.quantity,
+    #             'product_uom': 1,
+    #             'location_id': self.env.ref('stock.stock_location_stock').id,  # Default Stock Location
+    #             'location_dest_id': self.env.ref('stock.stock_location_customers').id,  # Default Customers Location
+    #             'picking_type_id': self.env.ref('stock.picking_type_out').id,
+    #             'sale_line_id': False,  # You may set it based on your needs
+    #         }
+    #         stock_moves.append(self.env['stock.move'].create(stock_move_vals))
+    #     stock_picking = self.env['stock.picking'].create(stock_picking_vals)
+    #
+    #     return {
+    #         'name': 'Stock Picking',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'stock.picking',
+    #         'res_id': stock_picking.id,
+    #         'type': 'ir.actions.act_window',
+    #         'target': 'self',
+    #     }
 
+    def requisition_confirm(self):
 
-
-        # Compose and send the email using the email template
-        template = self.env.ref('mateiral_requisition.email_template_material_requisition')
-        template.send_mail(self.id, force_send=True)
+        pass
 
     def approve_request(self):
         # Update the stage to 'Inventory Confirmed'
         for rec in self:
             rec.write({'stage': 'inventory_confirmed'})
 
-
-        purchase_order_vals = {
+        stock_picking_vals = {
             'partner_id': self.employee_id.id,
             'name': self.sequence,
-            'date_planned':self.requisition_date,
-            'order_line': [(0, 0, {
+            'scheduled_date': self.requisition_date,
+            'location_id': self.env.ref('stock.stock_location_stock').id,  # Default Stock Location
+            'location_dest_id': self.env.ref('stock.stock_location_customers').id,  # Default Customers Location
+            'picking_type_id': self.env.ref('stock.picking_type_out').id,
+
+            'move_ids_without_package': [(0, 0, {
                 'product_id': line.product_id.id,
                 'name': line.description,
-                'product_qty': line.quantity,
+                'product_uom_qty': line.quantity,
                 'product_uom': 1,
-                'price_unit': line.unit_price,
+                'location_id': self.env.ref('stock.stock_location_stock').id,  # Default Stock Location
+                'location_dest_id': self.env.ref('stock.stock_location_customers').id,  # Default Customers Location
+                'picking_type_id': self.env.ref('stock.picking_type_out').id,
 
             }) for line in self.materials_line_ids],
-
         }
-        purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+
+        stock_picking = self.env['stock.picking'].create(stock_picking_vals)
 
         return {
-            'name': 'Purchase Order',
+            'name': 'Stock Picking',
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'purchase.order',
-            'res_id': purchase_order.id,
+            'res_model': 'stock.picking',
+            'res_id': stock_picking.id,
             'type': 'ir.actions.act_window',
             'target': 'self',
         }
-
-    def requisition_confirm(self):
-        # Logic for requisition confirmation (for admin employees)
-        # This is a placeholder, replace it with your actual implementation
-        pass
-
-
 
 
 class Materials(models.Model):
