@@ -38,23 +38,28 @@
                         <button class="oe_stat_button" type="object" icon="fa-thumbs-up"
                                 name="approve_request" string="Approve Request"
                                 groups="base.group_erp_manager"
-                                attrs="{'invisible':[('stage', 'in', ['inventory_confirmed'])]}"/>
+                                attrs="{'invisible':[('stage', 'in', ['new','inventory_confirmed'])]}"/>
 
 
                         <button class="oe_stat_button" type="object" icon="fa-check-circle"
                                 name="requisition_confirm" string="Requisition Confirm"
                                 groups="base.group_system"
-                                attrs="{'invisible': [('stage', 'not in', ['request', 'inventory_confirmed'])]}"/>
+                                attrs="{'invisible': [('stage', 'not in', ['inventory_confirmed'])]}"/>
 
                         <field name="stage" widget="statusbar" nolabel="1"
                                statusbar_visible="new,request,inventory_confirmed"/>
                     </header>
                     <!-- Smart Button -->
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object" icon="fa-truck"
-                                    name="show_picking" string="Internal Picking"
-                                    groups="base.group_user"/>
+
+                         <div class="oe_button_box" name="button_box">
+                            <button name="get_picking" type="object" class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('stage', '!=', 'inventory_confirmed')]}">
+                                <div class="o_stat_info">
+
+                                    <field name="picking_count" class="o_stat_value"/>
+                                    <span class="o_stat_text">STOCK PICKING</span>
+                                </div>
+                            </button>
                         </div>
                         <group>
                             <group>
@@ -68,7 +73,7 @@
                             <group>
 
 <!--                                <field name="location"/>-->
-                                <field name="department_id"/>
+
                                 <field name="requisition_date"/>
                                 <field name="project_id"/>
                                 <field name="task_id"/>
