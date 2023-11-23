@@ -36,15 +36,7 @@
                                 </div>
                             </button>
                         </div>
-                        <!--                        <div class="oe_Button_box" name="button_box">-->
-                        <!--                            <button name="action_get_sales" string="Get Sales" type="object" class="oe_stat_button" icon="fa-calendar">-->
-                        <!--                                <div class="o_stat_info">-->
-                        <!--                                    <field name="confirmed_sales_count" class="o_stat_value"/>-->
-                        <!--                                    <span class="o_stat_text">Confirmed Sales Count:</span>-->
 
-                        <!--                                </div>-->
-                        <!--                            </button>-->
-                        <!--                        </div>-->
                         <group>
                             <group>
                                 <field name="name"/>

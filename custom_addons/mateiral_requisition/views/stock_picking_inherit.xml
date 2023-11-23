@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_picking_inherits_form" model="ir.ui.view">
+            <field name="name">stock.picking.inherits.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                 <xpath expr="//button[@name='action_cancel']" position="after">
+                    <button name="add_product_request" type="object" string="Add Product Request"
+                        class="oe_highlight" style="background-color:green;"
+                        attrs="{'invisible': [('products_availability', '=', 'Available')]}"
+                />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

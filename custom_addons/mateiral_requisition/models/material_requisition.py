@@ -7,7 +7,7 @@ from odoo.tools import format_date
 
 class MaterialRequisition(models.Model):
     _name = "material.requisition"
-
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Material Requsition Module"
 
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
@@ -18,7 +18,7 @@ class MaterialRequisition(models.Model):
     task_id = fields.Many2one('project.task', required=True, string="Task",
                               domain="[('project_id', '=', project_id)]")
     stage = fields.Selection([('new', 'New'),('request','Request'),('inventory_confirmed', 'Inventory Confirmed')],
-                             string='Stage', default='new')
+                             string='Stage', default='new', tracking=True)
     materials_line_ids = fields.One2many('materials','material_requisition_id',string='Requisition Lines')
     location = fields.Many2one('stock.location', string='Stock Location')
 
@@ -35,17 +35,7 @@ class MaterialRequisition(models.Model):
     #         record.picking_count = total_count
 
 
-    # def get_picking(self):
-    #     pickings = self.env['stock.picking'].search([('material_requisition_id', '!=', False)])
-    #     action = {
-    #         'type': 'ir.actions.act_window',
-    #         'name': 'Internal Pickings',
-    #         'view_mode': 'tree,form',
-    #         'res_model': 'stock.picking',
-    #         'view_id': False,
-    #         'domain': [('material_requisition_id', '!=', False)],
-    #     }
-    #     return action
+
     def get_picking(self):
         pickings = self.env['stock.picking'].search([('material_requisition_id', '=', self.id)])
         action = {
@@ -57,7 +47,7 @@ class MaterialRequisition(models.Model):
             'domain': [('material_requisition_id', '=', self.id)],
         }
         if pickings:
-            action.update({'res_id': pickings[0].id})  # Open the first record if found
+            action.update({'res_id': pickings[0].id})
         return action
     @api.model
     def create(self, vals):
@@ -208,3 +198,83 @@ class StockPicking(models.Model):
 
     material_requisition_id = fields.Many2one('material.requisition', string='Material Requisition', ondelete="cascade")
 
+    product_available = fields.Boolean(string="Product Available", default=False)
+
+    def _compute_product_available(self):
+
+        for picking in self:
+
+            picking.product_available = True
+
+    def add_product_request(self):
+        created_purchase_orders = self.env['purchase.order']
+
+        for picking in self:
+            if picking.product_available:
+
+                continue
+
+
+            purchase_order_vals = {
+                'partner_id': self.partner_id.id,
+                'date_planned': fields.Datetime.now(),
+                'order_line': [(0, 0, {
+                    'product_id':line.product_id.id,
+
+                    'product_qty': line.product_uom_qty,
+
+                })for line in self.move_ids_without_package],
+            }
+
+
+            purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+
+            # Set the product_available field to True after the purchase order is added
+            # picking.write({'product_available': True})
+
+
+        return {
+            'name': 'Created Purchase Orders',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'purchase.order',
+            'target': 'self',
+            'res_id': purchase_order.id,
+        }
+
+    # def add_product_request(self):
+    #     created_purchase_orders = self.env['purchase.order']
+    #
+    #     for picking in self:
+    #
+    #         if picking.products_availability != 'Available':
+    #
+    #
+    #
+    #             purchase_order_vals = {
+    #                 'partner_id': picking.partner_id.id,
+    #                 'date_planned': fields.Datetime.now(),
+    #                 'order_line': [(0, 0, {
+    #                     'product_id': line.product_id.id,
+    #                     'product_qty': line.product_uom_qty,
+    #                     'product_uom': 1,
+    #
+    #                 }) for line in picking.move_ids_without_package],
+    #             }
+    #
+    #
+    #             purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+    #
+    #
+    #             created_purchase_orders |= purchase_order
+    #
+    #     return {
+    #         'name': 'Created Purchase Orders',
+    #         'type': 'ir.actions.act_window',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'purchase.order',
+    #         'target': 'self',
+    #         'res_id': created_purchase_orders.ids,
+    #     }

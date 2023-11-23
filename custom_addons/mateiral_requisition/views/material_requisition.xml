@@ -86,7 +86,7 @@
                         <!-- Notebook for materials_line_ids -->
                         <notebook>
                             <page string="Materials Lines" groups="base.group_user">
-                                <field name="materials_line_ids" widget="one2many_list">
+                                <field name="materials_line_ids" widget="one2many_list" >
                                     <!-- Define the fields you want to display in the notebook page -->
                                     <tree editable="bottom">
                                         <field name="product_id"/>
@@ -102,6 +102,11 @@
                             </page>
                         </notebook>
                     </sheet>
+                     <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
                 </form>
             </field>
         </record>
