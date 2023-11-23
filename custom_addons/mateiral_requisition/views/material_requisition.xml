@@ -42,8 +42,8 @@
 
 
                         <button class="oe_stat_button" type="object" icon="fa-check-circle"
-                                name="requisition_confirm" string="Requisition Confirm"
-                                groups="base.group_system"
+                                name="requisition_confirm" string="Requisition Confirmed"
+                                groups="base.group_system" style="background-color:#478C5C"
                                 attrs="{'invisible': [('stage', 'not in', ['inventory_confirmed'])]}"/>
 
                         <field name="stage" widget="statusbar" nolabel="1"
@@ -71,13 +71,10 @@
 
                             </group>
                             <group>
-
-<!--                                <field name="location"/>-->
-
                                 <field name="requisition_date"/>
+                                <field name="date_end"/>
                                 <field name="project_id"/>
                                 <field name="task_id"/>
-
 
                             </group>
                         </group>

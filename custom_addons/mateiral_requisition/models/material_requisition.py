@@ -24,7 +24,7 @@ class MaterialRequisition(models.Model):
 
     material_requisition_ids = fields.One2many('stock.picking','material_requisition_id', string='Stock Pickings',readonly=True)
     picking_count = fields.Integer('Picking Count', compute='_compute_picking_count')
-
+    date_end = fields.Date(string='Requisition Deadline',help='Last date for the product to be needed',copy=True, tracking=True)
     def _compute_picking_count(self):
         for requisition in self:
             requisition.picking_count = len(requisition.material_requisition_ids )
@@ -65,20 +65,35 @@ class MaterialRequisition(models.Model):
 
 
 
+# send request  old code
+#     def send_request(self):
+#
+#         self.send_email_notification()
+#
+#         for rec in self:
+#             rec.write({'stage': 'request'})
+#
+#     def send_email_notification(self):
+#         mail_template = self.env.ref('mateiral_requisition.email_template_material_requisition')
+#         mail_template.send_mail(self.id, force_send=True)
 
+    # send request  new code
     def send_request(self):
-
         self.send_email_notification()
-    # #
-    # #
+
         for rec in self:
             rec.write({'stage': 'request'})
 
     def send_email_notification(self):
         mail_template = self.env.ref('mateiral_requisition.email_template_material_requisition')
+        email_to = self.get_email_to()
+        mail_template.email_to = email_to
         mail_template.send_mail(self.id, force_send=True)
 
-
+    def get_email_to(self):
+        erp_manager_group = self.env.ref('base.group_erp_manager')
+        email_list = [user.partner_id.email for user in erp_manager_group.users if user.partner_id.email]
+        return ";".join(email_list)
     def requisition_confirm(self):
 
         pass
