@@ -238,7 +238,6 @@ class PurchaseOrder(models.Model):
 
 
 
-
     # def add_product_request(self):
     #     created_purchase_orders = self.env['purchase.order']
     #
@@ -280,7 +279,22 @@ class PurchaseOrder(models.Model):
 
     # new code create purchase order tax fiels addedd
 
+class ProjectProject(models.Model):
+    _inherit = 'project.project'
 
+
+
+    def action_view_material_requisitions(self):
+        material_requisitions = self.env['material.requisition'].search([('project_id', '=', self.id)])
+        action = self.env.ref('mateiral_requisition.action_material_requisition').read()[0]
+
+        if len(material_requisitions) > 1:
+            action['domain'] = [('id', 'in', material_requisitions.ids)]
+        elif len(material_requisitions) == 1:
+            action['views'] = [(self.env.ref('mateiral_requisition.view_material_requisition_form').id, 'form')]
+            action['res_id'] = material_requisitions.ids[0]
+
+        return action
 
 
 
