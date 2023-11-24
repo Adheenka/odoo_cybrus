@@ -8,7 +8,7 @@
             <record id="email_template_material_requisition" model="mail.template">
                 <field name="name">Material Requisition: Request Notification</field>
                 <field name="model_id" ref="mateiral_requisition.model_material_requisition"/>
-                <field name="email_from">${{object.employee_id.work_email}}</field>
+                <field name="email_from">${{object.requisition_employee.work_email}}</field>
                 <field name="subject">{{ 'Material Requisition - Request Notification' }}</field>
                 <field name="email_to">${object.get_email_to()}</field>
                 <field name="body_html" type="html">

@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
 
                  <xpath expr="//button[@name='action_cancel']" position="after">
-                    <button name="add_product_request" type="object" string="Add Product Request"
+                    <button name="add_product_request" type="object" string="Create Purchase Request"
                         class="oe_highlight" style="background-color:#478C5C;"
                         attrs="{'invisible': [('products_availability', '!=', 'Not Available')]}"
                 />
