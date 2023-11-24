@@ -91,7 +91,7 @@
 
                                         <field name="quantity"/>
                                         <field name="unit_price"/>
-
+                                        <field name="uom"/>
                                         <field name="total"/>
                                         <!-- Add other fields as needed -->
                                     </tree>

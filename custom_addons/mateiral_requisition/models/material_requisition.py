@@ -187,6 +187,7 @@ class Materials(models.Model):
     product_id = fields.Many2one('product.product', string='Product')
     quantity = fields.Float(string='Quantity', default=1.0)
     description = fields.Char(string='Description', required=True)
+    uom = fields.Many2one('uom.uom',string="Unit of Measure")
     unit_price = fields.Float(string='Unit Price')
     total = fields.Float(string='Total', compute='_compute_total', store=True)
     tax = fields.Float(string='Tax')
@@ -237,6 +238,8 @@ class StockPicking(models.Model):
                     'product_id':line.product_id.id,
 
                     'product_qty': line.product_uom_qty,
+                    'price_unit': line.product_id.list_price,  # You may adjust this based on your requirements
+                    'price_subtotal': line.product_id.list_price * line.product_uom_qty,
 
                 })for line in self.move_ids_without_package],
             }
@@ -257,6 +260,34 @@ class StockPicking(models.Model):
             'target': 'self',
             'res_id': purchase_order.id,
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # def add_product_request(self):
     #     created_purchase_orders = self.env['purchase.order']
