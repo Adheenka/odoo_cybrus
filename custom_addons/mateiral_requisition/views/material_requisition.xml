@@ -32,12 +32,12 @@
                     <header>
                         <button class="oe_stat_button" type="object" icon="fa-check"
                                 name="send_request" string="Send Request"
-                                groups="base.group_system"
+
                                 attrs="{'invisible': [('stage', 'in', ['requested', 'inventory_confirmed'])]}"/>
 
                         <button class="oe_stat_button" type="object" icon="fa-thumbs-up"
                                 name="approve_request" string="Requisition Accept"
-                                groups="base.group_erp_manager"
+                                groups="stock.group_stock_manager"
                                 attrs="{'invisible':[('stage', 'in', ['new','inventory_confirmed'])]}"/>
 
 

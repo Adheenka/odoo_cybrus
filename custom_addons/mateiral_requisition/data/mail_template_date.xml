@@ -8,7 +8,7 @@
             <record id="email_template_material_requisition" model="mail.template">
                 <field name="name">Material Requisition: Request Notification</field>
                 <field name="model_id" ref="mateiral_requisition.model_material_requisition"/>
-                <field name="email_from">${{object.requisition_employee.work_email}}</field>
+                <field name="email_from">${{object.employee_id.work_email}}</field>
                 <field name="subject">{{ 'Material Requisition - Request Notification' }}</field>
                 <field name="email_to">${object.get_email_to()}</field>
                 <field name="body_html" type="html">
@@ -42,6 +42,43 @@
                 <field name="lang">{{ object.employee_id.lang }}</field>
                 <field name="auto_delete" eval="True"/>
             </record>
+            <record id="email_template_purchase_order_notification" model="mail.template">
+            <field name="name">Purchase Order: Notification</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="email_from">${{object.partner_id.email}}</field>
+            <field name="subject">{{ 'Purchase Order - Notification' }}</field>
+            <field name="email_to">${object.get_email_to()}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear <t t-out="object.partner_id or '' or ''">Purchase Manager</t>,
+                        <br/>
+                        <br/>
+                        A new purchase order has been created by
+                        <t t-out="object.partner_id.name or ''">Employee Name</t>.
+                        <br/>
+                        <br/>
+                        Details:
+                        <ul>
+
+                            <li>Department: <t t-out="object.department_id.name or ''">Department Name</t></li>
+                            <li>Order Date: <t t-out="object.scheduled_date or ''">Order Date</t></li>
+                            <!-- Add more details here -->
+                        </ul>
+                        <br/>
+                        Please review and take necessary actions.
+                        <br/>
+                        <br/>
+                        Regards,
+                        <br/>
+                        Your Company
+                    </p>
+                </div>
+            </field>
+            <field name="report_name">Purchase_Order_{{ (object.name or '').replace('/','_') }}</field>
+            <field name="lang">{{ object.employee_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
         </data>
 
 </odoo>

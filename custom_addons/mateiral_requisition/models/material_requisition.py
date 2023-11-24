@@ -21,9 +21,6 @@ class MaterialRequisition(models.Model):
         copy=True,
     )
 
-    # employee_id = fields.Many2one('res.users', default=lambda self: self.env.user)
-    # requisition_employee = fields.Many2one('hr.employee', string='Employee')
-
 
     department_id = fields.Many2one('hr.department',  related='employee_id.department_id',string='Department')
     project_id = fields.Many2one('project.project', string='Project')
@@ -31,9 +28,7 @@ class MaterialRequisition(models.Model):
     requisition_task = fields.Many2one('project.task', string='Task',domain="[('project_id', '=', project_id)]")
 
     requisition_date = fields.Date(string='Requisition Date')
-    # project_id = fields.Many2one('project.project', string='Project')
-    # task_id = fields.Many2one('project.task',  string="Task",
-    #                           domain="[('project_id', '=', project_id)]")
+
     stage = fields.Selection([('new', 'New'),('requested','Requested'),('inventory_confirmed', 'Inventory Confirmed')],
                              string='Stage', default='new', tracking=True)
     materials_line_ids = fields.One2many('materials','material_requisition_id',string='Requisition Lines')
@@ -97,8 +92,8 @@ class MaterialRequisition(models.Model):
         mail_template.send_mail(self.id, force_send=True)
 
     def get_email_to(self):
-        erp_manager_group = self.env.ref('base.group_erp_manager')
-        email_list = [user.partner_id.email for user in erp_manager_group.users if user.partner_id.email]
+        stock_manager_group = self.env.ref('stock.group_stock_manager')
+        email_list = [user.partner_id.email for user in stock_manager_group.users if user.partner_id.email]
         return ";".join(email_list)
     def requisition_confirm(self):
 
@@ -183,6 +178,65 @@ class StockPicking(models.Model):
 
             picking.product_available = True
 
+
+
+    def add_product_request(self):
+        created_purchase_orders = self.env['purchase.order']
+
+        for picking in self:
+            if picking.product_available:
+                continue
+
+            purchase_order_lines = []
+            for line in self.move_ids_without_package:
+                # Calculate price with taxes
+                price_unit_with_tax = line.product_id.list_price * (
+                            1 + sum(line.product_id.supplier_taxes_id.mapped('amount')))
+
+                # Get taxes IDs
+                taxes_ids = [x.id for x in line.product_id.supplier_taxes_id]
+
+                purchase_order_lines.append((0, 0, {
+                    'product_id': line.product_id.id,
+                    'product_qty': line.product_uom_qty,
+                    'taxes_id': [(6, 0, taxes_ids)],
+                    'price_unit': price_unit_with_tax,
+                    'price_subtotal': price_unit_with_tax * line.product_uom_qty,
+                }))
+
+            purchase_order_vals = {
+                'partner_id': picking.partner_id.id,
+                'date_planned': fields.Datetime.now(),
+                'order_line': purchase_order_lines,
+                # Add other mandatory fields here
+            }
+
+            # Create the purchase order
+            purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+
+            purchase_order.send_email_notification()
+
+        return True
+
+    def send_email_notification(self):
+        mail_template = self.env.ref('mateiral_requisition.email_template_purchase_order_notification')
+        email_to = self.get_email_to()
+        mail_template.email_to = email_to
+        mail_template.send_mail(self.id, force_send=True)
+
+    def get_email_to(self):
+        purchase_manager_group = self.env.ref('purchase.group_purchase_manager')
+        email_list = [user.partner_id.email for user in purchase_manager_group.users if user.partner_id.email]
+        return ";".join(email_list)
+
+
+
+
+
+
+
+
+
     # def add_product_request(self):
     #     created_purchase_orders = self.env['purchase.order']
     #
@@ -224,41 +278,6 @@ class StockPicking(models.Model):
 
     # new code create purchase order tax fiels addedd
 
-    def add_product_request(self):
-        created_purchase_orders = self.env['purchase.order']
-
-        for picking in self:
-            if picking.product_available:
-                continue
-
-            purchase_order_lines = []
-            for line in self.move_ids_without_package:
-                # Calculate price with taxes
-                price_unit_with_tax = line.product_id.list_price * (
-                            1 + sum(line.product_id.supplier_taxes_id.mapped('amount')))
-
-                # Get taxes IDs
-                taxes_ids = [x.id for x in line.product_id.supplier_taxes_id]
-
-                purchase_order_lines.append((0, 0, {
-                    'product_id': line.product_id.id,
-                    'product_qty': line.product_uom_qty,
-                    'taxes_id': [(6, 0, taxes_ids)],
-                    'price_unit': price_unit_with_tax,
-                    'price_subtotal': price_unit_with_tax * line.product_uom_qty,
-                }))
-
-            purchase_order_vals = {
-                'partner_id': picking.partner_id.id,
-                'date_planned': fields.Datetime.now(),
-                'order_line': purchase_order_lines,
-                # Add other mandatory fields here
-            }
-
-            # Create the purchase order
-            purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-
-        return True
 
 
 
@@ -273,46 +292,3 @@ class StockPicking(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-    # def add_product_request(self):
-    #     created_purchase_orders = self.env['purchase.order']
-    #
-    #     for picking in self:
-    #
-    #         if picking.products_availability != 'Available':
-    #
-    #
-    #
-    #             purchase_order_vals = {
-    #                 'partner_id': picking.partner_id.id,
-    #                 'date_planned': fields.Datetime.now(),
-    #                 'order_line': [(0, 0, {
-    #                     'product_id': line.product_id.id,
-    #                     'product_qty': line.product_uom_qty,
-    #                     'product_uom': 1,
-    #
-    #                 }) for line in picking.move_ids_without_package],
-    #             }
-    #
-    #
-    #             purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-    #
-    #
-    #             created_purchase_orders |= purchase_order
-    #
-    #     return {
-    #         'name': 'Created Purchase Orders',
-    #         'type': 'ir.actions.act_window',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'res_model': 'purchase.order',
-    #         'target': 'self',
-    #         'res_id': created_purchase_orders.ids,
-    #     }
