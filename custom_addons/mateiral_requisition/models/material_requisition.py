@@ -218,6 +218,8 @@ class StockPicking(models.Model):
 
         return True
 
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'
     def send_email_notification(self):
         mail_template = self.env.ref('mateiral_requisition.email_template_purchase_order_notification')
         email_to = self.get_email_to()
