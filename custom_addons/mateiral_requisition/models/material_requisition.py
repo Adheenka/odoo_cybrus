@@ -284,17 +284,39 @@ class ProjectProject(models.Model):
 
 
 
+    material_requisition_ids = fields.One2many('material.requisition', 'project_id', string='Material Requisitions')
+    requisition_count = fields.Integer(string='Material Requisitions Count', compute='_compute_requisition_count')
+
+    @api.depends('material_requisition_ids')
+    def _compute_requisition_count(self):
+        for project in self:
+            project.requisition_count = len(project.material_requisition_ids)
     def action_view_material_requisitions(self):
         material_requisitions = self.env['material.requisition'].search([('project_id', '=', self.id)])
         action = self.env.ref('mateiral_requisition.action_material_requisition').read()[0]
 
         if len(material_requisitions) > 1:
             action['domain'] = [('id', 'in', material_requisitions.ids)]
+            action['context'] = {'default_project_id': self.id}
         elif len(material_requisitions) == 1:
             action['views'] = [(self.env.ref('mateiral_requisition.view_material_requisition_form').id, 'form')]
             action['res_id'] = material_requisitions.ids[0]
 
+        # Add count to the button label
+        action['name'] = 'Material Requisitions (%d)' % len(material_requisitions)
+
         return action
+    # def action_view_material_requisitions(self):
+    #     material_requisitions = self.env['material.requisition'].search([('project_id', '=', self.id)])
+    #     action = self.env.ref('mateiral_requisition.action_material_requisition').read()[0]
+    #
+    #     if len(material_requisitions) > 1:
+    #         action['domain'] = [('id', 'in', material_requisitions.ids)]
+    #     elif len(material_requisitions) == 1:
+    #         action['views'] = [(self.env.ref('mateiral_requisition.view_material_requisition_form').id, 'form')]
+    #         action['res_id'] = material_requisitions.ids[0]
+    #
+    #     return action
 
 
 
