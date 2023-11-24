@@ -3,9 +3,16 @@
 
 <odoo>
 
-    <record id="group_admisnistration_user" model="res.groups">
-        <field name="name">Administration User</field>
-    </record>
+    <record id="material_requisition_rule_stock_manager" model="ir.rule">
+    <field name="name">Material Requisition: Access for Stock Managers</field>
+    <field name="model_id" ref="model_material_requisition"/>
+    <field name="domain_force">[('stage', '=', 'requested')]</field>
+    <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+    <field name="perm_read" eval="1"/>
+    <field name="perm_write" eval="1"/>
+    <field name="perm_create" eval="1"/>
+    <field name="perm_unlink" eval="0"/>
+</record>
 
 
 </odoo>
