@@ -165,6 +165,7 @@ class Materials(models.Model):
             self.unit_price = self.product_id.list_price
             self.description = self.product_id.name
 
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
@@ -178,7 +179,7 @@ class StockPicking(models.Model):
 
             picking.product_available = True
 
-
+#     >>>>>>>>>>>>>>      stock picking  cde  <<<<<<<<<<<<<<<
 
     def add_product_request(self):
         created_purchase_orders = self.env['purchase.order']
@@ -218,6 +219,9 @@ class StockPicking(models.Model):
 
         return True
 
+
+#     >>>>>>>>>>>>>>      purchase order cde  <<<<<<<<<<<<<<<
+
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
     def send_email_notification(self):
@@ -231,7 +235,8 @@ class PurchaseOrder(models.Model):
         email_list = [user.partner_id.email for user in purchase_manager_group.users if user.partner_id.email]
         return ";".join(email_list)
 
-
+    def send_for_approval(self):
+        pass
 
 
 
@@ -306,6 +311,7 @@ class ProjectProject(models.Model):
         action['name'] = 'Material Requisitions (%d)' % len(material_requisitions)
 
         return action
+    
     # def action_view_material_requisitions(self):
     #     material_requisitions = self.env['material.requisition'].search([('project_id', '=', self.id)])
     #     action = self.env.ref('mateiral_requisition.action_material_requisition').read()[0]
