@@ -22,6 +22,7 @@
         'views/stock_picking_inherit.xml',
         'views/project_inherit.xml',
         'views/purchase_order_inherit.xml',
+        'views/purchase_approval.xml',
 
     ],
 

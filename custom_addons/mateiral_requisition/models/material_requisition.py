@@ -13,15 +13,15 @@ class MaterialRequisition(models.Model):
 
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
 
-    employee_id = fields.Many2one(
-        'hr.employee',
-        string='Employee',
-        default=lambda self: self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1),
-        required=True,
-        copy=True,
-    )
-
-
+    # employee_id = fields.Many2one(
+    #     'hr.employee',
+    #     string='Employee',
+    #     default=lambda self: self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1),
+    #     required=True,
+    #     copy=True,
+    # )
+    employee_id=fields.Many2one('res.users', string='Requested By', default=lambda self: self.env.user)
+    requisition_employee = fields.Many2one('hr.employee', string='Employee')
     department_id = fields.Many2one('hr.department',  related='employee_id.department_id',string='Department')
     project_id = fields.Many2one('project.project', string='Project')
     requisition_stage = fields.Many2one('project.task.type', string='Stage')
@@ -106,7 +106,7 @@ class MaterialRequisition(models.Model):
 
         # Create a picking record
         stock_picking_vals = {
-            'partner_id': rec.employee_id.id,
+            'partner_id': self.employee_id.partner_id.id,
             'origin': rec.sequence,
             'scheduled_date': rec.requisition_date,
             'location_id': self.env.ref('stock.stock_location_stock').id,
@@ -206,7 +206,7 @@ class StockPicking(models.Model):
                 }))
 
             purchase_order_vals = {
-                'partner_id': picking.partner_id.id,
+                'partner_id': self.partner_id.id,
                 'date_planned': fields.Datetime.now(),
                 'order_line': purchase_order_lines,
                 # Add other mandatory fields here
