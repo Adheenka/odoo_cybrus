@@ -20,7 +20,7 @@ class MaterialRequisition(models.Model):
     #     required=True,
     #     copy=True,
     # )
-    employee_id=fields.Many2one('res.users', string='Requested By', default=lambda self: self.env.user)
+    employee_id=fields.Many2one('res.users', string='Employee', default=lambda self: self.env.user)
     requisition_employee = fields.Many2one('hr.employee', string='Employee')
     department_id = fields.Many2one('hr.department',  related='employee_id.department_id',string='Department')
     project_id = fields.Many2one('project.project', string='Project')

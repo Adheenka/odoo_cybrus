@@ -64,7 +64,7 @@
                         <br/>
                         A new purchase order has been created with reference: <t t-out="object.origin or ''">Order
                         Reference</t>, by
-                        <t t-out="object.partner_id.name or ''">Employee Name</t>.
+                        <t t-out="object.partner_id or ''">Employee Name</t>.
                         <br/>
                         <br/>
                         Details:
