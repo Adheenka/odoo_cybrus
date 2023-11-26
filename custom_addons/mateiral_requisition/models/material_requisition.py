@@ -264,6 +264,9 @@ class StockPicking(models.Model):
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
+
+
+
     def send_email_notification(self):
         mail_template = self.env.ref('mateiral_requisition.email_template_purchase_order_notification')
         email_to = self.get_email_to()
@@ -275,33 +278,7 @@ class PurchaseOrder(models.Model):
         email_list = [user.partner_id.email for user in purchase_manager_group.users if user.partner_id.email]
         return ";".join(email_list)
 
-    def send_for_approval(self):
-        pass
 
-    # def add_product_request(self):
-    #     created_purchase_orders = self.env['purchase.order']
-    #
-    #     for picking in self:
-    #         if picking.products_availability:
-    #             continue
-    #
-    #         purchase_order_vals = {
-    #             'partner_id': self.partner_id.id,
-    #             'date_planned': fields.Datetime.now(),
-    #             'order_line': [(0, 0, {
-    #                 'product_id': line.product_id.id,
-    #
-    #                 'product_qty': line.product_uom_qty,
-    #
-    #             }) for line in self.move_ids_without_package],
-    #         }
-    #
-    #         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-    #
-    #         # Set the product_available field to True after the purchase order is added
-    #         # picking.write({'product_available': True})
-    #
-    #     return True
 
 
 

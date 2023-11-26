@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 {
-    'name': 'Material Requisition Management',
+    'name': 'Multilevel_approval_system',
     'version': '1.0.0',
     'category': 'Inventory/Management',
     'author': 'adheen',
-    'sequence': -97,
+    'sequence': -96,
     'summary': 'Manage material requisitions and expenses',
     'description': """
        This module enhances Odoo by adding features for managing material requisitions and expenses in an organized manner.
@@ -16,13 +16,10 @@
         'security/ir.model.access.csv',
         'security/security.xml',
         'data/sequence_data.xml',
-        'data/mail_template_date.xml',
-        'views/menu.xml',
-        'views/material_requisition.xml',
-        'views/stock_picking_inherit.xml',
-        'views/project_inherit.xml',
 
 
+
+        'views/purchase_approval.xml',
 
     ],
 

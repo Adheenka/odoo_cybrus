@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--        <record id="sequence_account_move_sequence" model="ir.sequence">-->
+<!--            <field name="name">Expense Sequence</field>-->
+<!--            <field name="code">material.requisition.sequence</field>-->
+<!--            <field name="prefix">MR</field>-->
+<!--            <field name="padding">4</field>-->
+<!--            <field name="company_id" eval="False"/>-->
+<!--        </record>-->
+
+    </data>
+</odoo>
