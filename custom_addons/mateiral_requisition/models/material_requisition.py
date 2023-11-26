@@ -99,6 +99,8 @@ class MaterialRequisition(models.Model):
 
         pass
 
+
+
     def approve_request(self):
         # Update the stage to 'Inventory Confirmed'
         for rec in self:
@@ -132,8 +134,6 @@ class MaterialRequisition(models.Model):
         stock_picking.write({'move_ids_without_package': move_vals})
 
         return True
-
-
 
 
 class Materials(models.Model):
@@ -171,53 +171,93 @@ class StockPicking(models.Model):
 
     material_requisition_id = fields.Many2one('material.requisition', string='Material Requisition', ondelete="cascade")
 
-    product_available = fields.Boolean(string="Product Available", default=False)
+
 
     def _compute_product_available(self):
 
         for picking in self:
 
-            picking.product_available = True
-
-#     >>>>>>>>>>>>>>      stock picking  cde  <<<<<<<<<<<<<<<
+            picking.products_availability = True
 
     def add_product_request(self):
         created_purchase_orders = self.env['purchase.order']
 
-        for picking in self:
-            if picking.product_available:
-                continue
+        purchase_order_vals = {
+            'partner_id': self.partner_id.id,
+            'date_planned': fields.Datetime.now(),
+            'order_line': [(0, 0, {
+                'product_id': line.product_id.id,
+                'product_qty': line.product_uom_qty,
+            }) for line in self.move_ids_without_package],
+        }
 
-            purchase_order_lines = []
-            for line in self.move_ids_without_package:
-                # Calculate price with taxes
-                price_unit_with_tax = line.product_id.list_price * (
-                            1 + sum(line.product_id.supplier_taxes_id.mapped('amount')))
+        purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+        purchase_order.send_email_notification()
 
-                # Get taxes IDs
-                taxes_ids = [x.id for x in line.product_id.supplier_taxes_id]
+        # Set products_availability to True after creating the purchase order
+        self.write({'products_availability': True})
+#     >>>>>>>>>>>>>>      stock picking  cde  <<<<<<<<<<<<<<<
 
-                purchase_order_lines.append((0, 0, {
-                    'product_id': line.product_id.id,
-                    'product_qty': line.product_uom_qty,
-                    'taxes_id': [(6, 0, taxes_ids)],
-                    'price_unit': price_unit_with_tax,
-                    'price_subtotal': price_unit_with_tax * line.product_uom_qty,
-                }))
+#     def add_product_request(self):
+#         created_purchase_orders = self.env['purchase.order']
+#
+#         purchase_order_vals = {
+#             'partner_id': self.partner_id.id,
+#             'date_planned': fields.Datetime.now(),
+#             'order_line': [(0, 0, {
+#                 'product_id': line.product_id.id,
+#
+#                 'product_qty': line.product_uom_qty,
+#
+#             }) for line in self.move_ids_without_package],
+#         }
+#
+#         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+#         purchase_order.send_email_notification()
 
-            purchase_order_vals = {
-                'partner_id': self.partner_id.id,
-                'date_planned': fields.Datetime.now(),
-                'order_line': purchase_order_lines,
-                # Add other mandatory fields here
-            }
 
-            # Create the purchase order
-            purchase_order = self.env['purchase.order'].create(purchase_order_vals)
 
-            purchase_order.send_email_notification()
 
-        return True
+
+
+
+    # def add_product_request(self):
+    #     created_purchase_orders = self.env['purchase.order']
+    #
+    #     for picking in self:
+    #         if picking.product_available:
+    #             continue
+    #
+    #         purchase_order_lines = []
+    #         for line in self.move_ids_without_package:
+    #             # Calculate price with taxes
+    #             price_unit_with_tax = line.product_id.list_price * (
+    #                         1 + sum(line.product_id.supplier_taxes_id.mapped('amount')))
+    #
+    #             # Get taxes IDs
+    #             taxes_ids = [x.id for x in line.product_id.supplier_taxes_id]
+    #
+    #             purchase_order_lines.append((0, 0, {
+    #                 'product_id': line.product_id.id,
+    #                 'product_qty': line.product_uom_qty,
+    #                 'taxes_id': [(6, 0, taxes_ids)],
+    #                 'price_unit': price_unit_with_tax,
+    #                 'price_subtotal': price_unit_with_tax * line.product_uom_qty,
+    #             }))
+    #
+    #         purchase_order_vals = {
+    #             'partner_id': self.partner_id.id,
+    #             'date_planned': fields.Datetime.now(),
+    #             'order_line': purchase_order_lines,
+    #             # Add other mandatory fields here
+    #         }
+    #
+    #         # Create the purchase order
+    #         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+    #
+    #         purchase_order.send_email_notification()
+    #
+    #     return True
 
 
 #     >>>>>>>>>>>>>>      purchase order cde  <<<<<<<<<<<<<<<
@@ -238,8 +278,30 @@ class PurchaseOrder(models.Model):
     def send_for_approval(self):
         pass
 
-
-
+    # def add_product_request(self):
+    #     created_purchase_orders = self.env['purchase.order']
+    #
+    #     for picking in self:
+    #         if picking.products_availability:
+    #             continue
+    #
+    #         purchase_order_vals = {
+    #             'partner_id': self.partner_id.id,
+    #             'date_planned': fields.Datetime.now(),
+    #             'order_line': [(0, 0, {
+    #                 'product_id': line.product_id.id,
+    #
+    #                 'product_qty': line.product_uom_qty,
+    #
+    #             }) for line in self.move_ids_without_package],
+    #         }
+    #
+    #         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+    #
+    #         # Set the product_available field to True after the purchase order is added
+    #         # picking.write({'product_available': True})
+    #
+    #     return True
 
 
 
