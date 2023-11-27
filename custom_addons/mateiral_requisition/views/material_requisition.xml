@@ -79,7 +79,7 @@
                                 <field name="requisition_date"/>
                                 <field name="date_end"/>
                                 <field name="project_id"/>
-                                <field name="requisition_stage"/>
+<!--                                <field name="requisition_stage"/>-->
                                 <field name="requisition_task"/>
 
                             </group>
@@ -96,7 +96,7 @@
                                         <field name="description"/>
 
                                         <field name="quantity"/>
-                                        <field name="vendor_id"/>
+<!--                                        <field name="vendor_id"/>-->
 
                                         <field name="uom"/>
 

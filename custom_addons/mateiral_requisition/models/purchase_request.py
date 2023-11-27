@@ -12,10 +12,36 @@ class PurchaseRequest(models.Model):
     # material_requisition_id = fields.Many2one('material.requisition', string='Material Requisition')
     stock_picking_id = fields.Many2one('stock.picking', string='Stock Picking')
     material_requisition_id = fields.Many2one('material.requisition', string='Material Requisition')
-
     request_date = fields.Date(string='Request Date')
-
     request_line_ids = fields.One2many('purchase.request.line', 'purchase_request_id', string='Request Lines')
+
+    # purchase_request_ids = fields.One2many('purchase.order', 'purchase_request_id', string='purchase request',
+    #                                            readonly=True)
+    #
+    # purchase_order_count = fields.Integer(string='Purchase Order Count', compute='_compute_purchase_order_count')
+    purchase_order_ids = fields.One2many('purchase.order', 'purchase_request_id', string='Purchase Orders',
+                                         readonly=True)
+
+    # Add the computed field for purchase_order_count
+    purchase_order_count = fields.Integer(string='Purchase Order Count', compute='_compute_purchase_order_count')
+
+    @api.depends('purchase_order_ids')
+    def _compute_purchase_order_count(self):
+        for request in self:
+            request.purchase_order_count = len(request.purchase_order_ids)
+
+    def action_view_purchase_order(self):
+        # Use the correct field name for the domain
+        action_domain = [('purchase_request_id', '=', self.id)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Internal Pickings',
+            'view_mode': 'tree,form',
+            'res_model': 'purchase.order',
+            'view_id': False,
+            'domain': action_domain,
+        }
+        return action
 
     @api.model
     def create(self, vals):
@@ -34,9 +60,32 @@ class PurchaseRequest(models.Model):
         email_list = [user.partner_id.email for user in purchase_manager_group.users if user.partner_id.email]
         return ";".join(email_list)
 
+    def send_purchase_order(self):
+        created_purchase_orders = self.env['purchase.order']
 
-    # def send_purchase_order(self):
-    #     pass
+        for line in self.request_line_ids:
+            # Customize the code below based on your requirements and relationships between models.
+            purchase_order_vals = {
+                'partner_id': line.vendor_id.id,
+                'date_planned': fields.Datetime.now(),
+                'purchase_request_id': self.id,
+                'order_line': [(0, 0, {
+                    'product_id': line.product_id.id,
+                    'product_qty': line.quantity,
+                    'product_uom': line.unit_of_measure.id,
+                })],
+            }
+
+            purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+            purchase_order.send_email_notification()
+
+            # Assuming you have a Many2many field named 'purchase_order_ids' in purchase.request
+
+
+
+
+
+
 
     # def send_purchase_order(self):
     #     created_purchase_orders = self.env['purchase.order']
@@ -57,32 +106,16 @@ class PurchaseRequest(models.Model):
     #
     #         # Create purchase order
     #         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-    #         purchase_order.send_email_notification()
+    #         # purchase_order.send_email_notification()
 
+# <<<<<<<<<<<<<<<<<<<<<<<  code for fetching purchase order data placing smart button   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    def send_purchase_order(self):
-        created_purchase_orders = self.env['purchase.order']
-
-        for line in self.request_line_ids:
-            # You need to customize the code below based on your requirements and relationships between models.
-
-            # Create purchase order values
-            purchase_order_vals = {
-                'partner_id': line.vendor_id.id,  # Use the vendor from the purchase request line
-                'date_planned': fields.Datetime.now(),  # Adjust this based on your requirements
-                'order_line': [(0, 0, {
-                    'product_id': line.product_id.id,
-                    'product_qty': line.quantity,
-                    'product_uom': line.unit_of_measure.id,
-                })],
-            }
-
-            # Create purchase order
-            purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-            purchase_order.send_email_notification()
-
-            # Link the created purchase order to the purchase request
-
+    def action_view_purchase_order(self):
+        # Customize the code below based on your requirements and relationships between models.
+        action = self.env.ref('purchase.purchase_rfq').read()[0]
+        action['domain'] = [('id', 'in', self.purchase_order_ids.ids)]
+        action['context'] = {}
+        return action
 
 
 class PurchaseRequestLine(models.Model):

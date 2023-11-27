@@ -3,68 +3,81 @@
     <data>
         <!-- views/material_requisition.xml -->
 
-                <!-- Material Requisition Form View -->
-                <record id="view_purchase_request_form" model="ir.ui.view">
-                    <field name="name">purchase.request.form</field>
-                    <field name="model">purchase.request</field>
-                    <field name="arch" type="xml">
-                        <form>
-                             <header>
+        <!-- Material Requisition Form View -->
+        <record id="view_purchase_request_form" model="ir.ui.view">
+            <field name="name">purchase.request.form</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
                         <button class="oe_stat_button" type="object" icon="fa-check"
                                 name="send_purchase_order" string="Create Purchase Order"/>
 
 
                     </header>
-                            <sheet>
-                                 <div class="oe_title oe_left">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_purchase_order"
+                                icon="fa-cubes">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="purchase_order_count" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Purchase Orders
+                                </span>
+                            </div>
+                        </button>
+                        </div>
+
+                        <div class="oe_title oe_left">
                             <h1>
                                 <field name="name"/>
                             </h1>
                         </div>
-                                <group>
-                                <group>
+                        <group>
+                            <group>
 
-                                    <field name="material_requisition_id"/>
-                                    <field name="stock_picking_id"/>
-                                </group>
-                                     <group>
+                                <field name="material_requisition_id"/>
+                                <field name="stock_picking_id"/>
+                            </group>
+                            <group>
 
-                                    <field name="request_date"/>
-                                </group>
-                                </group>
-                                <notebook>
-                                    <page string="Purchase Lines" name="requisition_lines_tab">
-                                        <field name="request_line_ids" widget="one2many_list">
-                                            <tree editable="bottom">
-                                                <field name="product_id"/>
-                                                <field name="vendor_id"/>
-                                                <field name="description"/>
-                                                <field name="quantity"/>
-                                                <field name="unit_of_measure"/>
-                                                <!-- Add other fields as needed -->
-                                            </tree>
-                                        </field>
-                                    </page>
-                                </notebook>
-                            </sheet>
-                        </form>
-                    </field>
-                </record>
+                                <field name="request_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Purchase Lines" name="requisition_lines_tab">
+                                <field name="request_line_ids" widget="one2many_list">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="vendor_id"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                        <field name="unit_of_measure"/>
+                                        <!-- Add other fields as needed -->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-                <!-- Material Requisition Line Tree View -->
-                <record id="view_purchase_request_tree" model="ir.ui.view">
-                    <field name="name">purchase.request.tree</field>
-                    <field name="model">purchase.request</field>
-                    <field name="arch" type="xml">
-                        <tree>
-                         <field name="name"/>
-                                    <field name="material_requisition_id"/>
-                                    <field name="stock_picking_id"/>
-                            <!-- Add other fields as needed -->
-                        </tree>
-                    </field>
-                </record>
-
+        <!-- Material Requisition Line Tree View -->
+        <record id="view_purchase_request_tree" model="ir.ui.view">
+            <field name="name">purchase.request.tree</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="material_requisition_id"/>
+                    <field name="stock_picking_id"/>
+                    <!-- Add other fields as needed -->
+                </tree>
+            </field>
+        </record>
 
 
         <record id="action_purchase_request" model="ir.actions.act_window">

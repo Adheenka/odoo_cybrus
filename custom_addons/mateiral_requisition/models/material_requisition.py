@@ -13,13 +13,7 @@ class MaterialRequisition(models.Model):
 
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
 
-    # employee_id = fields.Many2one(
-    #     'hr.employee',
-    #     string='Employee',
-    #     default=lambda self: self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1),
-    #     required=True,
-    #     copy=True,
-    # )
+
     employee_id=fields.Many2one('res.users', string='Employee', default=lambda self: self.env.user)
     requisition_employee = fields.Many2one('hr.employee', string='Employee')
     department_id = fields.Many2one('hr.department',  related='employee_id.department_id',string='Department')
@@ -40,11 +34,6 @@ class MaterialRequisition(models.Model):
     def _compute_picking_count(self):
         for requisition in self:
             requisition.picking_count = len(requisition.material_requisition_ids)
-    # def _compute_picking_count(self):
-    #     picking_data = self.env['stock.picking'].with_context(active_test=False).read_group([], [], [])
-    #     total_count = sum(data.get('__count', 0) for data in picking_data)
-    #     for record in self:
-    #         record.picking_count = total_count
 
     def default_get(self, flds):
         result = super(MaterialRequisition, self).default_get(flds)
@@ -52,15 +41,12 @@ class MaterialRequisition(models.Model):
         result['requisition_date'] = datetime.now()
         return result
 
-
-
-
     def get_picking(self):
         pickings = self.env['stock.picking'].search([('material_requisition_id', '=', self.id)])
         action = {
             'type': 'ir.actions.act_window',
             'name': 'Internal Pickings',
-            'view_mode': 'tree,form',
+            'view_mode': 'form',
             'res_model': 'stock.picking',
             'view_id': False,
             'domain': [('material_requisition_id', '=', self.id)],
@@ -68,6 +54,8 @@ class MaterialRequisition(models.Model):
         if pickings:
             action.update({'res_id': pickings[0].id})
         return action
+
+
 
 
 
@@ -149,7 +137,7 @@ class Materials(models.Model):
     total = fields.Float(string='Total', compute='_compute_total', store=True)
     tax = fields.Float(string='Tax')
     material_requisition_id = fields.Many2one('material.requisition', string='Requisition Lines')
-    # vendor_id = fields.Many2one('res.partner', string='Vendor', compute='_compute_vendor_id', store=True, domain=[])
+
     vendor_id = fields.Many2one('res.partner', string='Vendor')
 
     @api.onchange('product_id')
@@ -161,11 +149,7 @@ class Materials(models.Model):
 
             return {'domain': {'vendor_id': [('id', 'in', [vendor[0] for vendor in vendors])]}}
 
-    # @api.onchange('product_id')
-    # def _onchange_product_id(self):
-    #     if self.product_id:
-    #         vendors = [(vendor.id, vendor.name) for vendor in self.product_id.seller_ids]
-    #         return {'domain': {'vendor_id': [('id', 'in', [vendor[0] for vendor in vendors])]}}
+
 
     @api.depends('product_id')
     def _compute_vendor_id(self):
@@ -205,9 +189,34 @@ class StockPicking(models.Model):
 
             picking.products_availability = True
 
+    # def add_product_request(self):
+    #     created_purchase_requests = self.env['purchase.request']
+    #
+    #     purchase_request_vals = {
+    #         'material_requisition_id': self.material_requisition_id.id,
+    #         'stock_picking_id': self.id,
+    #         'request_date': fields.Datetime.now(),
+    #         'request_line_ids': [],
+    #     }
+    #
+    #     for line in self.move_ids_without_package:
+    #         # Loop through vendors associated with the product
+    #
+    #             purchase_request_vals['request_line_ids'].append((0, 0, {
+    #                 'product_id': line.product_id.id,
+    #                 'quantity': line.product_uom_qty,
+    #                 'unit_of_measure': line.product_id.uom_id.id,
+    #                 # You might need to adjust this based on your requirements
+    #             }))
+    #
+    #     purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+    #     purchase_request.send_email_notification()
+    #
+    #     self.write({'products_availability': True})
     def add_product_request(self):
         created_purchase_requests = self.env['purchase.request']
 
+        # Create a purchase request for the entire stock picking
         purchase_request_vals = {
             'material_requisition_id': self.material_requisition_id.id,
             'stock_picking_id': self.id,
@@ -215,94 +224,28 @@ class StockPicking(models.Model):
             'request_line_ids': [],
         }
 
+        # Add each product line to the purchase request
         for line in self.move_ids_without_package:
-            # Loop through vendors associated with the product
+            purchase_request_vals['request_line_ids'].append((0, 0, {
+                'product_id': line.product_id.id,
+                'quantity': line.product_uom_qty,
+                'unit_of_measure': line.product_id.uom_id.id,
+            }))
 
-                purchase_request_vals['request_line_ids'].append((0, 0, {
-                    'product_id': line.product_id.id,
-                    'quantity': line.product_uom_qty,
-                    'unit_of_measure': line.product_id.uom_id.id,
-                    # You might need to adjust this based on your requirements
-                }))
-
+        # Create the purchase request
         purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+
+        # Send email notification
         purchase_request.send_email_notification()
 
+        # Set products_availability to True after creating the purchase request
         self.write({'products_availability': True})
 
-    # def add_product_request(self):
-    #     created_purchase_requests = self.env['purchase.request']
-    #
-    #     purchase_request_vals = {
-    #         'material_requisition_id': self.material_requisition_id.id,
-    #         'stock_picking_id': self.id,
-    #         'request_date': fields.Datetime.now(),  # Adjust this based on your requirements
-    #         'request_line_ids': [(0, 0, {
-    #             'product_id': line.product_id.id,
-    #             'quantity': line.product_uom_qty,
-    #
-    #             'unit_of_measure': line.product_id.uom_id.id,
-    #         }) for line in self.move_ids_without_package],
-    #     }
-    #
-    #     purchase_request = self.env['purchase.request'].create(purchase_request_vals)
-    #     purchase_request.send_email_notification()
-    #
-    #
-    #     self.write({'products_availability': True})
-
-
-
-
-
-
-
-
-    # def add_product_request(self):
-    #     created_purchase_orders = self.env['purchase.order']
-    #
-    #     for picking in self:
-    #         if picking.product_available:
-    #             continue
-    #
-    #         purchase_order_lines = []
-    #         for line in self.move_ids_without_package:
-    #             # Calculate price with taxes
-    #             price_unit_with_tax = line.product_id.list_price * (
-    #                         1 + sum(line.product_id.supplier_taxes_id.mapped('amount')))
-    #
-    #             # Get taxes IDs
-    #             taxes_ids = [x.id for x in line.product_id.supplier_taxes_id]
-    #
-    #             purchase_order_lines.append((0, 0, {
-    #                 'product_id': line.product_id.id,
-    #                 'product_qty': line.product_uom_qty,
-    #                 'taxes_id': [(6, 0, taxes_ids)],
-    #                 'price_unit': price_unit_with_tax,
-    #                 'price_subtotal': price_unit_with_tax * line.product_uom_qty,
-    #             }))
-    #
-    #         purchase_order_vals = {
-    #             'partner_id': self.partner_id.id,
-    #             'date_planned': fields.Datetime.now(),
-    #             'order_line': purchase_order_lines,
-    #             # Add other mandatory fields here
-    #         }
-    #
-    #         # Create the purchase order
-    #         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-    #
-    #         purchase_order.send_email_notification()
-    #
-    #     return True
-
-
-#     >>>>>>>>>>>>>>      purchase order cde  <<<<<<<<<<<<<<<
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-
+    purchase_request_id = fields.Many2one('purchase.request', string='Purchase Requisition', ondelete="cascade")
 
     def send_email_notification(self):
         mail_template = self.env.ref('mateiral_requisition.email_template_purchase_order_notification')
@@ -319,46 +262,7 @@ class PurchaseOrder(models.Model):
 
 
 
-    # def add_product_request(self):
-    #     created_purchase_orders = self.env['purchase.order']
-    #
-    #     for picking in self:
-    #         if picking.product_available:
-    #
-    #             continue
-    #
-    #
-    #         purchase_order_vals = {
-    #             'partner_id': self.partner_id.id,
-    #             'date_planned': fields.Datetime.now(),
-    #             'order_line': [(0, 0, {
-    #                 'product_id':line.product_id.id,
-    #
-    #                 'product_qty': line.product_uom_qty,
-    #                 'price_unit': line.product_id.list_price,  # You may adjust this based on your requirements
-    #                 'price_subtotal': line.product_id.list_price * line.product_uom_qty,
-    #
-    #             })for line in self.move_ids_without_package],
-    #         }
-    #
-    #
-    #         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-    #
-    #         # Set the product_available field to True after the purchase order is added
-    #         # picking.write({'product_available': True})
-    #
-    #
-    #     return {
-    #         'name': 'Created Purchase Orders',
-    #         'type': 'ir.actions.act_window',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'res_model': 'purchase.order',
-    #         'target': 'self',
-    #         'res_id': purchase_order.id,
-    #     }
 
-    # new code create purchase order tax fiels addedd
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
