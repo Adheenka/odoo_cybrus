@@ -21,6 +21,7 @@
         'views/material_requisition.xml',
         'views/stock_picking_inherit.xml',
         'views/project_inherit.xml',
+        'views/purchase_request.xml',
 
 
 

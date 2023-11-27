@@ -96,6 +96,7 @@
                                         <field name="description"/>
 
                                         <field name="quantity"/>
+                                        <field name="vendor_id"/>
 
                                         <field name="uom"/>
 

@@ -140,7 +140,8 @@ class Materials(models.Model):
     _name = 'materials'
     _description = 'Expense'
 
-    product_id = fields.Many2one('product.product', string='Product')
+    # product_id = fields.Many2one('product.product', string='Product')
+    product_id = fields.Many2one('product.product', string='Product', onchange='_onchange_product_id')
     quantity = fields.Float(string='Quantity', default=1.0)
     description = fields.Char(string='Description', required=True)
     uom = fields.Many2one('uom.uom',string="Unit of Measure", related='product_id.uom_id')
@@ -148,8 +149,33 @@ class Materials(models.Model):
     total = fields.Float(string='Total', compute='_compute_total', store=True)
     tax = fields.Float(string='Tax')
     material_requisition_id = fields.Many2one('material.requisition', string='Requisition Lines')
+    # vendor_id = fields.Many2one('res.partner', string='Vendor', compute='_compute_vendor_id', store=True, domain=[])
+    vendor_id = fields.Many2one('res.partner', string='Vendor')
 
-    @api.depends('quantity', 'unit_price', 'tax')
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        if self.product_id:
+            vendor_infos = self.product_id.seller_ids
+
+            vendors = [(vendor_info.name.id, vendor_info.name.name) for vendor_info in vendor_infos]
+
+            return {'domain': {'vendor_id': [('id', 'in', [vendor[0] for vendor in vendors])]}}
+
+    # @api.onchange('product_id')
+    # def _onchange_product_id(self):
+    #     if self.product_id:
+    #         vendors = [(vendor.id, vendor.name) for vendor in self.product_id.seller_ids]
+    #         return {'domain': {'vendor_id': [('id', 'in', [vendor[0] for vendor in vendors])]}}
+
+    @api.depends('product_id')
+    def _compute_vendor_id(self):
+        for material in self:
+            vendor_info = material.product_id.seller_ids
+            material.vendor_id = vendor_info[0].name if vendor_info else False
+
+
+
+
     def _compute_total(self):
         for expense in self:
             expense.total = (expense.quantity * expense.unit_price) * (1 + expense.tax / 100)

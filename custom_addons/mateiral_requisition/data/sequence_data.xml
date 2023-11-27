@@ -16,6 +16,14 @@
             <field name="padding">4</field>
             <field name="company_id" eval="False"/>
         </record>
+        <record id="sequence_purchase_request_sequence" model="ir.sequence">
+            <field name="name">Request Sequence</field>
+            <field name="code">purchase.request.sequence</field>
+            <field name="prefix">PR</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
 
     </data>
 </odoo>
