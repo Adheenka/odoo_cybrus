@@ -206,40 +206,51 @@ class StockPicking(models.Model):
             picking.products_availability = True
 
     def add_product_request(self):
-        created_purchase_orders = self.env['purchase.order']
+        created_purchase_requests = self.env['purchase.request']
 
-        purchase_order_vals = {
-            'partner_id': self.partner_id.id,
-            'date_planned': fields.Datetime.now(),
-            'order_line': [(0, 0, {
-                'product_id': line.product_id.id,
-                'product_qty': line.product_uom_qty,
-            }) for line in self.move_ids_without_package],
+        purchase_request_vals = {
+            'material_requisition_id': self.material_requisition_id.id,
+            'stock_picking_id': self.id,
+            'request_date': fields.Datetime.now(),
+            'request_line_ids': [],
         }
 
-        purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-        purchase_order.send_email_notification()
+        for line in self.move_ids_without_package:
+            # Loop through vendors associated with the product
 
-        # Set products_availability to True after creating the purchase order
+                purchase_request_vals['request_line_ids'].append((0, 0, {
+                    'product_id': line.product_id.id,
+                    'quantity': line.product_uom_qty,
+                    'unit_of_measure': line.product_id.uom_id.id,
+                    # You might need to adjust this based on your requirements
+                }))
+
+        purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+        purchase_request.send_email_notification()
+
         self.write({'products_availability': True})
-#     >>>>>>>>>>>>>>      stock picking  cde  <<<<<<<<<<<<<<<
 
-#     def add_product_request(self):
-#         created_purchase_orders = self.env['purchase.order']
-#
-#         purchase_order_vals = {
-#             'partner_id': self.partner_id.id,
-#             'date_planned': fields.Datetime.now(),
-#             'order_line': [(0, 0, {
-#                 'product_id': line.product_id.id,
-#
-#                 'product_qty': line.product_uom_qty,
-#
-#             }) for line in self.move_ids_without_package],
-#         }
-#
-#         purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-#         purchase_order.send_email_notification()
+    # def add_product_request(self):
+    #     created_purchase_requests = self.env['purchase.request']
+    #
+    #     purchase_request_vals = {
+    #         'material_requisition_id': self.material_requisition_id.id,
+    #         'stock_picking_id': self.id,
+    #         'request_date': fields.Datetime.now(),  # Adjust this based on your requirements
+    #         'request_line_ids': [(0, 0, {
+    #             'product_id': line.product_id.id,
+    #             'quantity': line.product_uom_qty,
+    #
+    #             'unit_of_measure': line.product_id.uom_id.id,
+    #         }) for line in self.move_ids_without_package],
+    #     }
+    #
+    #     purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+    #     purchase_request.send_email_notification()
+    #
+    #
+    #     self.write({'products_availability': True})
+
 
 
 

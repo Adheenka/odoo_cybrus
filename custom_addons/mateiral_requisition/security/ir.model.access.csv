@@ -1,4 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access.material.requisition,access_material_requisition,mateiral_requisition.model_material_requisition,base.group_user,1,1,1,1
-access.materials,access_materials,mateiral_requisition.model_materials,base.group_user,1,1,1,1
 access.purchase.request,access_purchase_request,mateiral_requisition.model_purchase_request,base.group_user,1,1,1,1
+access.purchase.request.line,access_purchase_request_line,mateiral_requisition.model_purchase_request_line,base.group_user,1,1,1,1
+access.materials,access_materials,mateiral_requisition.model_materials,base.group_user,1,1,1,1
+
