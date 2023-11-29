@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
         <record id="view_purchase_order_form_inherit" model="ir.ui.view">
@@ -6,16 +5,24 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
+<!--                <xpath expr="//header/button[@name='button_confirm']" position="attributes">-->
+<!--
+<!--                </xpath>-->
+                <field name="state" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_approver', '=', True)]}</attribute>
+                </field>
+                <xpath expr="//button[@name='button_confirm']" position="before">
+                    <field name="approval_status" widget="statusbar"
+                           statusbar_visible="draft,sent,approved,purchase,"/>
+                    <button string="Sent for Approval" type="object" class="oe_highlight"
+                            name="button_submit_for_approval" state="approval"
+                            attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '=', 'approved')]}"/>
+                </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="is_approved_user"/>
+                    <field name="is_approver" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="approver_id" widget="many2many_tags"/>
-                </xpath>
-                <xpath expr="//button[@name='button_confirm']" position="before">
-                    <button string="Approval" type="object" class="oe_highlight"
-                            name="button_submit_for_approval"/>
-<!--                            attrs="{'invisible': [('approver_id', '!=', 'approver_id')]}"/>-->
                 </xpath>
             </field>
         </record>

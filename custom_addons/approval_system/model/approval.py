@@ -32,41 +32,71 @@ class PurchaseApprovalLevel(models.Model):
     approval_id = fields.Many2one('purchase.approval', string='Approval')
     level = fields.Char(string='Level', required=True)
     user_ids = fields.Many2many('res.users', string='Approvers')
+    order_id = fields.Many2one('purchase.order', string="Purchase Order")
 
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    is_approved_user = fields.Boolean(string="Approver")
+    is_approver = fields.Boolean(string='Is Approver', compute='_compute_is_approver', store=True)
     approver_id = fields.Many2many('res.users',
                                    string="Approvers",
                                    default=lambda self: self.get_level_approvers())
+    approval_status = fields.Selection([
+        ('draft', 'RFQ'),
+        ('sent', 'RFQ Sent'),
+        ('approval', 'Approval'),
+        ('approved', 'Approved'),
+        ('purchase', 'Purchase Order'),
+    ], string='Status', readonly=True, copy=False, tracking=True)
+
+    # state = fields.Selection([
+    #     ('draft', 'RFQ'),
+    #     ('sent', 'RFQ Sent'),
+    #     ('approved', 'Approved'),
+    #     ('to approve', 'To Approve'),
+    #     ('purchase', 'Purchase Order'),
+    #     ('done', 'Locked'),
+    #     ('cancel', 'Cancelled')
+    # ], string='Status', readonly=True, index=True, copy=False, default='draft', tracking=True)
+
+    @api.depends('approver_id')
+    def _compute_is_approver(self):
+        for record in self:
+            record.is_approver = True if self.env.user.id in record.approver_id.ids else False
 
     @api.model
     def get_level_approvers(self):
         approver_ids = []
         approval_model = self.env['purchase.approval'].sudo().search(
             [('approval_model_id', '=', 'purchase.order')], limit=1)
-        print(approval_model, 'aaaa')
         if approval_model:
             for level in approval_model.level_ids:
-                print('fff')
                 if isinstance(level.user_ids, int):  # Check if user_ids is an ID
                     user_ids = [level.user_ids]
                 else:
                     user_ids = level.user_ids.ids
-
                 approver_ids += [(4, user_id) for user_id in user_ids]
         return approver_ids
 
-    # def get_approve_user(self):
-    #     print('heloo')
-    #     for rec in self:
-    #         print('heloo')
-    #         rec.is_approved_user = True if self.env.user.id in rec.approver_id.ids else False
-    #         print('ee')
-
     def button_submit_for_approval(self):
-        # Add your logic here for submitting the purchase order for approval
-        # You may want to create approval records, update statuses, etc.
+        approval_model = self.env['purchase.approval.level']
+
+        for user in self.approver_id:
+            # Check if the user has already approved
+            existing_approval = approval_model.search([('order_id', '=', self.id), ('user_ids', 'in', user.ids)])
+            if not existing_approval:
+                # Create a new approval record for the user
+                approval_model.create({
+                    'order_id': self.id,
+                    'user_ids': [(4, user.id)],
+                    'level': f'Level {len(existing_approval) + 1}',
+                })
+                return True  # Return True after creating the approval for one user
+
+        # Check if all approvers have approved
+        approvals_count = approval_model.search_count([('order_id', '=', self.id)])
+        if approvals_count == len(self.approver_id):
+            self.write({'approval_status': 'approved'})
+
         return True

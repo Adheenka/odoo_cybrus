@@ -69,7 +69,7 @@ class PurchaseRequest(models.Model):
                     'product_uom': line.unit_of_measure.id,
                 })],
             }
-
+            purchase_order.send_email_notification()
             purchase_order = self.env['purchase.order'].create(purchase_order_vals)
 
 

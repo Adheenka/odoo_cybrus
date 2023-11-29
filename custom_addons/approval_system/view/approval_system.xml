@@ -49,12 +49,7 @@
             </field>
         </record>
 
-<!--        <record id="menu_approval_system" model="ir.ui.menu">-->
-<!--            <field name="name">Purchase Approval</field>-->
-<!--            <field name="sequence" eval="30"/>-->
-<!--            <field name="parent_id" ref="purchase.menu_purchase_config"/>-->
-<!--            <field name="action" ref="menu_action_approval_system"/>-->
-<!--        </record>-->
+
 
 
         <record id="menu_action_approval_system" model="ir.actions.act_window">
