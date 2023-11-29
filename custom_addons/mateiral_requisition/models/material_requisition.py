@@ -14,7 +14,7 @@ class MaterialRequisition(models.Model):
     sequence = fields.Char(string='Sequence', tracking=True, copy=False, readonly=True)
 
 
-    employee_id=fields.Many2one('res.users', string='Employee', default=lambda self: self.env.user)
+    employee_id = fields.Many2one('res.users', string='Employee', default=lambda self: self.env.user)
     requisition_employee = fields.Many2one('hr.employee', string='Employee')
     department_id = fields.Many2one('hr.department',  related='employee_id.department_id',string='Department')
     project_id = fields.Many2one('project.project', string='Project')
@@ -189,6 +189,79 @@ class StockPicking(models.Model):
 
             picking.products_availability = True
 
+    def add_product_request(self):
+        created_purchase_requests = self.env['purchase.request']
+
+        purchase_request_vals = {
+            'material_requisition_id': self.material_requisition_id.id,
+            'stock_picking_id': self.id,
+            'request_date': fields.Datetime.now(),
+            'request_line_ids': [],
+        }
+
+        for line in self.move_ids_without_package:
+
+            if line.quantity_done != line.product_uom_qty:
+                purchase_request_vals['request_line_ids'].append((0, 0, {
+                    'product_id': line.product_id.id,
+                    'quantity': abs(line.quantity_done - line.product_uom_qty),
+                    'unit_of_measure': line.product_id.uom_id.id,
+                }))
+
+        if purchase_request_vals['request_line_ids']:
+
+            purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+
+            purchase_request.send_email_notification()
+
+            self.write({'products_availability': True})
+
+        return True
+
+
+
+
+    # def add_product_request(self):
+    #
+    #     created_purchase_requests = self.env['purchase.request']
+    #
+    #     # Prepare the values for creating a purchase request
+    #     purchase_request_vals = {
+    #         'material_requisition_id': self.material_requisition_id.id,
+    #         'stock_picking_id': self.id,
+    #         'request_date': fields.Datetime.now(),
+    #         'request_line_ids': [],
+    #     }
+    #     request_lines = [(0, 0, {
+    #         'product_id': line.product_id.id,
+    #         'quantity': abs(line.forecast_availability - line.product_uom_qty),
+    #         'unit_of_measure': line.product_id.uom_id.id,
+    #     }) for line in self.move_ids_without_package if line.forecast_availability != line.product_uom_qty]
+    #
+    #     purchase_request_vals['request_line_ids'].extend(request_lines)
+    #     if purchase_request_vals['request_line_ids']:
+    #
+    #         purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+    #
+    #         purchase_request.send_email_notification()
+    #
+    #         self.write({'products_availability': True})
+    #
+    #     return True
+    #
+
+
+
+
+
+
+
+
+
+
+
+
+
     # def add_product_request(self):
     #     created_purchase_requests = self.env['purchase.request']
     #
@@ -200,47 +273,23 @@ class StockPicking(models.Model):
     #     }
     #
     #     for line in self.move_ids_without_package:
-    #         # Loop through vendors associated with the product
-    #
+    #         quantity_needed = line.forecast_availability - line.product_uom_qty
+    #         if quantity_needed > 0:
     #             purchase_request_vals['request_line_ids'].append((0, 0, {
     #                 'product_id': line.product_id.id,
-    #                 'quantity': line.product_uom_qty,
+    #
+    #                 'quantity': line.forecast_availability,
+    #
     #                 'unit_of_measure': line.product_id.uom_id.id,
-    #                 # You might need to adjust this based on your requirements
+    #
     #             }))
     #
-    #     purchase_request = self.env['purchase.request'].create(purchase_request_vals)
-    #     purchase_request.send_email_notification()
+    #     if purchase_request_vals['request_line_ids']:
+    #         purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+    #         purchase_request.send_email_notification()
+    #         created_purchase_requests += purchase_request
     #
-    #     self.write({'products_availability': True})
-    def add_product_request(self):
-        created_purchase_requests = self.env['purchase.request']
-
-        # Create a purchase request for the entire stock picking
-        purchase_request_vals = {
-            'material_requisition_id': self.material_requisition_id.id,
-            'stock_picking_id': self.id,
-            'request_date': fields.Datetime.now(),
-            'request_line_ids': [],
-        }
-
-        # Add each product line to the purchase request
-        for line in self.move_ids_without_package:
-            purchase_request_vals['request_line_ids'].append((0, 0, {
-                'product_id': line.product_id.id,
-                'quantity': line.product_uom_qty,
-                'unit_of_measure': line.product_id.uom_id.id,
-            }))
-
-        # Create the purchase request
-        purchase_request = self.env['purchase.request'].create(purchase_request_vals)
-
-        # Send email notification
-        purchase_request.send_email_notification()
-
-        # Set products_availability to True after creating the purchase request
-        self.write({'products_availability': True})
-
+    #     return created_purchase_requests
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -257,11 +306,6 @@ class PurchaseOrder(models.Model):
         purchase_manager_group = self.env.ref('purchase.group_purchase_manager')
         email_list = [user.partner_id.email for user in purchase_manager_group.users if user.partner_id.email]
         return ";".join(email_list)
-
-
-
-
-
 
 
 class ProjectProject(models.Model):
@@ -311,6 +355,33 @@ class ProjectProject(models.Model):
 
 
 
+    # def add_product_request(self):
+    #     created_purchase_requests = self.env['purchase.request']
+    #
+    #     # Create a purchase request for the entire stock picking
+    #     purchase_request_vals = {
+    #         'material_requisition_id': self.material_requisition_id.id,
+    #         'stock_picking_id': self.id,
+    #         'request_date': fields.Datetime.now(),
+    #         'request_line_ids': [],
+    #     }
+    #
+    #     # Add each product line to the purchase request
+    #     for line in self.move_ids_without_package:
+    #         purchase_request_vals['request_line_ids'].append((0, 0, {
+    #             'product_id': line.product_id.id,
+    #             'quantity': line.product_uom_qty,
+    #             'unit_of_measure': line.product_id.uom_id.id,
+    #         }))
+    #
+    #     # Create the purchase request
+    #     purchase_request = self.env['purchase.request'].create(purchase_request_vals)
+    #
+    #     # Send email notification
+    #     purchase_request.send_email_notification()
+    #
+    #     # Set products_availability to True after creating the purchase request
+    #     self.write({'products_availability': True})
 
 
 

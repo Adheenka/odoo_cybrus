@@ -15,14 +15,7 @@ class PurchaseRequest(models.Model):
     request_date = fields.Date(string='Request Date')
     request_line_ids = fields.One2many('purchase.request.line', 'purchase_request_id', string='Request Lines')
 
-    # purchase_request_ids = fields.One2many('purchase.order', 'purchase_request_id', string='purchase request',
-    #                                            readonly=True)
-    #
-    # purchase_order_count = fields.Integer(string='Purchase Order Count', compute='_compute_purchase_order_count')
-    purchase_order_ids = fields.One2many('purchase.order', 'purchase_request_id', string='Purchase Orders',
-                                         readonly=True)
-
-    # Add the computed field for purchase_order_count
+    purchase_order_ids = fields.One2many('purchase.order', 'purchase_request_id', string='Purchase Orders',readonly=True)
     purchase_order_count = fields.Integer(string='Purchase Order Count', compute='_compute_purchase_order_count')
 
     @api.depends('purchase_order_ids')
@@ -42,6 +35,7 @@ class PurchaseRequest(models.Model):
             'domain': action_domain,
         }
         return action
+
 
     @api.model
     def create(self, vals):
@@ -77,7 +71,7 @@ class PurchaseRequest(models.Model):
             }
 
             purchase_order = self.env['purchase.order'].create(purchase_order_vals)
-            purchase_order.send_email_notification()
+
 
             # Assuming you have a Many2many field named 'purchase_order_ids' in purchase.request
 
@@ -122,19 +116,24 @@ class PurchaseRequestLine(models.Model):
     _name = 'purchase.request.line'
     _description = 'Purchase Request Line'
 
-    product_id = fields.Many2one('product.product', string='Product', required=True)
-    description = fields.Text(string='Description')
-    vendor_id = fields.Many2one('res.partner', string='Vendor')
+    product_id = fields.Many2one('product.product', string='Product', required=True, onchange='_onchange_product_id')
+    description = fields.Text(string='Description',compute='_compute_description')
+    vendor_id = fields.Many2one('res.partner',string='Vendor')
+
     quantity = fields.Float(string='Quantity', default=1.0)
-    unit_of_measure = fields.Many2one('uom.uom', string='Unit of Measure')
+    unit_of_measure = fields.Many2one('uom.uom', string='Unit of Measure',related='product_id.uom_id')
 
     purchase_request_id = fields.Many2one('purchase.request', string='Purchase Request')
 
-    @api.onchange('product_id')
-    def onchange_product(self):
-        if self.product_id:
+    @api.depends('product_id')
+    def _compute_description(self):
 
-            self.description = self.product_id.name
+        for rec in self:
+            rec.description = rec.product_id.name
+
+
+
+
     @api.onchange('product_id')
     def onchange_product_id(self):
         if self.product_id:
@@ -143,3 +142,31 @@ class PurchaseRequestLine(models.Model):
             vendors = [(vendor_info.name.id, vendor_info.name.name) for vendor_info in vendor_infos]
 
             return {'domain': {'vendor_id': [('id', 'in', [vendor[0] for vendor in vendors])]}}
+    # #
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # @api.depends('product_id')
+    # def _compute_vendor_id(self):
+    #     for record in self:
+    #         # Corrected code to access supplier information
+    #         seller_info = record.product_id.seller_ids and record.product_id.seller_ids[0]
+    #         record.vendor_id = seller_info and seller_info.name.id or False
+
+
+    # def _compute_seller_partner_ids(self):
+    #     for record in self:
+    #         seller_partner_ids = record.product_id.seller_ids.mapped('partner_id').ids
+    #         record.seller_partner_ids = [(6, 0, seller_partner_ids)]
+
+

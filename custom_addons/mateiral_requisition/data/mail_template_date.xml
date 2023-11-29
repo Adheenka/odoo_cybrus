@@ -59,18 +59,18 @@
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                        Dear <t t-out="object.partner_id or '' or ''">Purchase Manager</t>,
+                        Dear Purchase Manager.
                         <br/>
                         <br/>
-                        A new purchase order has been created with reference: <t t-out="object.origin or ''">Order
+                        A new purchase order has been created with reference: <t t-out="object.name or ''">Order
                         Reference</t>, by
-                        <t t-out="object.partner_id or ''">Employee Name</t>.
+                        <t t-out="object.partner_id.name or ''">Employee Name</t>.
                         <br/>
                         <br/>
                         Details:
                         <ul>
-                            <li>Department:
-                                <t t-out="object.partner_id or ''">Department Name</t>
+                            <li>Requsition id:
+                                <t t-out="object.origin or ''">Department Name</t>
                             </li>
                             <li>Order Date:
                                 <t t-out="object.scheduled_date or ''">Order Date</t>
