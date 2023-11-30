@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <data>
+
+        <!-- Views -->
+        <record id="view_material_requisition_tree" model="ir.ui.view">
+            <field name="name">material.requisition.tree</field>
+            <field name="model">material.requisition</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <!-- Define the columns you want to display in the tree view -->
+                    <field name="sequence"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="requisition_date"/>
+                    <field name="project_id"/>
+                    <field name="stage"/>
+                    <!-- Add other fields as needed -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_material_requisition_form" model="ir.ui.view">
+            <field name="name">material.requisition.form</field>
+            <field name="model">material.requisition</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- Define the fields you want to display in the form view -->
+
+                    <header>
+                        <button class="oe_stat_button" type="object" icon="fa-check"
+                                name="send_request" string="Send Request"
+
+                                attrs="{'invisible': [('stage', 'in', ['requested', 'inventory_confirmed'])]}"/>
+
+                        <button class="oe_stat_button" type="object" icon="fa-thumbs-up"
+                                name="approve_request" string="Requisition Accept"
+                                groups="stock.group_stock_manager"
+                                attrs="{'invisible':[('stage', 'in', ['new','inventory_confirmed'])]}"/>
+
+
+                        <button class="oe_stat_button" type="object" icon="fa-check-circle"
+                                name="requisition_confirm" string="Requisition Confirmed"
+                                groups="base.group_system" style="background-color:#478C5C"
+                                attrs="{'invisible': [('stage', 'not in', ['inventory_confirmed'])]}"/>
+
+                        <field name="stage" widget="statusbar" nolabel="1"
+                               statusbar_visible="new,requested,inventory_confirmed"/>
+                    </header>
+                    <!-- Smart Button -->
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button name="get_picking" type="object" class="oe_stat_button" icon="fa-truck"
+                                    attrs="{'invisible': [('stage', '!=', 'inventory_confirmed')]}">
+                                <div class="o_stat_info">
+
+                                    <field name="picking_count" class="o_stat_value"/>
+                                    <span class="o_stat_text">STOCK PICKING</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title oe_left">
+                            <h1>
+                                <field name="sequence"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <!-- Add other fields as needed -->
+
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <field name = "company_id"/>
+
+
+                            </group>
+                            <group>
+                                <field name="requisition_date"/>
+                                <field name="date_end"/>
+                                <field name="project_id"/>
+<!--                                <field name="requisition_stage"/>-->
+                                <field name="requisition_task"/>
+
+                            </group>
+                        </group>
+
+
+                        <!-- Notebook for materials_line_ids -->
+                        <notebook>
+                            <page string="Materials Lines" groups="base.group_user">
+                                <field name="materials_line_ids" widget="one2many_list">
+                                    <!-- Define the fields you want to display in the notebook page -->
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="description"/>
+
+                                        <field name="quantity"/>
+<!--                                        <field name="vendor_id"/>-->
+
+                                        <field name="uom"/>
+
+                                        <!-- Add other fields as needed -->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action Window -->
+        <record id="action_material_requisition" model="ir.actions.act_window">
+            <field name="name">Material Requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">material.requisition</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{ }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first material requisition
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_material_requisition"
+                  name="Material  Requisition"
+                  parent="menu_material_requisition_root" action="action_material_requisition" sequence="0"/>
+    </data>
+</odoo>

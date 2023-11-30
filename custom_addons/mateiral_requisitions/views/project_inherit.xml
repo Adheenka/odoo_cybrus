@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_project_inherits_form" model="ir.ui.view">
+            <field name="name">project.project.inherits.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_view_all_rating']" position="before">
+                    <!--                    <button string="Material Requisitions" type="object" class="oe_highlight"-->
+                    <!--                            name="action_view_material_requisitions"-->
+                    <!--                            icon="fa-cubes"/>-->
+                    <button class="oe_stat_button" type="object" name="action_view_material_requisitions"
+                            icon="fa-cubes">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="requisition_count" nolabel="1"/>
+                            </span>
+                            <span class="o_stat_text">
+                                Material Requisitions
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

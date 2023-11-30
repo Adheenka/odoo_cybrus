@@ -9,7 +9,7 @@
     """,
     'author': 'jafar',
     'website': 'https://www.example.com',
-    'depends': ['base', 'stock','sale_stock', 'hr','mail','sale'],
+    'depends': ['base', 'stock','sale_stock', 'purchase','sale'],
     'data': [
         'security/ir.model.access.csv',
         'view/approval_system.xml',
