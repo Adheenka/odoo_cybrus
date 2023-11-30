@@ -1,8 +1,4 @@
-from odoo import models, fields, api
-
-
-
-from odoo import models, fields, api
+from odoo import models, fields, api, http
 
 
 class PurchaseApproval(models.Model):
@@ -37,40 +33,25 @@ class PurchaseApprovalLevel(models.Model):
     level = fields.Char(string='Level')
     user_ids = fields.Many2many('res.users', string='Approvers')
     order_id = fields.Many2one('purchase.order', string="Purchase Order")
-    approval_status = fields.Selection([
-        ('pending', 'Pending'),
-        ('approved', 'Approved'),
-    ], string='Approval Status', default='pending', readonly=True)
-
-    @api.depends('user_ids', 'order_id')
-    def _compute_has_approved(self):
-        for record in self:
-            users_approved = record.user_ids.filtered(lambda user: record.has_user_approved(user))
-            if len(users_approved) == len(record.user_ids):
-                record.approval_status = 'approved'
-            else:
-                record.approval_status = 'pending'
-
-    def has_approved(self, order_id, user_id):
-        """Check if the specified user has approved the purchase order."""
-        approval = self.search([('order_id', '=', order_id), ('user_ids', 'in', user_id.ids)])
-        return bool(approval)
 
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    is_approver = fields.Boolean(string='Is Approver', compute='_compute_is_approver', store=True)
-    approver_id = fields.Many2many('res.users', string="Approvers", default=lambda self: self.get_level_approvers())
-    state = fields.Selection([
+    is_approver = fields.Boolean(string='Is Approver', compute='_compute_is_approver', store=True, default=True)
+    approver_id = fields.Many2many('res.users',
+                                   string="Approvers",
+                                   default=lambda self: self.get_level_approvers())
+    approval_status = fields.Selection([
         ('draft', 'RFQ'),
         ('sent', 'RFQ Sent'),
+        ('waiting for approval', 'Waiting forApproval'),
         ('approved', 'Approved'),
-        ('to_approve', 'To Approve'),
         ('purchase', 'Purchase Order'),
         ('done', 'Locked'),
-        ('cancel', 'Cancelled')
-    ], string='Status', readonly=True, index=True, copy=False, default='draft', tracking=True)
+        ('cancel', 'Cancel'),
+
+    ], string='Status', readonly=True, copy=False, tracking=True, default='draft')
 
     @api.depends('approver_id')
     def _compute_is_approver(self):
@@ -92,36 +73,29 @@ class PurchaseOrder(models.Model):
         return approver_ids
 
     def button_submit_for_approval(self):
-        approval_model = self.env['purchase.approval.level']
-
-        for user in self.approver_id:
-            # Check if the user has already approved
-            existing_approval = approval_model.search([('order_id', '=', self.id), ('user_ids', 'in', user.ids)])
-            if not existing_approval:
-                # Create a new approval record for the user
-                approval_model.create({
-                    'order_id': self.id,
-                    'user_ids': [(4, user.id)],
-                })
-                return True  # Return True after creating the approval for one user
-
-        # Check if all approvers have approved
-        pending_approvers = self.approver_id.filtered(lambda user: not user.approval_level_ids.has_approved(self))
-
-        if not pending_approvers:
-            # Update the state to 'approved' only if all approvers have approved
-            self.write({'state': 'approved'})
+        self.write({'approval_status': 'waiting for approval'})
 
         return True
 
-    class ResUsers(models.Model):
-        _inherit = 'res.users'
+    def button_my_custom_action(self):
+        # Your custom action logic for the current user
+        approval_model = self.env['purchase.approval.level']
+        lgn_user = http.request.env.user
 
-        approval_level_ids = fields.One2many('purchase.approval.level', 'user_ids', string='Approval Levels')
+        existing_approval = approval_model.search([('order_id', '=', self.id), ('user_ids', 'in', lgn_user.id)])
+        if not existing_approval:
+            # Create a new approval record for the user
+            approval_model.create({
+                'order_id': self.id,
+                'user_ids': [(4, lgn_user.id)],
+            })
 
+        # Check if all approvers have approved
+        approvals_count = approval_model.search_count([('order_id', '=', self.id)])
+        if approvals_count == len(self.approver_id):
+            self.write({'approval_status': 'approved'})
 
-
-
+        return True
 
 
 
