@@ -1,4 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--<odoo>-->
+<!--    <data>-->
+<!--        <record id="view_purchase_order_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">purchase.order.form.inherit</field>-->
+<!--            <field name="model">purchase.order</field>-->
+<!--            <field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath  expr="//button[@id='bid_confirm']" position="replace">-->
+<!--                    <button name="button_confirm" type="object" states="approved" string="Confirm Order Button" />-->
+<!--                </xpath>-->
+
+
+<!--                <field name="state" position="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': 1}</attribute>-->
+<!--                </field>-->
+
+
+<!--                <xpath expr="//button[@name='button_confirm']" position="before">-->
+<!--&lt;!&ndash;                    <field name="approval_status" widget="statusbar"&ndash;&gt;-->
+<!--&lt;!&ndash;                           statusbar_visible="draft,sent,waiting for approval,approved,purchase,cancelled"/>&ndash;&gt;-->
+<!--                    <button string="Approve" type="object" class="oe_highlight"-->
+<!--                            name="button_submit_for_approval" state="approval"-->
+<!--                             attrs="{'invisible': ['|','|',('is_approver', '=', False),('state', 'in', ['draft', 'sent', 'approved', 'purchase','done', 'cancelled']),('is_approved', '=', True)]}"/>-->
+<!--.-->
+<!--                    <button string="Sent for Approval" type="object" class="oe_highlight"-->
+<!--                            name="sent_for_approval"-->
+<!--                            attrs="{'invisible': [('state', 'in', ['waiting for approval', 'approved', 'purchase', 'done', 'cancelled'])]}"/>-->
+<!--                </xpath>-->
+
+
+<!--                <xpath expr="//field[@name='partner_id']" position="after">-->
+<!--                    <field name="is_approver" invisible="1"/>-->
+<!--                    <field name="is_approved" invisible="1"/>-->
+<!--                </xpath>-->
+<!--                 <xpath expr="//field[@name='state']" position="replace">-->
+<!--                    <field name="state"  widget="statusbar" statusbar_visible="draft,sent,waiting for approval,approved,purchase,cancelled"/>-->
+<!--                </xpath>-->
+
+
+
+<!--                <xpath expr="//field[@name='partner_id']" position="after">-->
+<!--                    <field name="approver_id" widget="many2many_tags"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </data>-->
+<!--</odoo>-->
+
+
+
 <odoo>
     <data>
         <record id="view_purchase_order_form_inherit" model="ir.ui.view">
@@ -6,15 +56,18 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
-                <xpath  expr="//button[@name='button_confirm']" position="replace"/>
-                <button name="button_confirm" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </button>
-                <xpath expr="/form/header/button[@name='button_confirm']" position="after" >
-                  <button   name="button_confirm" type="object" string="Confirm Order"
-                                attrs="{'invisible': [('approval_status', '!=', 'approved')]}"/>
+                <xpath expr="//button[@id='draft_confirm']" position="attributes">
+                     <attribute name="attrs">{'invisible': [('approval_status', '!=', 'approved')]}</attribute>
+
                 </xpath>
-                <field name="state" position="attributes">
+                <xpath expr="//button[@name='button_confirm'][1]" position="attributes">
+                     <attribute name="attrs">{'invisible': [('approval_status', '!=', 'approved')]}</attribute>
+
+                </xpath>
+<!--                 <xpath expr="//button[@name='button_confirm']" position="attributes">-->
+<!--          <attribute name="attrs">{'invisible': [('approval_status',  '!=', 'approved'))]}</attribute>-->
+<!--        </xpath>-->
+                 <field name="state" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
                 <xpath expr="//button[@name='button_confirm']" position="before">
@@ -24,8 +77,7 @@
                             name="button_submit_for_approval"
                              attrs="{'invisible': [('approval_status', 'in', ('waiting for approval', 'approved', 'purchase'))]}"/>
                     <button string="Confirm Approval" type="object" class="oe_highlight" name="button_my_custom_action"
-                                                attrs="{'invisible': ['|', ('is_approver', '=', False), ('approval_status', '=', 'approved')]}"/>
-
+                                                attrs="{'invisible': [('approval_status', '!=', 'waiting for approval')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="is_approver" invisible="1"/>
@@ -66,47 +118,3 @@
 
 
 
-
-
-
-
-<!--<odoo>-->
-<!--    <data>-->
-<!--        <record id="view_purchase_order_form_inherit" model="ir.ui.view">-->
-<!--            <field name="name">purchase.order.form.inherit</field>-->
-<!--            <field name="model">purchase.order</field>-->
-<!--            <field name="inherit_id" ref="purchase.purchase_order_form"/>-->
-<!--            <field name="arch" type="xml">-->
-
-<!--                <xpath expr="//button[@name='button_confirm']" position="before">-->
-
-<!--                    <button string="Confirm Approval" type="object" class="oe_highlight"-->
-<!--                            name="button_submit_for_approval" state="approval"-->
-<!--                            attrs="{'invisible': [('state', '=', 'approved')]}" />-->
-<!--                </xpath>-->
-<!--                  <xpath id='draft_confirm' position="attributes">-->
-
-<!--                     <attribute name="attrs">{'invisible': [('state', '=', 'draft')]}</attribute>-->
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='state']" position="attributes">-->
-<!--                <attribute name="statusbar_visible">draft,sent,approved,purchase</attribute>-->
-<!--            </xpath>-->
-
-
-
-
-
-<!--&lt;!&ndash;                <xpath expr="//header/field[@name='state']" position="replace">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,approved,purchase,"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
-<!--                <xpath expr="//field[@name='partner_id']" position="after">-->
-<!--                    <field name="is_approver" invisible="1"/>-->
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='partner_id']" position="after">-->
-<!--                    <field name="approver_id" widget="many2many_tags"/>-->
-<!--                </xpath>-->
-
-<!--            </field>-->
-<!--        </record>-->
-<!--    </data>-->
-<!--</odoo>-->

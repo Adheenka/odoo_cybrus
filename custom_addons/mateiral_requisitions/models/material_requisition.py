@@ -77,7 +77,7 @@ class MaterialRequisition(models.Model):
             rec.write({'stage': 'requested'})
 
     def send_email_notification(self):
-        mail_template = self.env.ref('mateiral_requisition.email_template_material_requisition')
+        mail_template = self.env.ref('mateiral_requisitions.email_template_material_requisition')
         email_to = self.get_email_to()
         mail_template.email_to = email_to
         mail_template.send_mail(self.id, force_send=True)
@@ -215,7 +215,7 @@ class StockPicking(models.Model):
         return True
 
     def send_email_notification(self):
-        mail_template = self.env.ref('mateiral_requisition.email_template_purchase_order_notification')
+        mail_template = self.env.ref('mateiral_requisitions.email_template_purchase_order_notification')
         email_to = self.get_email_to()
         mail_template.email_to = email_to
         mail_template.send_mail(self.id, force_send=True)
@@ -227,75 +227,6 @@ class StockPicking(models.Model):
         return ";".join(email_list)
 
 
-    # def add_product_request(self):
-    #
-    #     created_purchase_requests = self.env['purchase.request']
-    #
-    #     # Prepare the values for creating a purchase request
-    #     purchase_request_vals = {
-    #         'material_requisition_id': self.material_requisition_id.id,
-    #         'stock_picking_id': self.id,
-    #         'request_date': fields.Datetime.now(),
-    #         'request_line_ids': [],
-    #     }
-    #     request_lines = [(0, 0, {
-    #         'product_id': line.product_id.id,
-    #         'quantity': abs(line.forecast_availability - line.product_uom_qty),
-    #         'unit_of_measure': line.product_id.uom_id.id,
-    #     }) for line in self.move_ids_without_package if line.forecast_availability != line.product_uom_qty]
-    #
-    #     purchase_request_vals['request_line_ids'].extend(request_lines)
-    #     if purchase_request_vals['request_line_ids']:
-    #
-    #         purchase_request = self.env['purchase.request'].create(purchase_request_vals)
-    #
-    #         purchase_request.send_email_notification()
-    #
-    #         self.write({'products_availability': True})
-    #
-    #     return True
-    #
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def add_product_request(self):
-    #     created_purchase_requests = self.env['purchase.request']
-    #
-    #     purchase_request_vals = {
-    #         'material_requisition_id': self.material_requisition_id.id,
-    #         'stock_picking_id': self.id,
-    #         'request_date': fields.Datetime.now(),
-    #         'request_line_ids': [],
-    #     }
-    #
-    #     for line in self.move_ids_without_package:
-    #         quantity_needed = line.forecast_availability - line.product_uom_qty
-    #         if quantity_needed > 0:
-    #             purchase_request_vals['request_line_ids'].append((0, 0, {
-    #                 'product_id': line.product_id.id,
-    #
-    #                 'quantity': line.forecast_availability,
-    #
-    #                 'unit_of_measure': line.product_id.uom_id.id,
-    #
-    #             }))
-    #
-    #     if purchase_request_vals['request_line_ids']:
-    #         purchase_request = self.env['purchase.request'].create(purchase_request_vals)
-    #         purchase_request.send_email_notification()
-    #         created_purchase_requests += purchase_request
-    #
-    #     return created_purchase_requests
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -303,7 +234,7 @@ class PurchaseOrder(models.Model):
     purchase_request_id = fields.Many2one('purchase.request', string='Purchase Requisition', ondelete="cascade")
 
     def send_email_notification(self):
-        mail_template = self.env.ref('mateiral_requisition.email_template_purchase_order_notification')
+        mail_template = self.env.ref('mateiral_requisitions.email_template_purchase_order_notification')
         email_to = self.get_email_to()
         mail_template.email_to = email_to
         mail_template.send_mail(self.id, force_send=True)
@@ -343,17 +274,6 @@ class ProjectProject(models.Model):
 
         return action
     
-    # def action_view_material_requisitions(self):
-    #     material_requisitions = self.env['material.requisition'].search([('project_id', '=', self.id)])
-    #     action = self.env.ref('mateiral_requisition.action_material_requisition').read()[0]
-    #
-    #     if len(material_requisitions) > 1:
-    #         action['domain'] = [('id', 'in', material_requisitions.ids)]
-    #     elif len(material_requisitions) == 1:
-    #         action['views'] = [(self.env.ref('mateiral_requisition.view_material_requisition_form').id, 'form')]
-    #         action['res_id'] = material_requisitions.ids[0]
-    #
-    #     return action
 
 
 

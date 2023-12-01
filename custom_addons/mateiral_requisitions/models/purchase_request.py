@@ -77,13 +77,14 @@ class PurchaseRequest(models.Model):
             }
 
             purchase_order = self.env['purchase.order'].create(purchase_order_vals)
+            self.send_email_notification()
             created_purchase_orders += purchase_order
         return created_purchase_orders
 
             # Assuming you have a Many2many field named 'purchase_order_ids' in purchase.request
 
     def send_email_notification(self):
-        mail_template = self.env.ref('mateiral_requisition.email_template_purchase_order_notification')
+        mail_template = self.env.ref('mateiral_requisitions.email_template_purchase_order_notification')
         email_to = self.get_email_to()
         mail_template.email_to = email_to
         mail_template.send_mail(self.id, force_send=True)
@@ -132,7 +133,7 @@ class PurchaseRequestLine(models.Model):
     _description = 'Purchase Request Line'
 
     product_id = fields.Many2one('product.product', string='Product', required=True, onchange='_onchange_product_id')
-    description = fields.Text(string='Description')
+    description = fields.Text(string='Description',compute='_compute_description')
     vendor_id = fields.Many2one('res.partner', string='Vendor')
     quantity = fields.Float(string='Quantity', default=1.0)
     unit_of_measure = fields.Many2one('uom.uom', string='Unit of Measure',related='product_id.uom_id')
@@ -140,10 +141,14 @@ class PurchaseRequestLine(models.Model):
     purchase_request_id = fields.Many2one('purchase.request', string='Purchase Request')
 
 
-    @api.onchange('product_id')
-    def onchange_product(self):
-        if self.product_id:
-            self.description = self.product_id.name
+
+    @api.depends('product_id')
+    def _compute_description(self):
+
+        for rec in self:
+            rec.description = rec.product_id.name
+
+
 
 
 

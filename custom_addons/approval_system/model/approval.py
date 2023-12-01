@@ -38,7 +38,9 @@ class PurchaseApprovalLevel(models.Model):
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    is_approver = fields.Boolean(string='Is Approver', compute='_compute_is_approver', store=True, default=True)
+
+
+    # is_approver = fields.Boolean(string='Is Approver', compute='_compute_is_approver', store=True, default=True)
     approver_id = fields.Many2many('res.users',
                                    string="Approvers",
                                    default=lambda self: self.get_level_approvers())
@@ -47,16 +49,44 @@ class PurchaseOrder(models.Model):
         ('sent', 'RFQ Sent'),
         ('waiting for approval', 'Waiting forApproval'),
         ('approved', 'Approved'),
+        ('to approve', 'To Approve'),
         ('purchase', 'Purchase Order'),
         ('done', 'Locked'),
-        ('cancel', 'Cancel'),
+        ('cancel', 'Cancelled')
+    ], string='Status', readonly=True, index=True, copy=False, default='draft', tracking=True)
 
-    ], string='Status', readonly=True, copy=False, tracking=True, default='draft')
 
-    @api.depends('approver_id')
+    #           abrus code ...........
+
+    is_approver = fields.Boolean(string='Is Approver', compute='_compute_is_approver')
+    is_approved = fields.Boolean(string='Is Approved', compute='_compute_is_approved')
+
     def _compute_is_approver(self):
         for record in self:
             record.is_approver = True if self.env.user.id in record.approver_id.ids else False
+
+    @api.model
+    def _compute_is_approved(self):
+        approval_model = self.env['purchase.approval.level']
+        lgn_user = http.request.env.user
+        existing_approval = approval_model.search([('order_id', '=', self.id), ('user_ids', 'in', lgn_user.id)])
+        if existing_approval:
+            for record in self:
+                if existing_approval.user_ids.id == lgn_user.id:
+                    record.is_approved = True
+                else:
+                    record.is_approved = False
+        else:
+            self.is_approved = False
+
+    #           abrus code ...........
+
+
+
+    # @api.depends('approver_id')
+    # def _compute_is_approver(self):
+    #     for record in self:
+    #         record.is_approver = True if self.env.user.id in record.approver_id.ids else False
 
     @api.model
     def get_level_approvers(self):
@@ -97,7 +127,13 @@ class PurchaseOrder(models.Model):
 
         return True
 
+    def button_confirm(self):
 
+        result = super(PurchaseOrder, self).button_confirm()
+
+        self.write({'approval_status': 'purchase'})
+
+        return result
 
 
 
